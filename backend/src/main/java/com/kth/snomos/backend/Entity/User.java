@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "User")
+@Table(name = "festivalUser")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -15,7 +15,7 @@ public class User {
     @Id
     @Column(name = "USERID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "USERNAME")
     private String username;
