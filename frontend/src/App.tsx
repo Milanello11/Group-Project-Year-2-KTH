@@ -6,7 +6,7 @@ import About from "./pages/About";
 function App() {
   return (
       <Router>
-        <div className="App">
+        <div className="App">v
           <h1> festis</h1>
           <ul className = "header">
             <li><NavLink to="/">Home</NavLink></li>
