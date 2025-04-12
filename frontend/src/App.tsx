@@ -2,11 +2,13 @@ import React from "react";
 import {Route, NavLink, BrowserRouter as Router, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
       <Router>
-        <div className="App">v
+        <div className="App">
+          <NavBar />
           <h1> festis</h1>
           <ul className = "header">
             <li><NavLink to="/">Home</NavLink></li>
