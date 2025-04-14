@@ -4,7 +4,7 @@ body {
 }
 
 .backgroundPicture {
-    background-image: url("./raw.png");
+    background-image: url("../assets/backgroundimage.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
