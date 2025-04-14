@@ -1,10 +1,13 @@
 import React from "react";
+import './Home.css';
 
-const Home: React.FC = () => {
+const Home = () => {
     return (
-        <div>
-            <h3>SPA App - Home</h3>
-            <p>This is a paragraph on the HomePage of the SPA App.</p>
+        <div className ="background">
+
+            <div className ="backgroundPicture">
+                <h1 style={{ color:'white'}}>Welcome to the HomePage</h1>
+            </div>
         </div>
     );
 }
