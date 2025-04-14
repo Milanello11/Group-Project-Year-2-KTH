@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin
-@RestController
+@RestController("/api")
 public class Controller {
 
     @Autowired
@@ -26,6 +26,11 @@ public class Controller {
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
         return userService.findAll();
+    }
+
+    @GetMapping("/user/findbyname/{username}")
+    public User findByName(@PathVariable String username) {
+        return userService.findByName(username);
     }
 
     @PostMapping("/festival/save")
