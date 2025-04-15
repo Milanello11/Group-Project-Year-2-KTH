@@ -1,5 +1,6 @@
 package com.kth.snomos.backend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +19,12 @@ public class Booking {
     private Long bookingId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USERID", nullable = false)
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "FESTIVALID", nullable = false)
     private Festival festival;
 }

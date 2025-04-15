@@ -25,4 +25,8 @@ public class UserService {
         return userRepo.getUserByName(name);
     }
 
+    public User findById(Long id) {
+        return userRepo.findById(id).orElseThrow();
+    }
+
 }
