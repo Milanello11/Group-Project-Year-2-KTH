@@ -1,11 +1,14 @@
 import React from "react";
-import './Home.css';
+import styles from './Home.module.css';
+import FestivalBox from "../components/FestivalBox";
 
 const Home = () => {
     return (
         <div className ="background">
-            <div className ="backgroundPicture">
-                <h1 style={{ color:'white'}}>Welcome to the HomePage</h1>
+            <div className={styles.backgroundPicture}>
+            </div>
+            <div>
+                <FestivalBox />
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ import avatar from '../assets/avatar-icon.png';
 
 export default function NavBar() {
     return (
-        <Flex bg="#FFB343" p="10px 20px" align="center" opacity={0.5} >
+        <Flex className={styles.navBar}>
             <Box className={styles.imageBox}>
                 <img src={logo} alt="logo" className={styles.logo} />
             </Box>
@@ -22,6 +22,7 @@ export default function NavBar() {
                 </Box>
                 <Button variant="ghost" p={0} bg="transparent" display="flex" alignItems="center"
                         justifyContent="center" className={styles.navbarLink}>
+                    {/* Ta bort inline styling för button ut i css fil*/}
                     <img src={avatar} alt="avatar-icon" className={styles.profileIcon} />
                 </Button>
                 </Flex>
