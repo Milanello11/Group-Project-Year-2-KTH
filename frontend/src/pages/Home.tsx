@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from './Home.module.css';
 import SlidingWindow from "../components/SlidingWindow";
+import Feed from "../components/Feed"
 
 type Festival = {
     festivalId: number;
@@ -27,6 +28,9 @@ const Home = () => {
             <div className={styles.contentWrapper}>
                 <h2 className={styles.upcomingEventsHeader}>Upcoming Events</h2>
                 <SlidingWindow festivals={festivals} />
+            </div>
+            <div className={styles.feed}>
+                <Feed festivals={festivals} />
             </div>
         </div>
     );
