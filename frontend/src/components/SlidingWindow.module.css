@@ -1,0 +1,49 @@
+.scrollContainerWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    gap: 16px;
+}
+
+.scrollContainer {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 16px;
+    width: 900px;
+    padding: 16px 0;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.flexBoxItem {
+    flex: 0 0 280px;
+    max-width: 280px;
+}
+
+.scrollButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: #BF360C;
+    border: none;
+    width: auto;
+    height: auto;
+    font-size: 80px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.scrollButton.left {
+    padding-left: 210px;
+    left: -20px;
+}
+
+.scrollButton.right {
+    padding-right: 210px;
+    right: -20px;
+}
