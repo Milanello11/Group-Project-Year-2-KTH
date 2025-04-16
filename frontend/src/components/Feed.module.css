@@ -1,0 +1,24 @@
+.background {
+    height: 1000px;
+    width: 1000px;
+    background-color: rgba(219, 154, 57, 0.2);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    row-gap: 40px;
+    justify-items: center;
+}
+
