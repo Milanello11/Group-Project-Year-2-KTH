@@ -1,13 +1,11 @@
 package com.kth.snomos.backend.Controller;
 
 import com.kth.snomos.backend.Entity.Booking;
-import com.kth.snomos.backend.Entity.BookingRequest;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -55,12 +53,8 @@ public class Controller {
         return festivalService.findFestivalByLocation(location);
     }
 
-
-
     @GetMapping("/festival/dateandname/{name}/{date}")
     public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
-        System.out.println("Festival date: " + date);
-        System.out.println("Festival name: " + name);
         return festivalService.findFestivalByDateAndName(date, name);
     }
 
@@ -81,9 +75,9 @@ public class Controller {
 
     /// /////////////////////////////////Booking//////////////
     @PostMapping("/booking")
-    public void postBooking(@RequestBody BookingRequest bookingRequest) {
-        User user = userService.findById(bookingRequest.getUserId());
-        Festival festival = festivalService.findFestivalById(bookingRequest.getFestivalId());
+    public void postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
+        User user = userService.findById(userID);
+        Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
         if (festival.getTicketsLeft() <= 0) {
             return;
         }
