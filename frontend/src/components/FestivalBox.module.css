@@ -47,5 +47,12 @@
     border-radius: 25px;
 }
 
+.Info{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: white;
+}
+
 
 
