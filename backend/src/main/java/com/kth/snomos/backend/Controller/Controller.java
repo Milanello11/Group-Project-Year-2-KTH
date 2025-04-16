@@ -7,6 +7,7 @@ import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class Controller {
     @Autowired
     private FestivalService festivalService;
 
+    /// /////////////////////////////////User//////////////
     @PostMapping("/user/save")
     public void postUser(@RequestBody User user) {
         userService.save(user);
@@ -37,6 +39,47 @@ public class Controller {
         return userService.findByName(username);
     }
 
+    /// /////////////////////////////////Festival//////////////
+    @GetMapping("/festival/findbyname/{name}")
+    public List<Festival> findFestivalByName(@PathVariable String name) {
+        return festivalService.findFestivalByName(name);
+    }
+
+    @GetMapping("/festival/findbydate/{date}")
+    public List<Festival> findFestivalByDate(@PathVariable LocalDate date) {
+        return festivalService.findFestivalByDate(date);
+    }
+
+    @GetMapping("/festival/findbylocation/{location}")
+    public List<Festival> findFestivalByLocation(@PathVariable String location) {
+        return festivalService.findFestivalByLocation(location);
+    }
+
+
+
+    @GetMapping("/festival/dateandname/{name}/{date}")
+    public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
+        System.out.println("Festival date: " + date);
+        System.out.println("Festival name: " + name);
+        return festivalService.findFestivalByDateAndName(date, name);
+    }
+
+    @GetMapping("/festival/findall")
+    public List<Festival> getAllFestivals() {
+        return festivalService.findAll();
+    }
+
+    @GetMapping("/festival/upcoming")
+    public List<Festival> getUpcomingFestivals() {
+        return festivalService.getTenUpcomingFestivals();
+    }
+
+    @PostMapping("/festival/save")
+    public void postFestival(@RequestBody Festival festival) {
+        festivalService.save(festival);
+    }
+
+    /// /////////////////////////////////Booking//////////////
     @PostMapping("/booking")
     public void postBooking(@RequestBody BookingRequest bookingRequest) {
         User user = userService.findById(bookingRequest.getUserId());
@@ -52,25 +95,5 @@ public class Controller {
         festivalService.saveBooking(booking);
     }
 
-    @GetMapping("/festival/dateandname")
-    public Festival findFestivalByDateAndName(@RequestBody LocalDate date, @RequestBody String name) {
-        System.out.println("Festival date: " + date);
-        System.out.println("Festival name: " + name);
-        return festivalService.findFestivalByDateAndName(date, name);
-    }
-
-    @PostMapping("/festival/save")
-    public void postFestival(@RequestBody Festival festival) {
-        festivalService.save(festival);
-    }
-
-    @GetMapping("/festival/findall")
-    public List<Festival> getAllFestivals() {
-        return festivalService.findAll();
-    }
-
-    @GetMapping("/festival/upcoming")
-    public List<Festival> getUpcomingFestivals() {
-        return festivalService.getTenUpcomingFestivals();
-    }
+    /// /////////////////////////////////Artist//////////////
 }

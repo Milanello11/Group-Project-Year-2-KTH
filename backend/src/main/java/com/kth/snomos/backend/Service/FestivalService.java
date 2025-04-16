@@ -44,4 +44,16 @@ public class FestivalService {
     public Festival findFestivalByDateAndName(LocalDate date, String name) {
         return festivalRepo.findFestivalByDateAndName(date, name);
     }
+
+    public List<Festival> findFestivalByName(String name) {
+        return festivalRepo.findFestivalByName(name);
+    }
+
+    public List<Festival> findFestivalByDate(LocalDate date) {
+        return festivalRepo.findFestivalByDate(date);
+    }
+
+    public List<Festival> findFestivalByLocation(String location) {
+        return festivalRepo.findFestivalByLocation(location);
+    }
 }
