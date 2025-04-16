@@ -50,7 +50,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                         </Collapsible.Content>
                     </Box>
                 </Collapsible.Root>
-            ))
+
         </Flex>
     );
 }
