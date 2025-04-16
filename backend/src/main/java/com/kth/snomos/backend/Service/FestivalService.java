@@ -8,6 +8,7 @@ import com.kth.snomos.backend.Repository.FestivalRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -34,5 +35,13 @@ public class FestivalService {
 
     public void saveBooking (Booking booking) {
         bookingRepo.save(booking);
+    }
+
+    public List<Festival> getTenUpcomingFestivals() {
+        return festivalRepo.getTenUpComingFestivals();
+    }
+
+    public Festival findFestivalByDateAndName(LocalDate date, String name) {
+        return festivalRepo.findFestivalByDateAndName(date, name);
     }
 }
