@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
 
+.navBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(100, 100, 100, 0.2); /* semi-transparent orange */
+    backdrop-filter: blur(4px); /* optional frosted-glass effect */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
 
 .logo {
     width: 50px;
