@@ -1,22 +1,56 @@
-import {Flex, Box, Button, Spacer} from "@chakra-ui/react";
-import React from "react";
+import { Flex, Box, Button, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
 
+type FestivalProps = {
+    festivalId: number;
+    festivalName: string;
+    festivalLocation: string;
+    festivalDate: string;
+    ticketsLeft: number;
+};
 
-export default function festivalBox(){
-return(
-    <Flex>
-        <Box position="relative">
-            <img src={bkImage} alt="Coachella" className={styles.Image} />
-            <div className={styles.overlayContent}>
-                <p className={styles.overlayText}>Coachella</p>
-                <p className={styles.overlayTextDate}>2025-09-09, Stockholm</p>
-                <Button className={styles.overlayButton}>Buy ticket</Button>
-            </div>
-        </Box>
-    </Flex>
-    )
 
+export default function FestivalBox({festivalId, festivalName, festivalLocation,
+                                    festivalDate,ticketsLeft }: FestivalProps){
+    return (
+        <Flex direction="row"  gap={10}>
+                <Collapsible.Root key={festivalId} >
+                    <Box >
+                        <Box position="relative">
+                            <img src={bkImage} alt={festivalName} className={styles.Image}/>
+
+                            <div className={styles.overlayContent}>
+                                <p className={styles.overlayText}>{festivalName}</p>
+                                <p className={styles.overlayTextDate}>
+                                    {festivalDate}, {festivalLocation}
+                                </p>
+                                <Box className={styles.Info}>
+                                    <Collapsible.Trigger>
+                                            v
+                                    </Collapsible.Trigger>
+                                </Box>
+
+                                <Box>
+                                    <button className={styles.overlayButton}>Buy ticket</button>
+                                </Box>
+                            </div>
+                        </Box>
+                        <Collapsible.Content>
+                            <Box
+                                mt="2"
+                                p="3"
+                                border="1px solid #ccc"
+                                borderRadius="md"
+                                backgroundColor="#f9f9f9"
+                                fontSize="14px"
+                            >
+                                <p > Tickets left: {ticketsLeft}</p>
+                            </Box>
+                        </Collapsible.Content>
+                    </Box>
+                </Collapsible.Root>
+            ))
+        </Flex>
+    );
 }
-

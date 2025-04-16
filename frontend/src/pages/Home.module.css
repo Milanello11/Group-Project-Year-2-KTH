@@ -38,7 +38,7 @@ body {
     overflow-x: auto;
     scroll-behavior: smooth;
     gap: 16px;
-    max-width: 900px;
+    width: 900px;
     padding: 16px 0;
 }
 
@@ -47,8 +47,8 @@ body {
 }
 
 .flexBoxItem {
-    flex: 0 0 calc(33.33% - 16px);
-    max-width: calc(33.33% - 16px);
+    flex: 0 0 280px;
+    max-width: 280px;
 }
 
 .scrollButton {
@@ -71,8 +71,4 @@ body {
 
 .scrollButton.right {
     right: -20px;
-}
-
-.scrollButton:hover {
-    background-color: rgba(0, 0, 0, 0.8);
 }
