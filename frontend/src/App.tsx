@@ -3,6 +3,7 @@ import {Route, NavLink, BrowserRouter as Router, Routes} from "react-router-dom"
 import Home from "./pages/Home";
 import About from "./pages/About";
 import NavBar from "./components/NavBar";
+import FestivalBox from "./components/FestivalBox";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/about" element={<About />}></Route>
             </Routes>
           </div>
+          <FestivalBox />
         </div>
       </Router>
   );
