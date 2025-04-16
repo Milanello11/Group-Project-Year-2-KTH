@@ -1,5 +1,6 @@
 package com.kth.snomos.backend.Service;
 
+import com.kth.snomos.backend.Entity.Artist;
 import com.kth.snomos.backend.Entity.Booking;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Repository.ArtistRepo;
@@ -55,5 +56,9 @@ public class FestivalService {
 
     public List<Festival> findFestivalByLocation(String location) {
         return festivalRepo.findFestivalByLocation(location);
+    }
+
+    public void saveArtist(Artist artist) {
+        artistRepo.save(artist);
     }
 }

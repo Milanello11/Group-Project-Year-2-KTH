@@ -1,5 +1,6 @@
 package com.kth.snomos.backend.Controller;
 
+import com.kth.snomos.backend.Entity.Artist;
 import com.kth.snomos.backend.Entity.Booking;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
@@ -90,4 +91,8 @@ public class Controller {
     }
 
     ////////////////////////////////////Artist////////////////
+    @PostMapping("/artist/save")
+    public void postArtist(@RequestBody Artist artist) {
+        festivalService.saveArtist(artist);
+    }
 }
