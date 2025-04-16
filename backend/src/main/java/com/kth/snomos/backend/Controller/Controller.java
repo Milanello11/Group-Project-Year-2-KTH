@@ -32,9 +32,9 @@ public class Controller {
         return userService.findAll();
     }
 
-    @GetMapping("/user/findbyname/{username}")
-    public User findByName(@PathVariable String username) {
-        return userService.findByName(username);
+    @GetMapping("/user/findbyname/{username}/{password}")
+    public long findByName(@PathVariable String username, @PathVariable String password) {
+        return userService.userExists(username, password);
     }
 
     ////////////////////////////////////Festival//////////////

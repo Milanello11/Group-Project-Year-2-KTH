@@ -21,8 +21,9 @@ public class UserService {
         return userRepo.getAllCustom();
     }
 
-    public User findByName(String name) {
-        return userRepo.getUserByName(name);
+    public long userExists(String name, String password) {
+        User user = userRepo.userExists(name , password);
+        return user == null ? -1 : user.getUserid();
     }
 
     public User findById(Long id) {
