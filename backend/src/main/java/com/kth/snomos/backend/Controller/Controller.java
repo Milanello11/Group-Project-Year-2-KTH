@@ -9,6 +9,7 @@ import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -31,12 +32,18 @@ public class Controller {
         return userService.findAll();
     }
 
+    @GetMapping("/user/findbyname/{username}")
+    public User findByName(@PathVariable String username) {
+        return userService.findByName(username);
+    }
+
     @PostMapping("/booking")
     public void postBooking(@RequestBody BookingRequest bookingRequest) {
-        System.out.println("User ID: " + bookingRequest.getUserId());
-        System.out.println("Festival ID: " + bookingRequest.getFestivalId());
         User user = userService.findById(bookingRequest.getUserId());
         Festival festival = festivalService.findFestivalById(bookingRequest.getFestivalId());
+        if (festival.getTicketsLeft() <= 0) {
+            return;
+        }
         festival.setTicketsLeft(festival.getTicketsLeft() - 1);
         festivalService.save(festival);
         Booking booking = new Booking();
@@ -45,9 +52,11 @@ public class Controller {
         festivalService.saveBooking(booking);
     }
 
-    @GetMapping("/user/findbyname/{username}")
-    public User findByName(@PathVariable String username) {
-        return userService.findByName(username);
+    @GetMapping("/festival/dateandname")
+    public Festival findFestivalByDateAndName(@RequestBody LocalDate date, @RequestBody String name) {
+        System.out.println("Festival date: " + date);
+        System.out.println("Festival name: " + name);
+        return festivalService.findFestivalByDateAndName(date, name);
     }
 
     @PostMapping("/festival/save")
@@ -58,5 +67,10 @@ public class Controller {
     @GetMapping("/festival/findall")
     public List<Festival> getAllFestivals() {
         return festivalService.findAll();
+    }
+
+    @GetMapping("/festival/upcoming")
+    public List<Festival> getUpcomingFestivals() {
+        return festivalService.getTenUpcomingFestivals();
     }
 }
