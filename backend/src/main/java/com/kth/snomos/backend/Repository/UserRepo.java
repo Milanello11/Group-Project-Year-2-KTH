@@ -2,6 +2,16 @@ package com.kth.snomos.backend.Repository;
 
 import com.kth.snomos.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface UserRepo extends JpaRepository<User, Long> {
+
+    @Query(value = "SELECT s FROM User s")
+    List<User> getAllCustom();
+
+    @Query(value = "SELECT s FROM User s where username=:val")
+    User getUserByName(@Param("val") String name);
 }

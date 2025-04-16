@@ -18,7 +18,15 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepo.findAll();
+        return userRepo.getAllCustom();
+    }
+
+    public User findByName(String name) {
+        return userRepo.getUserByName(name);
+    }
+
+    public User findById(Long id) {
+        return userRepo.findById(id).orElseThrow();
     }
 
 }

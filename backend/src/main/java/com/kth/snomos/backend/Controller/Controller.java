@@ -1,5 +1,7 @@
 package com.kth.snomos.backend.Controller;
 
+import com.kth.snomos.backend.Entity.Booking;
+import com.kth.snomos.backend.Entity.BookingRequest;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/api")
 public class Controller {
 
     @Autowired
@@ -26,6 +29,25 @@ public class Controller {
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
         return userService.findAll();
+    }
+
+    @PostMapping("/booking")
+    public void postBooking(@RequestBody BookingRequest bookingRequest) {
+        System.out.println("User ID: " + bookingRequest.getUserId());
+        System.out.println("Festival ID: " + bookingRequest.getFestivalId());
+        User user = userService.findById(bookingRequest.getUserId());
+        Festival festival = festivalService.findFestivalById(bookingRequest.getFestivalId());
+        festival.setTicketsLeft(festival.getTicketsLeft() - 1);
+        festivalService.save(festival);
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setFestival(festival);
+        festivalService.saveBooking(booking);
+    }
+
+    @GetMapping("/user/findbyname/{username}")
+    public User findByName(@PathVariable String username) {
+        return userService.findByName(username);
     }
 
     @PostMapping("/festival/save")
