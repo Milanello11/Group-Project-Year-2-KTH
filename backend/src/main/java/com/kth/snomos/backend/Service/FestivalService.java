@@ -2,6 +2,7 @@ package com.kth.snomos.backend.Service;
 
 import com.kth.snomos.backend.Entity.Booking;
 import com.kth.snomos.backend.Entity.Festival;
+import com.kth.snomos.backend.Repository.ArtistRepo;
 import com.kth.snomos.backend.Repository.BookingRepo;
 import com.kth.snomos.backend.Repository.FestivalRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class FestivalService {
     private FestivalRepo festivalRepo;
     @Autowired
     private BookingRepo bookingRepo;
+    @Autowired
+    private ArtistRepo artistRepo;
 
     public List<Festival> findAll() {
         return festivalRepo.findAll();
