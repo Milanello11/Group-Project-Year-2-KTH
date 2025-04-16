@@ -21,7 +21,7 @@ public class Controller {
     @Autowired
     private FestivalService festivalService;
 
-    /// /////////////////////////////////User//////////////
+    ////////////////////////////////////User//////////////////
     @PostMapping("/user/save")
     public void postUser(@RequestBody User user) {
         userService.save(user);
@@ -37,7 +37,7 @@ public class Controller {
         return userService.findByName(username);
     }
 
-    /// /////////////////////////////////Festival//////////////
+    ////////////////////////////////////Festival//////////////
     @GetMapping("/festival/findbyname/{name}")
     public List<Festival> findFestivalByName(@PathVariable String name) {
         return festivalService.findFestivalByName(name);
@@ -65,7 +65,7 @@ public class Controller {
 
     @GetMapping("/festival/upcoming")
     public List<Festival> getUpcomingFestivals() {
-        return festivalService.getTenUpcomingFestivals();
+        return festivalService.getUpcomingFestivals();
     }
 
     @PostMapping("/festival/save")
@@ -73,7 +73,7 @@ public class Controller {
         festivalService.save(festival);
     }
 
-    /// /////////////////////////////////Booking//////////////
+    ////////////////////////////////////Booking///////////////
     @PostMapping("/booking")
     public void postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
         User user = userService.findById(userID);
@@ -89,5 +89,5 @@ public class Controller {
         festivalService.saveBooking(booking);
     }
 
-    /// /////////////////////////////////Artist//////////////
+    ////////////////////////////////////Artist////////////////
 }

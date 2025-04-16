@@ -37,8 +37,8 @@ public class FestivalService {
         bookingRepo.save(booking);
     }
 
-    public List<Festival> getTenUpcomingFestivals() {
-        return festivalRepo.getTenUpComingFestivals();
+    public List<Festival> getUpcomingFestivals() {
+        return festivalRepo.getUpComingFestivals();
     }
 
     public Festival findFestivalByDateAndName(LocalDate date, String name) {

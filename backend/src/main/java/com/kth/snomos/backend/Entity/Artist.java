@@ -16,7 +16,10 @@ import java.util.List;
 public class Artist {
 
     @Id
-    private String name;
+    private String artist_name;
 
     private int age;
+
+    @ManyToMany(mappedBy = "artists")
+    private List<Festival> festivals;
 }

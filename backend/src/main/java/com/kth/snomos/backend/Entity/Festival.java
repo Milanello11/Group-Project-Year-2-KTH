@@ -33,4 +33,10 @@ public class Festival {
     @OneToMany(mappedBy = "festival", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Booking> bookings;
+
+    @ManyToMany()
+    @JoinTable(name = "artist_festival",
+            joinColumns = @JoinColumn(name = "festival_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_name"))
+    private List<Artist> artists;
 }
