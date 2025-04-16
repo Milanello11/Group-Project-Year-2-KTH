@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background-color: #fff3e0
+    background-color: #fff3e0;
 }
 
 .backgroundPicture {
@@ -8,7 +8,71 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 110vh;
     width: 100%;
+}
+
+.contentWrapper {
     position: relative;
+    padding: 20px;
+}
+
+.upcomingEventsHeader {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: left;
+    color: #BF360C;
+}
+
+.scrollContainerWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    gap: 16px;
+}
+
+.scrollContainer {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 16px;
+    max-width: 900px;
+    padding: 16px 0;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.flexBoxItem {
+    flex: 0 0 calc(33.33% - 16px);
+    max-width: calc(33.33% - 16px);
+}
+
+.scrollButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.scrollButton.left {
+    left: -20px;
+}
+
+.scrollButton.right {
+    right: -20px;
+}
+
+.scrollButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
