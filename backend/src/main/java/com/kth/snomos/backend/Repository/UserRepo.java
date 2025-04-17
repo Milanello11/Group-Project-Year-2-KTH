@@ -17,10 +17,13 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM festival_user where username = :val1 AND password = :val2", nativeQuery = true)
     User userExists(@Param("val1") String name, @Param("val2") String password);
 
-
     @Modifying
     @Query(value = "UPDATE festival_user SET email = :val1 WHERE userid = :val2",nativeQuery = true)
     void updateEmain(@Param("val1") String email, @Param("val2") int id);
+
+    @Modifying
+    @Query(value = "DELETE FROM festival_user WHERE userid = :val", nativeQuery = true)
+    void deleteUser(@Param("val") int id);
 
     @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
             "WHERE b.userid = :userid", nativeQuery = true)
