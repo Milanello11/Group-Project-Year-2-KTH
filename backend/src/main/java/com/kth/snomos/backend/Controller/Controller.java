@@ -107,6 +107,11 @@ public class Controller {
         return "Booking saved";
     }
 
+    @GetMapping("/booking/{userId}")
+    public List<Festival> getBookings(@PathVariable long userId) {
+        return userService.findBookingsByUser(userId);
+    }
+
     ////////////////////////////////////Artist////////////////
     @PostMapping("/artist/save")
     public void postArtist(@RequestBody Artist artist) {

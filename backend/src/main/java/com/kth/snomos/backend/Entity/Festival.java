@@ -2,6 +2,7 @@ package com.kth.snomos.backend.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class Festival {
     private List<Booking> bookings;
 
     @ManyToMany
-    @JsonIgnore
+    @JsonManagedReference
     @JoinTable(name = "artist_festival",
             joinColumns = @JoinColumn(name = "festival_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_name"))
