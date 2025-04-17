@@ -12,7 +12,9 @@
     align-items: center;
 }
 
-
+.header {
+    color: #BF360C;
+}
 
 .grid {
     display: grid;
