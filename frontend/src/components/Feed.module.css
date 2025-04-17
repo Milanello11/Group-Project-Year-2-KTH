@@ -1,26 +1,33 @@
 .background {
-    height: 1000px;
-    width: 1000px;
+    width: 100%;
+    min-height: 60vh;
     background-color: rgba(219, 154, 57, 0.2);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 40px;
-    min-height: 100vh;
+    padding: 2rem;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    box-sizing: border-box;
 }
 
-.header {
-    color: #BF360C;
+.gridWrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-y: auto;
+    max-height: 60vh;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    row-gap: 40px;
-    justify-items: center;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+    width: 100%;
+    row-gap: 60px;
+}
+.header {
+    color: #BF360C;
 }
 
