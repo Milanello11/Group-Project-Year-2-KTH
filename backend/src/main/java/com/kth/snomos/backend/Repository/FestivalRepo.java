@@ -2,7 +2,9 @@ package com.kth.snomos.backend.Repository;
 
 import com.kth.snomos.backend.Entity.Artist;
 import com.kth.snomos.backend.Entity.Festival;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -34,4 +36,8 @@ public interface FestivalRepo extends JpaRepository<Festival, Long> {
     @Query(value = "SELECT a.* FROM artist a JOIN artist_festival af on a.artist_name = af.artist_name " +
             "JOIN festival f on f.festival_id = af.festival_id WHERE f.festival_date = :date AND f.festival_name = :name", nativeQuery = true)
     List<Artist> findAllArtistInFestival(@Param("date") LocalDate date, @Param("name") String name);
+
+    @Modifying
+    @Query(value = "UPDATE festival SET festival_description = :description WHERE festival_id = :festivalId", nativeQuery = true)
+    void updateDescription(@Param("festivalId") long festivalId, @Param("description") String description);
 }

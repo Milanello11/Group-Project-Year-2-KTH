@@ -7,7 +7,6 @@ import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,12 +32,21 @@ public class Controller {
         return "Error";
     }
 
+    @PutMapping("/user/changeEmail/{userid}/{email}")
+    public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
+        if(isValidEmail(email)) {
+            userService.changeEmail(email, userid);
+            return "Updated";
+        }
+        return "Error";
+    }
+
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @GetMapping("/user/findbyname/{username}/{password}")
+    @GetMapping("/user/find/{username}/{password}")
     public long findByName(@PathVariable String username, @PathVariable String password) {
         return userService.userExists(username, password);
     }
@@ -83,6 +91,11 @@ public class Controller {
     @GetMapping("/festival/upcoming")
     public List<Festival> getUpcomingFestivals() {
         return festivalService.getUpcomingFestivals();
+    }
+
+    @PutMapping("/festival/update/description/{festivalId}")
+    public void updateFestivalDescription(@PathVariable long festivalId, @RequestBody String description) {
+        festivalService.updateFestivalDescription(festivalId, description);
     }
 
     @PostMapping("/festival/save")

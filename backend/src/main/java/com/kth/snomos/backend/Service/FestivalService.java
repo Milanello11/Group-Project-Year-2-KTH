@@ -6,6 +6,7 @@ import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Repository.ArtistRepo;
 import com.kth.snomos.backend.Repository.BookingRepo;
 import com.kth.snomos.backend.Repository.FestivalRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,11 @@ public class FestivalService {
         festival.getArtists().add(artist);
         artist.getFestivals().add(festival);
         festivalRepo.save(festival);
+    }
+
+    @Transactional
+    public void updateFestivalDescription(Long festivalId, String description) {
+        festivalRepo.updateDescription(festivalId, description);
     }
 
     public void saveArtist(Artist artist) {

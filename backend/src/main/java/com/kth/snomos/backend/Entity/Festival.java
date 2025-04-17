@@ -29,6 +29,8 @@ public class Festival {
 
     private String festivalLocation;
 
+    private String festivalDescription;
+
     private int ticketsLeft;
 
     @OneToMany(mappedBy = "festival", cascade = CascadeType.ALL, orphanRemoval = true)

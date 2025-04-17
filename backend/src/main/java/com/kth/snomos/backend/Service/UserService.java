@@ -5,6 +5,7 @@ import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Repository.BookingRepo;
 import com.kth.snomos.backend.Repository.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepo.getAllCustom();
+    }
+
+    @Transactional
+    public void changeEmail(String email, int id) {
+        userRepo.updateEmain(email, id);
     }
 
     public long userExists(String name, String password) {

@@ -69,17 +69,19 @@ export default function Feed({ festivals }: FeedProps) {
                 />
             </InputGroup>
             <div className={styles.background}>
-                <div className={styles.grid}>
-                    {(searchResults.length > 0 ? searchResults : festivals).map((festival) => (
-                        <FestivalBox
-                            key={festival.festivalId}
-                            festivalId={festival.festivalId}
-                            festivalName={festival.festivalName}
-                            festivalLocation={festival.festivalLocation}
-                            festivalDate={festival.festivalDate}
-                            ticketsLeft={festival.ticketsLeft}
-                        />
-                    ))}
+                <div className={styles.gridWrapper}>
+                    <div className={styles.grid}>
+                        {(searchResults.length > 0 ? searchResults : festivals).map((festival) => (
+                            <FestivalBox
+                                key={festival.festivalId}
+                                festivalId={festival.festivalId}
+                                festivalName={festival.festivalName}
+                                festivalLocation={festival.festivalLocation}
+                                festivalDate={festival.festivalDate}
+                                ticketsLeft={festival.ticketsLeft}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
