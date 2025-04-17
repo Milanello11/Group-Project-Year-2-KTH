@@ -7,6 +7,7 @@ import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -52,6 +53,16 @@ public class Controller {
     @GetMapping("/festival/findbylocation/{location}")
     public List<Festival> findFestivalByLocation(@PathVariable String location) {
         return festivalService.findFestivalByLocation(location);
+    }
+
+    @GetMapping("/festival/findbyartist/{artist}")
+    public List<Festival> findFestivalByArtist(@PathVariable String artist) {
+        return festivalService.findFestivalByArtist(artist);
+    }
+
+    @GetMapping("/festival/findallartistfestival/{festivalName}/{festivalDate}")
+    public List<Artist> findAllArtistInFestival(@PathVariable LocalDate festivalDate, @PathVariable String festivalName) {
+        return festivalService.findAllArtistInFestival(festivalDate, festivalName);
     }
 
     @GetMapping("/festival/dateandname/{name}/{date}")
