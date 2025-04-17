@@ -30,6 +30,11 @@ public class UserService {
         userRepo.updateEmain(email, id);
     }
 
+    @Transactional
+    public void deleteUser(int id){
+        userRepo.deleteUser(id);
+    }
+
     public long userExists(String name, String password) {
         User user = userRepo.userExists(name , password);
         return user == null ? -1 : user.getUserid();

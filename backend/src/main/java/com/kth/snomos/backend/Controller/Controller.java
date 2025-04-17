@@ -32,6 +32,11 @@ public class Controller {
         return "Error";
     }
 
+    @DeleteMapping("/user/delete/{userid}")
+    public void deleteUser(@PathVariable int userid) {
+        userService.deleteUser(userid);
+    }
+
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
         if(isValidEmail(email)) {
