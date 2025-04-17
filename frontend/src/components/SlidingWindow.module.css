@@ -26,7 +26,7 @@
 
 .scrollButton {
     position: absolute;
-    top: 50%;
+    top: 60px;
     transform: translateY(-50%);
     background-color: transparent;
     color: #BF360C;
