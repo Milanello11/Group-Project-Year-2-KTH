@@ -58,6 +58,15 @@ public class FestivalService {
         return festivalRepo.findFestivalByLocation(location);
     }
 
+    public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
+        Festival festival = festivalRepo.findFestivalByDateAndName(festivalDate, festivalName);
+        Artist artist = artistRepo.findById(artistName).orElseThrow();
+
+        festival.getArtists().add(artist);
+        artist.getFestivals().add(festival);
+        festivalRepo.save(festival);
+    }
+
     public void saveArtist(Artist artist) {
         artistRepo.save(artist);
     }

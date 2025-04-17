@@ -95,4 +95,9 @@ public class Controller {
     public void postArtist(@RequestBody Artist artist) {
         festivalService.saveArtist(artist);
     }
+
+    @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")
+    public void addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
+        festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
+    }
 }
