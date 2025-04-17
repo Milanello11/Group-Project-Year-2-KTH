@@ -16,7 +16,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
     return (
         <Flex direction="row"  gap={10}>
                 <Collapsible.Root key={festivalId} >
-                    <Box >
+                    <Box position="relative">
                         <Box position="relative">
                             <img src={bkImage} alt={festivalName} className={styles.Image}/>
 
@@ -37,11 +37,10 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                             </div>
                         </Box>
                         <Collapsible.Content>
-                            <Box
+                            <Box className={styles.floatingContent}
                                 mt="2"
                                 p="3"
                                 border="1px solid #ccc"
-                                borderRadius="md"
                                 backgroundColor="#f9f9f9"
                                 fontSize="14px"
                             >
