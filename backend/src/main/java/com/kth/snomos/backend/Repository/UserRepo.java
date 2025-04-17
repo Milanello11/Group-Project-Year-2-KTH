@@ -1,5 +1,6 @@
 package com.kth.snomos.backend.Repository;
 
+import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM festival_user where username = :val1 AND password = :val2", nativeQuery = true)
     User userExists(@Param("val1") String name, @Param("val2") String password);
+
+    @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
+            "WHERE b.userid = :userid", nativeQuery = true)
+    List<Festival> findBookingsByUser (@Param("userid") long userid);
 }

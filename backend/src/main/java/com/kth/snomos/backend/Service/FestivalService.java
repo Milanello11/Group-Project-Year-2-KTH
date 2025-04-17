@@ -34,10 +34,6 @@ public class FestivalService {
         return festivalRepo.findById(id).orElseThrow();
     }
 
-    public void saveBooking (Booking booking) {
-        bookingRepo.save(booking);
-    }
-
     public List<Festival> getUpcomingFestivals() {
         return festivalRepo.getUpComingFestivals();
     }
@@ -77,5 +73,9 @@ public class FestivalService {
 
     public void saveArtist(Artist artist) {
         artistRepo.save(artist);
+    }
+
+    public void saveBooking (Booking booking) {
+        bookingRepo.save(booking);
     }
 }
