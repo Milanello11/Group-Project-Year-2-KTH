@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT s FROM User s")
+    @Query(value = "SELECT * FROM festival_user" , nativeQuery = true)
     List<User> getAllCustom();
 
     @Query(value = "SELECT * FROM festival_user where username = :val1 AND password = :val2", nativeQuery = true)
