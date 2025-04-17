@@ -3,6 +3,7 @@ package com.kth.snomos.backend.Repository;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,6 +16,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM festival_user where username = :val1 AND password = :val2", nativeQuery = true)
     User userExists(@Param("val1") String name, @Param("val2") String password);
+
+
+    @Modifying
+    @Query(value = "UPDATE festival_user SET email = :val1 WHERE userid = :val2",nativeQuery = true)
+    void updateEmain(@Param("val1") String email, @Param("val2") int id);
 
     @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
             "WHERE b.userid = :userid", nativeQuery = true)

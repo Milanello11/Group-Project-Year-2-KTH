@@ -33,6 +33,15 @@ public class Controller {
         return "Error";
     }
 
+    @PutMapping("/user/changeEmail/{userid}/{email}")
+    public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
+        if(isValidEmail(email)) {
+            userService.changeEmail(email, userid);
+            return "Updated";
+        }
+        return "Error";
+    }
+
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
         return userService.findAll();
