@@ -7,6 +7,7 @@ import com.kth.snomos.backend.Entity.User;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -54,6 +55,17 @@ public class Controller {
         return festivalService.findFestivalByLocation(location);
     }
 
+    @GetMapping("/festival/findbyartist/{artist}")
+    public List<Festival> findFestivalByArtist(@PathVariable String artist) {
+        return festivalService.findFestivalByArtist(artist);
+    }
+
+    @GetMapping("/festival/findallartistfestival/{festivalName}/{festivalDate}")
+    public List<Artist> findAllArtistInFestival(@PathVariable LocalDate festivalDate, @PathVariable String festivalName) {
+        return festivalService.findAllArtistInFestival(festivalDate, festivalName);
+    }
+
+    //Ska tas bort!!
     @GetMapping("/festival/dateandname/{name}/{date}")
     public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
         return festivalService.findFestivalByDateAndName(date, name);
@@ -76,11 +88,11 @@ public class Controller {
 
     ////////////////////////////////////Booking///////////////
     @PostMapping("/booking")
-    public void postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
+    public String postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
         User user = userService.findById(userID);
         Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
         if (festival.getTicketsLeft() <= 0) {
-            return;
+            return "No tickets left";
         }
         festival.setTicketsLeft(festival.getTicketsLeft() - 1);
         festivalService.save(festival);
@@ -88,6 +100,7 @@ public class Controller {
         booking.setUser(user);
         booking.setFestival(festival);
         festivalService.saveBooking(booking);
+        return "Booking saved";
     }
 
     ////////////////////////////////////Artist////////////////

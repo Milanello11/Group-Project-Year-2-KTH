@@ -1,6 +1,7 @@
 package com.kth.snomos.backend.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class Artist {
     private int age;
 
     @ManyToMany(mappedBy = "artists")
+    @JsonIgnore
     private List<Festival> festivals;
 }

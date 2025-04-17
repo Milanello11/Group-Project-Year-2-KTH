@@ -35,6 +35,7 @@ public class Festival {
     private List<Booking> bookings;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "artist_festival",
             joinColumns = @JoinColumn(name = "festival_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_name"))
