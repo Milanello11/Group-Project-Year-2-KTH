@@ -17,7 +17,7 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    vertical-align: middle; /* Aligns with text */
+    vertical-align: middle;
 }
 
 .logInMenu {
@@ -27,10 +27,10 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 16px;
-    position: absolute; /* Allows the menu to drop outside the navbar */
-    top: 90%; /* Positions the menu below the button */
-    right: 0; /* Aligns the menu with the button */
-    z-index: 10; /* Ensures it appears above other elements */
+    position: absolute;
+    top: 90%;
+    right: 0;
+    z-index: 10;
 }
 
 .label {

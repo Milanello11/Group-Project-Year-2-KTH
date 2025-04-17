@@ -20,7 +20,14 @@ const LogInMenu = () => {
 
         fetch(`http://localhost:8080/api/user/findbyname/${username}/${password}`)
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+            if (data === -1) {
+                console.error("Login failed: Invalid credentials");
+                alert("Login failed: Invalid credentials");
+            } else {
+                setUser({id: data.id, username: username, password: password});
+            }
+        })
             .catch((error) => console.error("Error logging in:", error));
     };
 
