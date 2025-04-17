@@ -25,8 +25,12 @@ public class Controller {
 
     ////////////////////////////////////User//////////////////
     @PostMapping("/user/save")
-    public void postUser(@RequestBody User user) {
-        userService.save(user);
+    public String postUser(@RequestBody User user) {
+        if(isValidEmail(user.getEmail())) {
+            userService.save(user);
+            return "Saved";
+        }
+        return "Error";
     }
 
     @GetMapping("/user/findall")
@@ -112,5 +116,11 @@ public class Controller {
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")
     public void addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
         festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
+    }
+
+    /// //////////////////////private/////////////////
+    private boolean isValidEmail(String email) {
+        String pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+        return email.matches(pattern);
     }
 }

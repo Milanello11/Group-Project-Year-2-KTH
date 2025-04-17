@@ -20,6 +20,8 @@ public class User {
 
     private String username;
 
+    private String email;
+
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
