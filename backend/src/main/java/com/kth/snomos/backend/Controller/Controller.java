@@ -65,6 +65,7 @@ public class Controller {
         return festivalService.findAllArtistInFestival(festivalDate, festivalName);
     }
 
+    //Ska tas bort!!
     @GetMapping("/festival/dateandname/{name}/{date}")
     public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
         return festivalService.findFestivalByDateAndName(date, name);
@@ -87,11 +88,11 @@ public class Controller {
 
     ////////////////////////////////////Booking///////////////
     @PostMapping("/booking")
-    public void postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
+    public String postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
         User user = userService.findById(userID);
         Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
         if (festival.getTicketsLeft() <= 0) {
-            return;
+            return "No tickets left";
         }
         festival.setTicketsLeft(festival.getTicketsLeft() - 1);
         festivalService.save(festival);
@@ -99,6 +100,7 @@ public class Controller {
         booking.setUser(user);
         booking.setFestival(festival);
         festivalService.saveBooking(booking);
+        return "Booking saved";
     }
 
     ////////////////////////////////////Artist////////////////
