@@ -1,9 +1,7 @@
 package com.kth.snomos.backend.Service;
 
-import com.kth.snomos.backend.Entity.Booking;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
-import com.kth.snomos.backend.Repository.BookingRepo;
 import com.kth.snomos.backend.Repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ public class UserService {
 
     @Transactional
     public void changeEmail(String email, int id) {
-        userRepo.updateEmain(email, id);
+        userRepo.updateEmail(email, id);
     }
 
     @Transactional

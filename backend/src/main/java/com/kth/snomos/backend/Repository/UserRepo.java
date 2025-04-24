@@ -19,7 +19,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Modifying
     @Query(value = "UPDATE festival_user SET email = :val1 WHERE userid = :val2",nativeQuery = true)
-    void updateEmain(@Param("val1") String email, @Param("val2") int id);
+    void updateEmail(@Param("val1") String email, @Param("val2") int id);
 
     @Modifying
     @Query(value = "DELETE FROM festival_user WHERE userid = :val", nativeQuery = true)

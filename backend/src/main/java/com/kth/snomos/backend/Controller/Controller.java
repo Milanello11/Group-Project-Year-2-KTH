@@ -77,11 +77,6 @@ public class Controller {
         return festivalService.findFestivalByArtist("%" + artist + "%");
     }
 
-    @GetMapping("/festival/findallartistfestival/{festivalName}/{festivalDate}")
-    public List<Artist> findAllArtistInFestival(@PathVariable LocalDate festivalDate, @PathVariable String festivalName) {
-        return festivalService.findAllArtistInFestival(festivalDate, festivalName);
-    }
-
     //Ska tas bort!!
     @GetMapping("/festival/dateandname/{name}/{date}")
     public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
@@ -106,6 +101,11 @@ public class Controller {
     @PostMapping("/festival/save")
     public void postFestival(@RequestBody Festival festival) {
         festivalService.save(festival);
+    }
+
+    @DeleteMapping("/festival/delete/{festivalId}")
+    public void deleteFestival(@PathVariable long festivalId) {
+        festivalService.deleteFestival(festivalId);
     }
 
     ////////////////////////////////////Booking///////////////

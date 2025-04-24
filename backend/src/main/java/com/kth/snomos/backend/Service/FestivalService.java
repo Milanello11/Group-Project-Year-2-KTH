@@ -31,6 +31,10 @@ public class FestivalService {
         festivalRepo.save(festival);
     }
 
+    public void deleteFestival(long festivalId) {
+        festivalRepo.deleteById(festivalId);
+    }
+
     public Festival findFestivalById(Long id) {
         return festivalRepo.findById(id).orElseThrow();
     }
@@ -59,9 +63,6 @@ public class FestivalService {
         return festivalRepo.findFestivalByArtist(artist);
     }
 
-    public List<Artist> findAllArtistInFestival(LocalDate festivalDate, String festivalMame) {
-        return festivalRepo.findAllArtistInFestival(festivalDate, festivalMame);
-    }
 
     public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
         Festival festival = festivalRepo.findFestivalByDateAndName(festivalDate, festivalName);
