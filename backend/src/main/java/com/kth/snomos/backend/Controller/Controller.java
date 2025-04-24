@@ -59,7 +59,7 @@ public class Controller {
     ////////////////////////////////////Festival//////////////
     @GetMapping("/festival/findbyname/{name}")
     public List<Festival> findFestivalByName(@PathVariable String name) {
-        return festivalService.findFestivalByName("%" + name + "%");
+        return festivalService.findFestivalByName(name);
     }
 
     @GetMapping("/festival/findbydate/{date}")
@@ -69,12 +69,12 @@ public class Controller {
 
     @GetMapping("/festival/findbylocation/{location}")
     public List<Festival> findFestivalByLocation(@PathVariable String location) {
-        return festivalService.findFestivalByLocation("%" + location + "%");
+        return festivalService.findFestivalByLocation(location);
     }
 
     @GetMapping("/festival/findbyartist/{artist}")
     public List<Festival> findFestivalByArtist(@PathVariable String artist) {
-        return festivalService.findFestivalByArtist("%" + artist + "%");
+        return festivalService.findFestivalByArtist(artist);
     }
 
     //Ska tas bort!!
