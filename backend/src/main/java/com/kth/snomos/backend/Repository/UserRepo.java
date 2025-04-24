@@ -20,6 +20,13 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Query(value = "SELECT EXISTS(SELECT 1 FROM festival_user WHERE username = :val)" , nativeQuery = true)
     boolean userExists(@Param("val") String username);
 
+    @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
+            "WHERE b.userid = :userid", nativeQuery = true)
+    List<Festival> findBookingsByUser (@Param("userid") long userid);
+
+    @Query(value = "SELECT email FROM festival_user WHERE userid = :val", nativeQuery = true)
+    String getEmail(@Param("val") int userid);
+
     @Modifying
     @Query(value = "UPDATE festival_user SET email = :val1 WHERE userid = :val2",nativeQuery = true)
     void updateEmail(@Param("val1") String email, @Param("val2") int id);
@@ -27,8 +34,4 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "DELETE FROM festival_user WHERE userid = :val", nativeQuery = true)
     void deleteUser(@Param("val") int id);
-
-    @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
-            "WHERE b.userid = :userid", nativeQuery = true)
-    List<Festival> findBookingsByUser (@Param("userid") long userid);
 }
