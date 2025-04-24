@@ -85,7 +85,7 @@ public class Controller {
 
     @GetMapping("/festival/findall")
     public List<Festival> getAllFestivals() {
-        return festivalService.findAll();
+        return festivalService.findAllFestivals();
     }
 
     @GetMapping("/festival/upcoming")
@@ -100,7 +100,7 @@ public class Controller {
 
     @PostMapping("/festival/save")
     public void postFestival(@RequestBody Festival festival) {
-        festivalService.save(festival);
+        festivalService.saveFestival(festival);
     }
 
     @DeleteMapping("/festival/delete/{festivalId}")
@@ -117,7 +117,7 @@ public class Controller {
             return "No tickets left";
         }
         festival.setTicketsLeft(festival.getTicketsLeft() - 1);
-        festivalService.save(festival);
+        festivalService.saveFestival(festival);
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setFestival(festival);

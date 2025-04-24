@@ -12,10 +12,13 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM festival_user" , nativeQuery = true)
-    List<User> getAllCustom();
+    List<User> getAllUsers();
 
     @Query(value = "SELECT * FROM festival_user where username = :val1 AND password = :val2", nativeQuery = true)
-    User userExists(@Param("val1") String name, @Param("val2") String password);
+    User rightPassword(@Param("val1") String name, @Param("val2") String password);
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM festival_user WHERE username = :val)" , nativeQuery = true)
+    boolean userExists(@Param("val") String username);
 
     @Modifying
     @Query(value = "UPDATE festival_user SET email = :val1 WHERE userid = :val2",nativeQuery = true)

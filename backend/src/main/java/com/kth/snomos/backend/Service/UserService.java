@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepo.getAllCustom();
+        return userRepo.getAllUsers();
     }
 
     @Transactional
@@ -34,8 +34,11 @@ public class UserService {
     }
 
     public long userExists(String name, String password) {
-        User user = userRepo.userExists(name , password);
-        return user == null ? -1 : user.getUserid();
+        if(userRepo.userExists(name)){
+            User user = userRepo.rightPassword(name,password);
+            return user == null ? 0 : user.getUserid();
+        }
+        return -1;
     }
 
     public User findById(Long id) {

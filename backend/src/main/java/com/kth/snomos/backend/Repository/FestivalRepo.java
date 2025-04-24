@@ -33,5 +33,5 @@ public interface FestivalRepo extends JpaRepository<Festival, Long> {
 
     @Modifying
     @Query(value = "UPDATE festival SET festival_description = :description WHERE festival_id = :festivalId", nativeQuery = true)
-    void updateDescription(@Param("festivalId") long festivalId, @Param("description") String description);
+    void updateFestivalDescription(@Param("festivalId") long festivalId, @Param("description") String description);
 }

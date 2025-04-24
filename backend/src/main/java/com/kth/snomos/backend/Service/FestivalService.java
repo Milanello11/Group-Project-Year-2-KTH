@@ -23,28 +23,8 @@ public class FestivalService {
     @Autowired
     private ArtistRepo artistRepo;
 
-    public List<Festival> findAll() {
+    public List<Festival> findAllFestivals() {
         return festivalRepo.findAll();
-    }
-
-    public void save(Festival festival) {
-        festivalRepo.save(festival);
-    }
-
-    public void deleteFestival(long festivalId) {
-        festivalRepo.deleteById(festivalId);
-    }
-
-    public Festival findFestivalById(Long id) {
-        return festivalRepo.findById(id).orElseThrow();
-    }
-
-    public List<Festival> getUpcomingFestivals() {
-        return festivalRepo.getUpComingFestivals();
-    }
-
-    public Festival findFestivalByDateAndName(LocalDate date, String name) {
-        return festivalRepo.findFestivalByDateAndName(date, name);
     }
 
     public List<Festival> findFestivalByName(String name) {
@@ -63,6 +43,31 @@ public class FestivalService {
         return festivalRepo.findFestivalByArtist(artist);
     }
 
+    public List<Festival> getUpcomingFestivals() {
+        return festivalRepo.getUpComingFestivals();
+    }
+
+    public Festival findFestivalById(Long id) {
+        return festivalRepo.findById(id).orElseThrow();
+    }
+
+    public Festival findFestivalByDateAndName(LocalDate date, String name) {
+        return festivalRepo.findFestivalByDateAndName(date, name);
+    }
+
+    public void saveFestival(Festival festival) {
+        festivalRepo.save(festival);
+    }
+
+    public void saveArtist(Artist artist) {
+        artistRepo.save(artist);
+    }
+
+    public void deleteFestival(long festivalId) {
+        festivalRepo.deleteById(festivalId);
+    }
+
+    public void deleteArtist(long artistId) {}
 
     public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
         Festival festival = festivalRepo.findFestivalByDateAndName(festivalDate, festivalName);
@@ -75,11 +80,7 @@ public class FestivalService {
 
     @Transactional
     public void updateFestivalDescription(Long festivalId, String description) {
-        festivalRepo.updateDescription(festivalId, description);
-    }
-
-    public void saveArtist(Artist artist) {
-        artistRepo.save(artist);
+        festivalRepo.updateFestivalDescription(festivalId, description);
     }
 
     public void saveBooking (Booking booking) {
