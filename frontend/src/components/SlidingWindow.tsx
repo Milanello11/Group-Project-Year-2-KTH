@@ -1,5 +1,5 @@
-import {useRef, useState, useEffect} from "react";
-import styles from './SlidingWindow.module.css';
+import {useState, useRef, useEffect} from "react";
+import styles from "./SlidingWindow.module.css";
 import FestivalBox from "./FestivalBox";
 
 type Festival = {
@@ -12,13 +12,15 @@ type Festival = {
 
 export default function SlidingWindow() {
     const [festivals, setFestivals] = useState<Festival[]>([]);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const scrollLeft = () => {
-        scrollContainerRef.current?.scrollBy({ left: -900, behavior: "smooth" });
-    };
-    const scrollRight = () => {
-        scrollContainerRef.current?.scrollBy({ left: 900, behavior: "smooth" });
-    };
+
+    const scrollRef = useRef<HTMLDivElement | null>(null);
+
+    const scroll = (direction: number) => {
+        const container = scrollRef.current;
+        if (!container) return;
+        const scrollAmount = container.offsetWidth / 3;
+        container.scrollBy({left: direction * scrollAmount, behavior: "smooth"});
+    }
 
     useEffect(() => {
         fetch('http://localhost:8080/api/festival/upcoming')
@@ -28,28 +30,31 @@ export default function SlidingWindow() {
     }, []);
 
     return (
-        <div className={styles.scrollContainerWrapper}>
-            <button className={`${styles.scrollButton} ${styles.left}`} onClick={scrollLeft}>
-                &#8249;
-            </button>
-
-            <div className={styles.scrollContainer} ref={scrollContainerRef}>
-                {festivals.map((festival) => (
-                    <div className={styles.flexBoxItem} key={festival.festivalId}>
-                        <FestivalBox
-                            festivalId={festival.festivalId}
-                            festivalName={festival.festivalName}
-                            festivalLocation={festival.festivalLocation}
-                            festivalDate={festival.festivalDate}
-                            ticketsLeft={festival.ticketsLeft}
-                        />
-                    </div>
-                ))}
+        <div className={styles.body}>
+            <h2 className={styles.header}>Upcoming Festivals</h2>
+            <div className={styles.wrapper}>
+                <button onClick={() => scroll(-1)} className={`${styles.arrowButton} ${styles.left}`}>
+                    ◀
+                </button>
+                <div ref={scrollRef} className={styles.container}>
+                    {festivals.map((festival) => (
+                        <div key={festival.festivalId} className={styles.festivalBoxItem}>
+                            <FestivalBox
+                                festivalId={festival.festivalId}
+                                festivalName={festival.festivalName}
+                                festivalLocation={festival.festivalLocation}
+                                festivalDate={festival.festivalDate}
+                                ticketsLeft={festival.ticketsLeft}
+                            />
+                        </div>
+                    ))}
+                </div>
+                <button
+                    onClick={() => scroll(1)}
+                    className={`${styles.arrowButton} ${styles.right}`}>
+                    ▶
+                </button>
             </div>
-
-            <button className={`${styles.scrollButton} ${styles.right}`} onClick={scrollRight}>
-                &#8250;
-            </button>
         </div>
     );
 };
