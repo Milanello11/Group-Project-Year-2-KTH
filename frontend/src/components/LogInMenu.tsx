@@ -18,14 +18,15 @@ const LogInMenu = () => {
         e.preventDefault();
 
 
-        fetch(`http://localhost:8080/api/user/findbyname/${username}/${password}`)
+        fetch(`http://localhost:8080/api/user/find/${username}/${password}`)
             .then((response) => response.json())
             .then((data) => {
             if (data === -1) {
                 console.error("Login failed: Invalid credentials");
                 alert("Login failed: Invalid credentials");
             } else {
-                setUser({id: data.id, username: username, password: password});
+                setUser({id: data, username: username, password: password});
+                localStorage.setItem("userID", data);
             }
         })
             .catch((error) => console.error("Error logging in:", error));

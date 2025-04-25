@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import {useRef, useState, useEffect} from "react";
 import styles from './SlidingWindow.module.css';
 import FestivalBox from "./FestivalBox";
 
@@ -10,20 +10,22 @@ type Festival = {
     ticketsLeft: number;
 };
 
-type SlidingWindowProps = {
-    festivals: Festival[];
-};
-
-const SlidingWindow: React.FC<SlidingWindowProps> = ({ festivals }) => {
+export default function SlidingWindow() {
+    const [festivals, setFestivals] = useState<Festival[]>([]);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-
     const scrollLeft = () => {
         scrollContainerRef.current?.scrollBy({ left: -900, behavior: "smooth" });
     };
-
     const scrollRight = () => {
         scrollContainerRef.current?.scrollBy({ left: 900, behavior: "smooth" });
     };
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/festival/upcoming')
+            .then((response) => response.json())
+            .then((data) => setFestivals(data))
+            .catch((error) => console.error('Error fetching festivals:', error));
+    }, []);
 
     return (
         <div className={styles.scrollContainerWrapper}>
@@ -51,5 +53,3 @@ const SlidingWindow: React.FC<SlidingWindowProps> = ({ festivals }) => {
         </div>
     );
 };
-
-export default SlidingWindow;

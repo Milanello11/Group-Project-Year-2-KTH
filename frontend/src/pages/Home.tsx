@@ -27,7 +27,7 @@ const Home = () => {
 
             <div className={styles.contentWrapper}>
                 <h2 className={styles.upcomingEventsHeader}>Upcoming Events</h2>
-                <SlidingWindow festivals={festivals} />
+                <SlidingWindow/>
             </div>
             <div className={styles.feed}>
                 <Feed festivals={festivals} />
