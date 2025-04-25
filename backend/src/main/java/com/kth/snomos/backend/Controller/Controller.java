@@ -32,11 +32,6 @@ public class Controller {
         return "Error";
     }
 
-    @DeleteMapping("/user/delete/{userid}")
-    public void deleteUser(@PathVariable int userid) {
-        userService.deleteUser(userid);
-    }
-
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
         if(isValidEmail(email)) {
@@ -56,7 +51,27 @@ public class Controller {
         return userService.userExists(username, password);
     }
 
+    @GetMapping("/user/getEmail/{userId}")
+    public String getEmail(@PathVariable int userId) {
+        return userService.getEmail(userId);
+    }
+
+    @DeleteMapping("/user/delete/{userid}")
+    public void deleteUser(@PathVariable int userid) {
+        userService.deleteUser(userid);
+    }
+
     ////////////////////////////////////Festival//////////////
+    @PostMapping("/festival/save")
+    public void postFestival(@RequestBody Festival festival) {
+        festivalService.saveFestival(festival);
+    }
+
+    @PutMapping("/festival/update/description/{festivalId}")
+    public void updateFestivalDescription(@PathVariable long festivalId, @RequestBody String description) {
+        festivalService.updateFestivalDescription(festivalId, description);
+    }
+
     @GetMapping("/festival/findbyname/{name}")
     public List<Festival> findFestivalByName(@PathVariable String name) {
         return festivalService.findFestivalByName(name);
@@ -93,23 +108,13 @@ public class Controller {
         return festivalService.getUpcomingFestivals();
     }
 
-    @PutMapping("/festival/update/description/{festivalId}")
-    public void updateFestivalDescription(@PathVariable long festivalId, @RequestBody String description) {
-        festivalService.updateFestivalDescription(festivalId, description);
-    }
-
-    @PostMapping("/festival/save")
-    public void postFestival(@RequestBody Festival festival) {
-        festivalService.saveFestival(festival);
-    }
-
     @DeleteMapping("/festival/delete/{festivalId}")
     public void deleteFestival(@PathVariable long festivalId) {
         festivalService.deleteFestival(festivalId);
     }
 
     ////////////////////////////////////Booking///////////////
-    @PostMapping("/booking")
+    @PostMapping("/booking") //TODO: flytta logik till service klassen
     public String postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
         User user = userService.findById(userID);
         Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
@@ -127,13 +132,18 @@ public class Controller {
 
     @GetMapping("/booking/{userId}")
     public List<Festival> getBookings(@PathVariable long userId) {
-        return userService.findBookingsByUser(userId);
+        return userService.getBookingsByUser(userId);
     }
 
     ////////////////////////////////////Artist////////////////
     @PostMapping("/artist/save")
     public void postArtist(@RequestBody Artist artist) {
         festivalService.saveArtist(artist);
+    }
+
+    @DeleteMapping("/artist/delete/{artistName}")
+    public void deleteArtist(@PathVariable String artistName) {
+        festivalService.deleteArtist(artistName);
     }
 
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")

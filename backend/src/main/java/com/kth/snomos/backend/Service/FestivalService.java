@@ -67,7 +67,9 @@ public class FestivalService {
         festivalRepo.deleteById(festivalId);
     }
 
-    public void deleteArtist(long artistId) {}
+    public void deleteArtist(String artistName) {
+        artistRepo.deleteById(artistName);
+    }
 
     public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
         Festival festival = festivalRepo.findFestivalByDateAndName(festivalDate, festivalName);

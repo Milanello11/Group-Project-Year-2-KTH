@@ -19,18 +19,17 @@ public class UserService {
         userRepo.save(user);
     }
 
+    @Transactional
+    public void deleteUser(int id){
+        userRepo.deleteUser(id);
+    }
+
     public List<User> findAll() {
         return userRepo.getAllUsers();
     }
 
-    @Transactional
-    public void changeEmail(String email, int id) {
-        userRepo.updateEmail(email, id);
-    }
-
-    @Transactional
-    public void deleteUser(int id){
-        userRepo.deleteUser(id);
+    public User findById(Long id) {
+        return userRepo.findById(id).orElseThrow();
     }
 
     public long userExists(String name, String password) {
@@ -41,12 +40,16 @@ public class UserService {
         return -1;
     }
 
-    public User findById(Long id) {
-        return userRepo.findById(id).orElseThrow();
+    public String getEmail(int userId){
+        return userRepo.getEmail(userId);
     }
 
-    public List<Festival> findBookingsByUser (Long id) {
+    public List<Festival> getBookingsByUser (Long id) {
         return userRepo.findBookingsByUser(id);
     }
 
+    @Transactional
+    public void changeEmail(String email, int id) {
+        userRepo.updateEmail(email, id);
+    }
 }
