@@ -29,4 +29,9 @@ public class Booking {
     @JoinColumn(name = "FESTIVALID", nullable = false)
     @JsonBackReference
     private Festival festival;
+
+    public Booking(User user, Festival festival) {
+        this.user = user;
+        this.festival = festival;
+    }
 }
