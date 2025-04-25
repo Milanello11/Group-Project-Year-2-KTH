@@ -114,20 +114,11 @@ public class Controller {
     }
 
     ////////////////////////////////////Booking///////////////
-    @PostMapping("/booking") //TODO: flytta logik till service klassen
-    public String postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
+    @PostMapping("/booking/{festivalID}/{userID}")
+    public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
         User user = userService.findById(userID);
-        Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
-        if (festival.getTicketsLeft() <= 0) {
-            return "No tickets left";
-        }
-        festival.setTicketsLeft(festival.getTicketsLeft() - 1);
-        festivalService.saveFestival(festival);
-        Booking booking = new Booking();
-        booking.setUser(user);
-        booking.setFestival(festival);
-        festivalService.saveBooking(booking);
-        return "Booking saved";
+        Festival festival = festivalService.findFestivalById(festivalID);
+        return festivalService.saveBooking(new Booking(user, festival));
     }
 
     @GetMapping("/booking/{userId}")

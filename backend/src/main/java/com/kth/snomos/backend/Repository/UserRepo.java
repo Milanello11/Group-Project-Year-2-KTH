@@ -21,7 +21,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     boolean userExists(@Param("val") String username);
 
     @Query(value = "SELECT * FROM festival f JOIN booking b ON f.festival_id = b.festivalid " +
-            "WHERE b.userid = :userid", nativeQuery = true)
+            "WHERE b.userid = :userid ORDER BY festival_date, festival_name", nativeQuery = true)
     List<Festival> findBookingsByUser (@Param("userid") long userid);
 
     @Query(value = "SELECT email FROM festival_user WHERE userid = :val", nativeQuery = true)
