@@ -118,13 +118,7 @@ public class Controller {
     public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
         User user = userService.findById(userID);
         Festival festival = festivalService.findFestivalById(festivalID);
-        if (festival.getTicketsLeft() <= 0) {
-            return "No tickets left";
-        }
-        festival.setTicketsLeft(festival.getTicketsLeft() - 1);
-        festivalService.saveFestival(festival);
-        festivalService.saveBooking(new Booking(user, festival));
-        return "Booking saved";
+        return festivalService.saveBooking(new Booking(user, festival));
     }
 
     @GetMapping("/booking/{userId}")
