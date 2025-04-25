@@ -1,11 +1,13 @@
-import { Box, Input, Stack, Button, Collapsible } from "@chakra-ui/react";
+import {Box, Input, Stack, Button, Collapsible, Flex, Avatar} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
+import {NavLink} from "react-router-dom";
 
 type User = {
     id: number;
     username: string;
     password: string;
+    email: string;
 
 };
 
@@ -13,6 +15,8 @@ const LogInMenu = () => {
     const [user, setUser] = useState<User | null>(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,11 +29,22 @@ const LogInMenu = () => {
                 console.error("Login failed: Invalid credentials");
                 alert("Login failed: Invalid credentials");
             } else {
-                setUser({id: data, username: username, password: password});
-                localStorage.setItem("userID", data);
+                setUser({id: data, username: username, password: password, email: data.email});
+                setEmail(data.email);
+                console.log(data);
             }
+                localStorage.setItem("userId", data);
         })
             .catch((error) => console.error("Error logging in:", error));
+    };
+
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem("userId");
+        setUsername("");
+        setPassword("");
+        setEmail("");
+        window.location.href = "/";
     };
 
     return (
@@ -42,7 +57,21 @@ const LogInMenu = () => {
             <Collapsible.Content>
                 <Box p="4" bg="gray.100" rounded="md" shadow="md" mt="2" className={styles.logInMenu}>
                     {user ? (
-                        <p>Welcome, {user.username}!</p>
+                        (
+                            <Flex>
+                                <Flex className={styles.userSection}>
+                                    <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
+                                    <Box>
+                                        <p>{user.username}</p>
+                                        <p>{user.email}</p>
+                                    </Box>
+                                </Flex>
+                                <Flex className={styles.navSection}>
+                                    <NavLink to="/Profile" state={{ userId: user.id }}> Profile </NavLink>
+                                    <p onClick={handleLogout} className={styles.logoutLink}>Log out</p>
+                                </Flex>
+                            </Flex>
+                        )
                     ) : (
                         <form onSubmit={handleLogin}>
                             <Stack gap="4">
