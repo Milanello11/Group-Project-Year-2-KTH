@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import FestivalBox from "./components/FestivalBox";
 import Footer from "./components/Footer";
 import styles from './App.module.css';
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/about" element={<About />}></Route>
+                <Route path="/profile" element={<Profile />}></Route>
               </Routes>
             </main>
           <Footer />
