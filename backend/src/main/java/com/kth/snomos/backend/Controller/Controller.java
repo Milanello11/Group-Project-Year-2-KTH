@@ -1,9 +1,6 @@
 package com.kth.snomos.backend.Controller;
 
-import com.kth.snomos.backend.Entity.Artist;
-import com.kth.snomos.backend.Entity.Booking;
-import com.kth.snomos.backend.Entity.Festival;
-import com.kth.snomos.backend.Entity.User;
+import com.kth.snomos.backend.Entity.*;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,7 @@ public class Controller {
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
         if(isValidEmail(user.getEmail())) {
-            return userService.save(user);
+            return userService.saveUser(user);
         }
         return "Error-Email";
     }
@@ -34,7 +31,7 @@ public class Controller {
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
         if(isValidEmail(email)) {
-            userService.changeEmail(email, userid);
+            userService.changeUserEmail(email, userid);
             return "Updated";
         }
         return "Error";
@@ -42,7 +39,7 @@ public class Controller {
 
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return userService.findAllUsers();
     }
 
     @GetMapping("/user/find/{username}/{password}")
@@ -52,7 +49,7 @@ public class Controller {
 
     @GetMapping("/user/getEmail/{userId}")
     public String getEmail(@PathVariable int userId) {
-        return userService.getEmail(userId);
+        return userService.getUserEmail(userId);
     }
 
     @DeleteMapping("/user/delete/{userid}")
@@ -115,7 +112,7 @@ public class Controller {
     ////////////////////////////////////Booking///////////////
     @PostMapping("/booking/{festivalID}/{userID}")
     public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
-        User user = userService.findById(userID);
+        User user = userService.findUserById(userID);
         Festival festival = festivalService.findFestivalById(festivalID);
         return festivalService.saveBooking(new Booking(user, festival));
     }
@@ -139,6 +136,26 @@ public class Controller {
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")
     public void addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
         festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
+    }
+
+    /// //////////////////////Admin/////////////////
+    @PostMapping("/admin/save")
+    public String addAdmin(@RequestBody Admin admin) {
+        if(isValidEmail(admin.getEmail())) {
+            userService.saveAdmin(admin);
+            return "Good";
+        }
+        return "Bad";
+    }
+
+    @DeleteMapping("/admin/delete/{adminId}")
+    public void deleteAdmin(@PathVariable long adminId) {
+        userService.deleteAdmin(adminId);
+    }
+
+    @GetMapping("/admin/findByID/{adminID}")
+    public Admin findAdminById(@PathVariable long adminID) {
+        return userService.findAdminById(adminID);
     }
 
     /// //////////////////////private/////////////////
