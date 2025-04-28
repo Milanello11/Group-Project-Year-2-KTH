@@ -11,34 +11,39 @@
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.align {
+    padding-right: 25px;
 }
 
 .logo {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border: 1px solid #ccc;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
 }
 
 .navbarLink {
     font-family: 'Jomhuria', cursive;
-    font-size: 32px;
-    font-weight: 700;
-    align-content: center;
-    width: 100px;
-    padding: 10px;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1vw;
+    width: 10vw; /* Remove the fixed 10vw width */
+    height: 100%;
     color: white;
+    transition: color 0.3s ease;
 }
 
-.profileIcon {
-    margin-top: 25px;
-    width: 35px;
-    height: 35px;
-    object-fit: cover;
-    display: block;
+.navbarLink:hover {
+    color: #f39c12;
 }
-
-
