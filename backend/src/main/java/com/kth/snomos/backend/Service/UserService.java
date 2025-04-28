@@ -15,8 +15,12 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public void save(User user) {
+    public String save(User user) {
+        if(userRepo.userExists(user.getUsername())) {
+            return "Error-Username";
+        }
         userRepo.save(user);
+        return "Success";
     }
 
     @Transactional
