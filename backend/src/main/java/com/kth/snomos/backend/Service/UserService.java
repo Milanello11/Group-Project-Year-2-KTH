@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public long userExists(String name, String password) {
-        int i = 0;
+        int i = 1;
         if(userRepo.userExists(name)){
             User user = userRepo.rightPassword(name,password);
             return user == null ? 0 : user.getUserId();
