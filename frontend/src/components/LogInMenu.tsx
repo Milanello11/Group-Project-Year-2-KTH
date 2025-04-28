@@ -2,6 +2,7 @@ import {Box, Input, Stack, Button, Collapsible, Flex, Avatar} from "@chakra-ui/r
 import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
 import {NavLink} from "react-router-dom";
+import {CircleUserRound} from "lucide-react";
 
 type User = {
     id: number;
@@ -51,7 +52,7 @@ const LogInMenu = () => {
         <Collapsible.Root>
             <Collapsible.Trigger asChild>
                 <Button variant="ghost" p={0} bg="transparent" className={styles.avatarButton}>
-                    <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
+                    <CircleUserRound className={styles.avatarIcon}/>
                 </Button>
             </Collapsible.Trigger>
             <Collapsible.Content>
@@ -60,7 +61,7 @@ const LogInMenu = () => {
                         (
                             <Flex>
                                 <Flex className={styles.userSection}>
-                                    <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
+                                    <CircleUserRound className={styles.avatarIcon}/>
                                     <Box>
                                         <p>{user.username}</p>
                                         <p>{user.email}</p>
