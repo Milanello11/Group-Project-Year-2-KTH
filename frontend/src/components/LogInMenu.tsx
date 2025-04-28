@@ -18,6 +18,11 @@ const LogInMenu = () => {
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
 
+    const isValidEmail = (email: string) => {
+        // Regular expression for validating an email address
+        const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        return pattern.test(email);
+    };
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,6 +57,11 @@ const LogInMenu = () => {
 
         if (!username || !password || !email) {
             alert("Please fill in all fields!");
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            alert("Please enter a valid email address!");
             return;
         }
 
