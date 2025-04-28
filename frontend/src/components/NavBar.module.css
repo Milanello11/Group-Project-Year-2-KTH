@@ -11,6 +11,12 @@
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.align {
+    padding-right: 25px;
 }
 
 .logo {
@@ -32,9 +38,12 @@
     align-items: center;
     justify-content: center;
     padding-right: 1vw;
-    width: 10vw;
+    width: 10vw; /* Remove the fixed 10vw width */
+    height: 100%;
     color: white;
+    transition: color 0.3s ease;
 }
 
-
-
+.navbarLink:hover {
+    color: #f39c12;
+}

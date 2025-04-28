@@ -12,7 +12,7 @@ export default function NavBar() {
                 <img src={testLogo} alt="Logo" className={styles.logo} />
             </Box>
             <Spacer />
-            <Flex>
+            <Flex className={styles.align}>
                 <Box className={styles.navbarLink}>
                     <NavLink to="/" className={styles.navbarLink}>Home</NavLink>
                 </Box>
