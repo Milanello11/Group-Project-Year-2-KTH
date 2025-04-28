@@ -15,8 +15,12 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public void save(User user) {
+    public String save(User user) {
+        if(userRepo.userExists(user.getUsername())) {
+            return "Error-Username";
+        }
         userRepo.save(user);
+        return "Success";
     }
 
     @Transactional
@@ -35,7 +39,7 @@ public class UserService {
     public long userExists(String name, String password) {
         if(userRepo.userExists(name)){
             User user = userRepo.rightPassword(name,password);
-            return user == null ? 0 : user.getUserid();
+            return user == null ? 0 : user.getUserId();
         }
         return -1;
     }

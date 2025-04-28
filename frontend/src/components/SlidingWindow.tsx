@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from "react";
 import styles from "./SlidingWindow.module.css";
 import FestivalBox from "./FestivalBox";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type Festival = {
     festivalId: number;
@@ -34,7 +35,7 @@ export default function SlidingWindow() {
             <h2 className={styles.header}>Upcoming Festivals</h2>
             <div className={styles.wrapper}>
                 <button onClick={() => scroll(-1)} className={`${styles.arrowButton} ${styles.left}`}>
-                    ◀
+                    <ChevronLeft className={styles.chevron} size={48}/>
                 </button>
                 <div ref={scrollRef} className={styles.container}>
                     {festivals.map((festival) => (
@@ -52,7 +53,7 @@ export default function SlidingWindow() {
                 <button
                     onClick={() => scroll(1)}
                     className={`${styles.arrowButton} ${styles.right}`}>
-                    ▶
+                    <ChevronRight className={styles.chevron} size={48}/>
                 </button>
             </div>
         </div>

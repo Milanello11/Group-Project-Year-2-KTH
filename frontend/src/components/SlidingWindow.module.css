@@ -29,15 +29,9 @@
 
 .arrowButton {
     position: absolute;
-    top: 50%;
-    transform: translateY(-110%);
+    top: 38%;
+    transform: translateY(-50%);
     z-index: 10;
-    background: white;
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-    width: 2rem;
-    height: 2rem;
     cursor: pointer;
 }
 
@@ -47,6 +41,11 @@
 
 .right {
     right: -2.5rem;
+}
+
+.chevron{
+    font-size: 96px;
+    color: #BF360C;
 }
 
 .spacer {

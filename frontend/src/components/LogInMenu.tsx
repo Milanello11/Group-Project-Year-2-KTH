@@ -24,7 +24,7 @@ const LogInMenu = () => {
         <Collapsible.Root>
             <Collapsible.Trigger asChild>
                 <Button variant="ghost" p={0} bg="transparent" className={styles.avatarButton}>
-                    <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
+                    <CircleUserRound className={styles.avatarIcon}/>
                 </Button>
             </Collapsible.Trigger>
             <Collapsible.Content>
