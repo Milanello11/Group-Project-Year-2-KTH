@@ -26,10 +26,9 @@ public class Controller {
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
         if(isValidEmail(user.getEmail())) {
-            userService.save(user);
-            return "Saved";
+            return userService.save(user);
         }
-        return "Error";
+        return "Error-Email";
     }
 
     @PutMapping("/user/changeEmail/{userid}/{email}")
