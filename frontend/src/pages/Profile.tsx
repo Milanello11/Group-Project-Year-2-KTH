@@ -16,10 +16,9 @@ const Profile: React.FC = () => {
     const userId =  parseInt(localStorage.getItem("userId") as string);
 
     const [userFestivals, setUserFestivals] = useState<Festival[]>([]);
-    const [userValue, setUserValue] = useState("");
+    const [userValue] = useState("");
 
     useEffect(() => {
-
         const fetchUserFestivals = async () => {
             try {
                 const url = userValue
