@@ -159,7 +159,7 @@ public class Controller {
     }
 
     /// //////////////////////private/////////////////
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
         return email.matches(pattern);
     }
