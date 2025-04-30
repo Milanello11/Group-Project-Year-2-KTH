@@ -1,11 +1,11 @@
 .background {
     width: 100%;
-    min-height: 60vh;
     background-color: rgba(219, 154, 57, 0.2);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     padding: 2rem;
+    padding-bottom: 1rem;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -22,6 +22,7 @@
 
 .grid {
     display: grid;
+    padding-bottom: 3rem;
     grid-template-columns: repeat(3,1fr);
     gap: 2rem;
     width: 100%;

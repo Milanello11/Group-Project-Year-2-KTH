@@ -34,13 +34,12 @@ export default function Feed({ festivals }: FeedProps) {
     };
 
     const handleSearch = async () => {
-        if (!searchValue) return;
-
         try {
             const url = searchValue
                 ? `http://localhost:8080/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
                 : 'http://localhost:8080/api/festival/findall';
 
+            console.log(url);
             const response = await fetch(url);
             const data = await response.json();
             setSearchResults(data);
@@ -93,9 +92,9 @@ const DomainSelect = ({searchType, setSearchType}: DomainSelectProps) => (
     <NativeSelect.Root size="xs" variant="plain" width="auto" me="-1">
         <NativeSelect.Field value={searchType} onChange={(e) =>
             setSearchType(e.target.value)} fontSize="sm">
-            <option value="Artist">findbyartist</option>
-            <option value="Name">findbyname</option>
-            <option value="Date">findbydate</option>
+            <option value="Artist">Search by Artist</option>
+            <option value="Name">Search by Festival Name</option>
+            <option value="Date">Search by Date</option>
         </NativeSelect.Field>
         <NativeSelect.Indicator />
     </NativeSelect.Root>
