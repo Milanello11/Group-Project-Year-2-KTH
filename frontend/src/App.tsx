@@ -6,7 +6,6 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
 import AcceptCookies from "./components/AcceptCookies";
-import LogInMenu from "./components/LogInMenu";
 import { AuthProvider } from "./components/context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import styles from './App.module.css';
@@ -18,7 +17,6 @@ function App() {
           <Router>
             <div className={styles.pageWrapper}>
               <NavBar />
-              <LogInMenu />
               <main className={styles.content}>
                 <Routes>
                   <Route path="/" element={<Home />} />
