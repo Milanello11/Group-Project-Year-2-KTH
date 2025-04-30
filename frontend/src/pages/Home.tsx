@@ -24,7 +24,6 @@ const Home = () => {
     return (
         <div>
             <div className={styles.backgroundPicture}></div>
-
             <div>
                 <SlidingWindow/>
             </div>
