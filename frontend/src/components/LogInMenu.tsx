@@ -3,6 +3,7 @@ import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import { NavLink } from "react-router-dom";
+import {CircleUserRound} from "lucide-react";
 
 const LogInMenu = () => {
     const { user, login, logout } = useAuth();
@@ -20,10 +21,11 @@ const LogInMenu = () => {
         logout();
         setUsername("");
         setPassword("");
+        setEmail("");
+        window.location.href ="/";
     };
 
     const isValidEmail = (email: string) => {
-        // Regular expression for validating an email address
         const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         return pattern.test(email);
     };

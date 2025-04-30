@@ -18,24 +18,25 @@ const Profile: React.FC = () => {
     const [userValue] = useState("");
 
     useEffect(() => {
-
         const fetchUserFestivals = async () => {
-            try {
-                const url = userValue
-                    ? `http://localhost:8080/api/booking/${userId}/${encodeURIComponent(userValue)}`
-                    : `http://localhost:8080/api/booking/${userId}`;
+            if(userId.toString() !== "NaN") {
+                try {
+                    const url = userValue
+                        ? `http://localhost:8080/api/booking/${userId}/${encodeURIComponent(userValue)}`
+                        : `http://localhost:8080/api/booking/${userId}`;
 
-                console.log("Fetching from URL:", url);
+                    console.log("Fetching from URL:", url);
 
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch festivals");
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch festivals");
+                    }
+
+                    const data = await response.json();
+                    setUserFestivals(data);
+                } catch (err) {
+                    console.error("Failed to fetch user festivals", err);
                 }
-
-                const data = await response.json();
-                setUserFestivals(data);
-            } catch (err) {
-                console.error("Failed to fetch user festivals", err);
             }
         };
 
