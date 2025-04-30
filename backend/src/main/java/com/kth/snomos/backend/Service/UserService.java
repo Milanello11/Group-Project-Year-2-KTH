@@ -1,7 +1,9 @@
 package com.kth.snomos.backend.Service;
 
+import com.kth.snomos.backend.Entity.Admin;
 import com.kth.snomos.backend.Entity.Festival;
 import com.kth.snomos.backend.Entity.User;
+import com.kth.snomos.backend.Repository.AdminRepo;
 import com.kth.snomos.backend.Repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,10 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public String save(User user) {
+    @Autowired
+    private AdminRepo adminRepo;
+
+    public String saveUser(User user) {
         if(userRepo.userExists(user.getUsername())) {
             return "Error-Username";
         }
@@ -23,17 +28,28 @@ public class UserService {
         return "Success";
     }
 
+    public void saveAdmin(Admin admin) {
+        adminRepo.save(admin);
+    }
+
     @Transactional
     public void deleteUser(int id){
         userRepo.deleteUser(id);
     }
 
-    public List<User> findAll() {
+    @Transactional
+    public void deleteAdmin(long id){adminRepo.deleteById(id);}
+
+    public List<User> findAllUsers() {
         return userRepo.getAllUsers();
     }
 
-    public User findById(Long id) {
+    public User findUserById(Long id) {
         return userRepo.findById(id).orElseThrow();
+    }
+
+    public Admin findAdminById(long id) {
+        return adminRepo.findById(id).orElseThrow();
     }
 
     public long userExists(String name, String password) {
@@ -44,7 +60,7 @@ public class UserService {
         return -1;
     }
 
-    public String getEmail(int userId){
+    public String getUserEmail(int userId){
         return userRepo.getEmail(userId);
     }
 
@@ -53,7 +69,7 @@ public class UserService {
     }
 
     @Transactional
-    public void changeEmail(String email, int id) {
+    public void changeUserEmail(String email, int id) {
         userRepo.updateEmail(email, id);
     }
 }
