@@ -1,7 +1,8 @@
 import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
-import {useToast} from "@chakra-ui/toast"
+import { useCookies } from "react-cookie";
+import { Toaster, toaster } from "./ui/toaster"
 
 type FestivalProps = {
     festivalId: number;
@@ -14,15 +15,12 @@ type FestivalProps = {
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     festivalDate,ticketsLeft }: FestivalProps){
-    const toast = useToast();
-    const userId:number = 0;
 
+    const [cookies] = useCookies(["userId"]);
     const handleBooking = async () => {
-
-        if (userId === 0) {
-            console.log("Button click")
-           toast.apply({
-               title: "You must be logged in.",
+        if (cookies.userId === null || cookies.userId === 0) {
+           toaster.create({
+               title: "You must be logged in as a user.",
                description: "Please log in to book a ticket.",
                status: "warning",
                duration: 4000,
@@ -31,13 +29,14 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
            return;
         }
 
+
         try {
-            const response = await fetch(`http://localhost:8080/api/booking/${festivalId}/${userId}`, {
+            const response = await fetch(`http://localhost:8080/api/booking/${festivalId}/${cookies.userId}`, {
                 method: "POST",
             });
 
             if (response.ok) {
-                toast({
+                toaster.create({
                     title: "Booking successful",
                     description: "Your ticket has been booked!",
                     status: "success",
@@ -45,7 +44,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     isClosable: true,
                 });
             } else {
-                toast({
+                toaster.create({
                     title: "Booking failed",
                     description: "Something went wrong",
                     status: "error",
@@ -55,7 +54,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
             }
         } catch (err) {
             console.error("Booking error: ", err);
-            toast({
+            toaster.create({
                 title: "Network error",
                 description: "Could not connect to the server.",
                 status: "error",
@@ -67,6 +66,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
 
     return (
         <Flex direction="row"  gap={10}>
+            <Toaster/>
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">

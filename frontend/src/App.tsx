@@ -12,24 +12,24 @@ import styles from './App.module.css';
 
 function App() {
   return (
-      <CookiesProvider>
-        <AuthProvider>
-          <Router>
-            <div className={styles.pageWrapper}>
-              <NavBar />
-              <main className={styles.content}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/profile" element={<Profile />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
-            <AcceptCookies />
-          </Router>
-        </AuthProvider>
-      </CookiesProvider>
+    <CookiesProvider>
+      <AuthProvider>
+        <Router>
+          <div className={styles.pageWrapper}>
+            <NavBar />
+            <main className={styles.content}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+          <AcceptCookies />
+        </Router>
+      </AuthProvider>
+    </CookiesProvider>
   );
 }
 
