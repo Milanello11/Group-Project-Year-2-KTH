@@ -42,7 +42,7 @@ public class Controller {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/user/find/{username}/{password}")
+    @GetMapping("/user/login/{username}/{password}")
     public long findByName(@PathVariable String username, @PathVariable String password) {
         return userService.userExists(username, password);
     }

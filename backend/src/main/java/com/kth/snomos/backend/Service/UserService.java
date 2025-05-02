@@ -38,7 +38,9 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteAdmin(long id){adminRepo.deleteById(id);}
+    public void deleteAdmin(long id){
+        adminRepo.deleteById(id);
+    }
 
     public List<User> findAllUsers() {
         return userRepo.getAllUsers();
@@ -55,9 +57,10 @@ public class UserService {
     public long userExists(String name, String password) {
         if(userRepo.userExists(name)){
             User user = userRepo.rightPassword(name,password);
-            return user == null ? 0 : user.getUserId();
+            return user == null ? -1 : user.getUserId();
         }
-        return -1;
+        Admin admin = adminRepo.findAdminByUsernameAndPassword(name,password);
+        return admin == null ? -2 : 0;
     }
 
     public String getUserEmail(int userId){
