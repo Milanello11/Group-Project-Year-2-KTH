@@ -8,7 +8,7 @@ const AcceptCookies = () => {
     const [isVisible, setIsVisible] = useState(!cookies.cookiesAccepted);
 
     const handleAccept = () => {
-        setCookie("cookiesAccepted", "true", { path: "/", maxAge: 31536000 });
+        setCookie("cookiesAccepted", "true", { path: "/", maxAge: 3600 });
         setIsVisible(false);
     };
 

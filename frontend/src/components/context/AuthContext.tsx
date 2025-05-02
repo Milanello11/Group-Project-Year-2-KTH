@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = async (username: string, password: string) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/find/${username}/${password}`);
+            const response = await fetch(`http://localhost:8080/api/user/login/${username}/${password}`);
             const data = await response.json();
             if (data > 0) {
                 setUser({ id: data, username });
