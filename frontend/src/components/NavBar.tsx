@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import React from "react";
 import styles from './NavBar.module.css';
 import LogInMenu from "../components/LogInMenu";
-import testLogo from '../assets/test.svg';
+import testLogo from '../assets/logoIcon.svg';
 
 export default function NavBar() {
     return (

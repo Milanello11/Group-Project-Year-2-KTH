@@ -20,8 +20,8 @@
 }
 
 .festivalBoxItem {
-    flex: 0 0 calc((100% - 20%)/ 3); /* Show 3 items per view */
-    scroll-snap-align: start;
+    flex: 0 0 calc(100% / 3.5);
+    scroll-snap-align: center;
     padding: 0.5rem;
     box-sizing: border-box;
     overflow: visible;
@@ -55,13 +55,13 @@
 
 .body {
     padding-top: 1rem;
-    text-align: center;
     background-color: #FAA437;
     background-color: rgba(250,180,55,0.35);
     margin-bottom: 4rem;
 }
 
 .header {
+    text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
     color: #BF360C;
