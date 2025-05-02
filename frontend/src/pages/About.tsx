@@ -8,8 +8,8 @@ import JohanIcon from "../assets/about/johanIcon.png"
 import MaxIcon from "../assets/about/maxIcon.png"
 
 const contacts = [
-    { name: "Milan Hatami", image: MilanIcon, mail: "johkar2@kth.se"},
-    { name: "Johan Karlsson", image: JohanIcon, mail: "milanh@kth.se"},
+    { name: "Milan Hatami", image: MilanIcon, mail: "milanh@kth.se"},
+    { name: "Johan Karlsson", image: JohanIcon, mail: "johkar2@kth.se"},
     { name: "Ismail Mohammed", image: IsseIcon, mail: "iamoh@kth.se"},
     { name: "Elias Almlöf", image: EliasIcon, mail: "eliapa@kth.se"},
     { name: "Max Masuch", image: MaxIcon, mail: "masuch@kth.se"},

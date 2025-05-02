@@ -25,10 +25,6 @@ export default function Feed({ festivals }: FeedProps) {
     const [searchType, setSearchType] = useState('artist');
     const [searchResults, setSearchResults] = useState<Festival[]>([]);
 
-    const apiUrl = searchValue
-        ? `http://localhost:8080/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
-        : 'http://localhost:8080/api/festival/findall';
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };

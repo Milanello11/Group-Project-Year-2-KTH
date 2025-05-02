@@ -1,6 +1,8 @@
-import { Flex, Box, Button, Collapsible} from "@chakra-ui/react";
+import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
+import { useCookies } from "react-cookie";
+import { Toaster, toaster } from "./ui/toaster"
 
 type FestivalProps = {
     festivalId: number;
@@ -13,13 +15,62 @@ type FestivalProps = {
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     festivalDate,ticketsLeft }: FestivalProps){
+
+    const [cookies] = useCookies(["userId"]);
+    const handleBooking = async () => {
+        if (cookies.userId === null || cookies.userId === 0) {
+           toaster.create({
+               title: "You must be logged in as a user.",
+               description: "Please log in to book a ticket.",
+               status: "warning",
+               duration: 4000,
+               isClosable: true,
+           });
+           return;
+        }
+
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/booking/${festivalId}/${cookies.userId}`, {
+                method: "POST",
+            });
+
+            if (response.ok) {
+                toaster.create({
+                    title: "Booking successful",
+                    description: "Your ticket has been booked!",
+                    status: "success",
+                    duration: 4000,
+                    isClosable: true,
+                });
+            } else {
+                toaster.create({
+                    title: "Booking failed",
+                    description: "Something went wrong",
+                    status: "error",
+                    duration: 4000,
+                    isClosable: true,
+                });
+            }
+        } catch (err) {
+            console.error("Booking error: ", err);
+            toaster.create({
+                title: "Network error",
+                description: "Could not connect to the server.",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+            });
+        }
+    };
+
     return (
         <Flex direction="row"  gap={10}>
+            <Toaster/>
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
                             <img src={bkImage} alt={festivalName} className={styles.Image}/>
-
                             <div className={styles.overlayContent}>
                                 <p className={styles.overlayText}>{festivalName}</p>
                                 <p className={styles.overlayTextDate}>
@@ -32,7 +83,8 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                 </Box>
 
                                 <Box>
-                                    <button className={styles.overlayButton}>Buy ticket</button>
+                                    <button className={styles.overlayButton} onClick={handleBooking}>
+                                        Buy ticket</button>
                                 </Box>
                             </div>
                         </Box>
@@ -49,7 +101,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                         </Collapsible.Content>
                     </Box>
                 </Collapsible.Root>
-
         </Flex>
     );
 }
