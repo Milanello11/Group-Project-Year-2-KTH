@@ -19,6 +19,11 @@
     object-fit: cover;
     vertical-align: middle;
     color: white;
+    transition: color 0.3s ease;
+}
+
+.avatarIcon:hover {
+    color: #f39c12;
 }
 
 .logInMenu {
