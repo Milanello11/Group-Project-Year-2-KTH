@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param;
 public interface AdminRepo extends JpaRepository<Admin, Long> {
 
     @Query(value = "SELECT * FROM admin_user WHERE username = :val1 AND password = :val2", nativeQuery = true)
-    Admin findAdminByUusenameAndPassword(@Param("val1") String username, @Param("val2") String password);
+    Admin findAdminByUsernameAndPassword(@Param("val1") String username, @Param("val2") String password);
 }

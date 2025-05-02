@@ -59,7 +59,7 @@ public class UserService {
             User user = userRepo.rightPassword(name,password);
             return user == null ? -1 : user.getUserId();
         }
-        Admin admin = adminRepo.findAdminByUusenameAndPassword(name,password);
+        Admin admin = adminRepo.findAdminByUsernameAndPassword(name,password);
         return admin == null ? -2 : 0;
     }
 
