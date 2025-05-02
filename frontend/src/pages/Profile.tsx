@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 import stylesFeed from "./Profile.module.css";
 import {Expand, Minimize} from "lucide-react";
 import Feed from "../components/Feed";
+import { useCookies } from "react-cookie";
 
 type Festival = {
     festivalId: number;
@@ -13,7 +14,7 @@ type Festival = {
 };
 
 const Profile: React.FC = () => {
-    const userId =  parseInt(localStorage.getItem("userId") as string);
+    const [cookies] = useCookies(["userID"]);
 
     const [userFestivals, setUserFestivals] = useState<Festival[]>([]);
     const [userValue] = useState("");
@@ -22,8 +23,8 @@ const Profile: React.FC = () => {
         const fetchUserFestivals = async () => {
             try {
                 const url = userValue
-                    ? `http://localhost:8080/api/booking/${userId}/${encodeURIComponent(userValue)}`
-                    : `http://localhost:8080/api/booking/${userId}`;
+                    ? `http://localhost:8080/api/booking/${cookies.userID}/${encodeURIComponent(userValue)}`
+                    : `http://localhost:8080/api/booking/${cookies.userID}`;
 
                 console.log("Fetching from URL:", url);
 
@@ -39,8 +40,10 @@ const Profile: React.FC = () => {
             }
         };
 
-        fetchUserFestivals();
-    }, [userId, userValue]);
+        if (cookies.userID) {
+            fetchUserFestivals();
+        }
+    }, [cookies.userID, userValue]);
 
     const [showAllUpcoming, setShowAllUpcoming] = useState(false);
     const [showAllPast, setShowAllPast] = useState(false);
