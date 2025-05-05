@@ -3,6 +3,9 @@ import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
 import { useCookies } from "react-cookie";
 import { Toaster, toaster } from "./ui/toaster"
+import { ChevronUp} from "lucide-react";
+import { useState } from "react";
+
 
 type FestivalProps = {
     festivalId: number;
@@ -10,11 +13,14 @@ type FestivalProps = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    hideBookingButton?: boolean;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft }: FestivalProps){
+                                    festivalDate,ticketsLeft, hideBookingButton}: FestivalProps){
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
 
     const [cookies] = useCookies(["userID"]);
     console.log(cookies.userID)
@@ -78,15 +84,20 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     {festivalDate}, {festivalLocation}
                                 </p>
                                 <Box className={styles.Info}>
-                                    <Collapsible.Trigger>
-                                            v
+                                    <Collapsible.Trigger onClick={toggle}>
+                                        <ChevronUp
+                                            className={`${styles.icon} ${isOpen ? styles.rotate : ""}`}
+                                            size={24}
+                                        />
                                     </Collapsible.Trigger>
                                 </Box>
-
-                                <Box>
-                                    <button className={styles.overlayButton} onClick={handleBooking}>
-                                        Buy ticket</button>
-                                </Box>
+                                {!hideBookingButton && (
+                                    <Box>
+                                        <button className={styles.overlayButton} onClick={handleBooking}>
+                                            Buy ticket
+                                        </button>
+                                    </Box>
+                                )}
                             </div>
                         </Box>
                         <Collapsible.Content>

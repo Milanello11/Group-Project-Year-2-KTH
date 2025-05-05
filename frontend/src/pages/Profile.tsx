@@ -75,28 +75,42 @@ const Profile: React.FC = () => {
 
     return (
         <div className={stylesFeed.layout}>
-            <div>
+            <div className={stylesFeed.profileFeedContainer}>
                 <div className={stylesFeed.header}>
                     <h2 className={styles.upcomingEventsHeader}>My Upcoming Events</h2>
-                    {showAllUpcoming ? (
-                        <Minimize className={stylesFeed.maximizeIcon} onClick={HandleMinimizeUpcoming} />
-                    ) : (
-                        <Expand className={stylesFeed.maximizeIcon} onClick={HandleExpandUpcoming} />
-                    )}
+                    <div className={stylesFeed.iconWrapper}>
+                        <Minimize
+                            className={`${stylesFeed.icon} ${showAllUpcoming ? stylesFeed.visible : stylesFeed.hidden}`}
+                            onClick={() => setShowAllUpcoming(false)}
+                        />
+                        <Expand
+                            className={`${stylesFeed.icon} ${!showAllUpcoming ? stylesFeed.visible : stylesFeed.hidden}`}
+                            onClick={() => setShowAllUpcoming(true)}
+                        />
+                    </div>
                 </div>
-                <Feed festivals={displayedUpcoming} />
+                <div className={stylesFeed.profileFeedBox}>
+                    <Feed festivals={displayedUpcoming} hideBookingButton={true} />
+                </div>
             </div>
 
-            <div>
+            <div className={stylesFeed.profileFeedContainer}>
                 <div className={stylesFeed.header}>
                     <h2 className={styles.upcomingEventsHeader}>My Past Events</h2>
-                    {showAllPast ? (
-                        <Minimize className={stylesFeed.maximizeIcon} onClick={HandleMinimizePast} />
-                    ) : (
-                        <Expand className={stylesFeed.maximizeIcon} onClick={HandleExpandPast} />
-                    )}
+                    <div className={stylesFeed.iconWrapper}>
+                        <Minimize
+                            className={`${stylesFeed.icon} ${showAllPast ? stylesFeed.visible : stylesFeed.hidden}`}
+                            onClick={() => setShowAllPast(false)}
+                        />
+                        <Expand
+                            className={`${stylesFeed.icon} ${!showAllPast ? stylesFeed.visible : stylesFeed.hidden}`}
+                            onClick={() => setShowAllPast(true)}
+                        />
+                    </div>
                 </div>
-                <Feed festivals={displayedPast} />
+                <div className={stylesFeed.profileFeedBox}>
+                    <Feed festivals={displayedPast} hideBookingButton={true} />
+                </div>
                 </div>
         </div>
     );
