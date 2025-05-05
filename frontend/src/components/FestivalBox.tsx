@@ -16,9 +16,10 @@ type FestivalProps = {
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     festivalDate,ticketsLeft }: FestivalProps){
 
-    const [cookies] = useCookies(["userId"]);
+    const [cookies] = useCookies(["userID"]);
+    console.log(cookies.userID)
     const handleBooking = async () => {
-        if (cookies.userId === null || cookies.userId === 0) {
+        if (cookies.userID === null || cookies.userID === 0) {
            toaster.create({
                title: "You must be logged in as a user.",
                description: "Please log in to book a ticket.",
@@ -31,7 +32,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
 
 
         try {
-            const response = await fetch(`http://localhost:8080/api/booking/${festivalId}/${cookies.userId}`, {
+            const response = await fetch(`http://localhost:8080/api/booking/${festivalId}/${cookies.userID}`, {
                 method: "POST",
             });
 

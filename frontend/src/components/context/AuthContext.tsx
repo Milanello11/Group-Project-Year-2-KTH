@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setUser({ id: data, username });
                 setCookie("userID", data.toString(), { path: "/" });
                 setCookie("username", username, { path: "/" });
-            } else if (data == 0){
+            } else if (data === 0){
                 alert("Admin");
-            } else if (data == -1){
+            } else if (data === -1){
                 alert("Invalid password");
-            } else if (data == -2){
+            } else if (data === -2){
                 alert(`No user with username: ${username} found`);
             } else {
                 alert("Error!");
