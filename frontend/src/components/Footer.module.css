@@ -43,4 +43,9 @@
     height: 25px;
     cursor: pointer;
     color: #BF360C;
+    transition: color 0.3s ease;
+}
+
+.socialIconsImg:hover{
+    color: #f39c12;
 }
