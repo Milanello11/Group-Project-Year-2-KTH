@@ -1,5 +1,7 @@
 import React, { createContext, useState, ReactNode, useContext } from "react";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+
 
 type User = {
     id: number;
@@ -14,13 +16,16 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(["userID", "username"]);
     const [user, setUser] = useState<User | null>(() => {
         const userId = cookies.userID;
         const username = cookies.username;
         return userId && username ? { id: parseInt(userId), username } : null;
     });
+
 
     const login = async (username: string, password: string) => {
         try {
@@ -31,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setCookie("userID", data.toString(), { path: "/" });
                 setCookie("username", username, { path: "/" });
             } else if (data === 0){
-                alert("Admin");
+                navigate("/admin");
             } else if (data === -1){
                 alert("Invalid password");
             } else if (data === -2){
