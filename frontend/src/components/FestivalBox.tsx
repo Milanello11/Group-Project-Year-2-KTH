@@ -2,7 +2,7 @@ import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
 import { useCookies } from "react-cookie";
-import { Toaster, toaster } from "./ui/toaster"
+import { toaster } from "./ui/toaster"
 
 type FestivalProps = {
     festivalId: number;
@@ -17,13 +17,13 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     festivalDate,ticketsLeft }: FestivalProps){
 
     const [cookies] = useCookies(["userID"]);
-    console.log(cookies.userID)
     const handleBooking = async () => {
+        console.log(cookies.userID)
         if (cookies.userID === null || cookies.userID === 0) {
            toaster.create({
-               title: "You must be logged in as a user.",
                description: "Please log in to book a ticket.",
                status: "warning",
+               variant: "solid",
                duration: 4000,
                isClosable: true,
            });
@@ -41,6 +41,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     title: "Booking successful",
                     description: "Your ticket has been booked!",
                     status: "success",
+                    variant: "solid",
                     duration: 4000,
                     isClosable: true,
                 });
@@ -49,6 +50,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     title: "Booking failed",
                     description: "Something went wrong",
                     status: "error",
+                    variant: "solid",
                     duration: 4000,
                     isClosable: true,
                 });
@@ -67,7 +69,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
 
     return (
         <Flex direction="row"  gap={10}>
-            <Toaster/>
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
