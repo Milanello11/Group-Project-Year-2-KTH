@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from './Home.module.css';
 import Feed from "../components/Feed"
 import SlidingWindow from "../components/SlidingWindow";
+import {Input, InputGroup, NativeSelect} from "@chakra-ui/react";
 
 type Festival = {
     festivalId: number;
@@ -11,13 +12,39 @@ type Festival = {
     ticketsLeft: number;
 };
 
+type DomainSelectProps = {
+    searchType: string;
+    setSearchType: (value: string) => void;
+};
+
 const Home = () => {
-    const [festivals, setFestivals] = useState<Festival[]>([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchType, setSearchType] = useState('artist');
+    const [searchResults, setSearchResults] = useState<Festival[]>([]);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    };
+
+    const handleSearch = async () => {
+        try {
+            const url = searchValue
+                ? `http://localhost:8080/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
+                : 'http://localhost:8080/api/festival/findall';
+
+            console.log(url);
+            const response = await fetch(url);
+            const data = await response.json();
+            setSearchResults(data);
+        } catch (err) {
+            console.error("Search failed", err);
+        }
+    };
 
     useEffect(() => {
         fetch('http://localhost:8080/api/festival/findall')
             .then((response) => response.json())
-            .then((data) => setFestivals(data))
+            .then((data) => setSearchResults(data))
             .catch((error) => console.error('Error fetching festivals:', error));
     }, []);
 
@@ -28,10 +55,39 @@ const Home = () => {
                 <SlidingWindow/>
             </div>
             <div className={styles.feed}>
-                <Feed festivals={festivals} />
+                <InputGroup endElement={
+                    <DomainSelect
+                        searchType={searchType}
+                        setSearchType={setSearchType}/>}>
+                    <Input ps="4.75em"
+                           pe="0"
+                           placeholder="Search"
+                           borderColor="black"
+                           onChange={handleChange}
+                           value={searchValue}
+                           onKeyDown={(e) => {
+                               if (e.key === 'Enter') {
+                                   handleSearch();
+                               }
+                           }}
+                    />
+                </InputGroup>
+                <Feed festivals={searchResults} />
             </div>
         </div>
     );
 };
 
 export default Home;
+
+const DomainSelect = ({searchType, setSearchType}: DomainSelectProps) => (
+    <NativeSelect.Root size="xs" variant="plain" width="auto" me="-1">
+        <NativeSelect.Field value={searchType} onChange={(e) =>
+            setSearchType(e.target.value)} fontSize="sm">
+            <option value="Artist">Search by Artist</option>
+            <option value="Name">Search by Festival Name</option>
+            <option value="Date">Search by Date</option>
+        </NativeSelect.Field>
+        <NativeSelect.Indicator />
+    </NativeSelect.Root>
+)
