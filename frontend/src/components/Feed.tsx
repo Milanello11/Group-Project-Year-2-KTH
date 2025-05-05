@@ -12,9 +12,10 @@ type Festival = {
 
 type FeedProps = {
     festivals: Festival[];
+    hideBookingButton?: boolean;
 };
 
-export default function Feed({ festivals }: FeedProps) {
+export default function Feed({ festivals, hideBookingButton }: FeedProps) {
     return (
         <div>
             <div className={styles.background}>
@@ -28,6 +29,7 @@ export default function Feed({ festivals }: FeedProps) {
                                 festivalLocation={festival.festivalLocation}
                                 festivalDate={festival.festivalDate}
                                 ticketsLeft={festival.ticketsLeft}
+                                hideBookingButton={hideBookingButton}
                             />
                         ))}
                     </div>
