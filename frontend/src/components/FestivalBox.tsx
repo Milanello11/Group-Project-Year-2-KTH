@@ -18,12 +18,10 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
 
     const [cookies] = useCookies(["userID"]);
     const handleBooking = async () => {
-        console.log(cookies.userID)
-        if (cookies.userID === null || cookies.userID === 0) {
+        if (cookies.userID === null || cookies.userID === 0 || cookies.userID === undefined) {
            toaster.create({
                description: "Please log in to book a ticket.",
                status: "warning",
-               variant: "solid",
                duration: 4000,
                isClosable: true,
            });
@@ -41,7 +39,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     title: "Booking successful",
                     description: "Your ticket has been booked!",
                     status: "success",
-                    variant: "solid",
                     duration: 4000,
                     isClosable: true,
                 });
@@ -50,7 +47,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     title: "Booking failed",
                     description: "Something went wrong",
                     status: "error",
-                    variant: "solid",
                     duration: 4000,
                     isClosable: true,
                 });
