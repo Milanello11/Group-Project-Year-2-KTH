@@ -11,7 +11,7 @@ const AcceptCookies = () => {
     const { logout } = useAuth();
 
     const handleAccept = () => {
-        setCookie("cookiesAccepted", "true", { path: "/", maxAge: 60 });
+        setCookie("cookiesAccepted", "true", { path: "/", maxAge: 3600 });
         setIsVisible(false);
     };
 
