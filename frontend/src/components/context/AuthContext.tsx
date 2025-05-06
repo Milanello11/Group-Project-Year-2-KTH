@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             } else if (data === 0){
                 navigate("/admin");
                 toaster.create({
-                    description: "Admin",
+                    description: "Logged in as Admin",
                     type: "info",
                     duration: 4000,
                     isClosable: true

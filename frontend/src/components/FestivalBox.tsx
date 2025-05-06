@@ -27,7 +27,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
            toaster.create({
                title: "You must be logged in as a user.",
                description: "Please log in to book a ticket.",
-               status: "warning",
+               type: "error",
                duration: 4000,
                isClosable: true,
            });
@@ -44,7 +44,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 toaster.create({
                     title: "Booking successful",
                     description: "Your ticket has been booked!",
-                    status: "success",
+                    type: "success",
                     duration: 4000,
                     isClosable: true,
                 });
@@ -52,7 +52,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 toaster.create({
                     title: "Booking failed",
                     description: "Something went wrong",
-                    status: "error",
+                    type: "error",
                     duration: 4000,
                     isClosable: true,
                 });
@@ -62,7 +62,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
             toaster.create({
                 title: "Network error",
                 description: "Could not connect to the server.",
-                status: "error",
+                type: "error",
                 duration: 4000,
                 isClosable: true,
             });

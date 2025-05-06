@@ -48,22 +48,6 @@ const Profile: React.FC = () => {
     const [showAllUpcoming, setShowAllUpcoming] = useState(false);
     const [showAllPast, setShowAllPast] = useState(false);
 
-    const HandleExpandUpcoming = () => {
-        setShowAllUpcoming(true);
-    };
-
-    const HandleMinimizeUpcoming = () => {
-        setShowAllUpcoming(false);
-    };
-
-    const HandleExpandPast = () => {
-        setShowAllPast(true);
-    };
-
-    const HandleMinimizePast = () => {
-        setShowAllPast(false);
-    };
-
     const currentDate = new Date();
     const upcomingFestivals = userFestivals
         .filter(festival => new Date(festival.festivalDate) >= currentDate);
