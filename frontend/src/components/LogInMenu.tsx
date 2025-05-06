@@ -2,7 +2,7 @@ import {Box, Input, Stack, Button, Collapsible, Flex} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
 
@@ -12,6 +12,7 @@ const LogInMenu = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,7 +24,7 @@ const LogInMenu = () => {
         setUsername("");
         setPassword("");
         setEmail("");
-        window.location.href ="/";
+        navigate("/");
     };
 
     const isValidEmail = (email: string) => {

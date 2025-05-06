@@ -2,6 +2,8 @@ import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
 import { useCookies } from "react-cookie";
+import { ChevronUp} from "lucide-react";
+import { useState } from "react";
 import { toaster } from "./ui/toaster"
 
 type FestivalProps = {
@@ -10,16 +12,20 @@ type FestivalProps = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    hideBookingButton?: boolean;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft }: FestivalProps){
+                                    festivalDate,ticketsLeft, hideBookingButton}: FestivalProps){
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
 
     const [cookies] = useCookies(["userID"]);
     const handleBooking = async () => {
         if (cookies.userID === null || cookies.userID === 0 || cookies.userID === undefined) {
            toaster.create({
+               title: "You must be logged in as a user.",
                description: "Please log in to book a ticket.",
                status: "warning",
                duration: 4000,
@@ -75,15 +81,20 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     {festivalDate}, {festivalLocation}
                                 </p>
                                 <Box className={styles.Info}>
-                                    <Collapsible.Trigger>
-                                            v
+                                    <Collapsible.Trigger onClick={toggle}>
+                                        <ChevronUp
+                                            className={`${styles.icon} ${isOpen ? styles.rotate : ""}`}
+                                            size={24}
+                                        />
                                     </Collapsible.Trigger>
                                 </Box>
-
-                                <Box>
-                                    <button className={styles.overlayButton} onClick={handleBooking}>
-                                        Buy ticket</button>
-                                </Box>
+                                {!hideBookingButton && (
+                                    <Box>
+                                        <button className={styles.overlayButton} onClick={handleBooking}>
+                                            Buy ticket
+                                        </button>
+                                    </Box>
+                                )}
                             </div>
                         </Box>
                         <Collapsible.Content>

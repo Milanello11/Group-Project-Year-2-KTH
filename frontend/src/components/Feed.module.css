@@ -1,5 +1,4 @@
 .background {
-    width: 100%;
     background-color: rgba(219, 154, 57, 0.2);
     background-size: cover;
     background-position: center;
@@ -13,10 +12,10 @@
 }
 
 .gridWrapper {
-    width: 100%;
+    min-width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 60vh;
 }
 
@@ -25,10 +24,15 @@
     padding-bottom: 3rem;
     grid-template-columns: repeat(3,1fr);
     gap: 2rem;
-    width: 100%;
+    min-width: 65rem;
     row-gap: 60px;
 }
+
 .header {
     color: #BF360C;
+}
+
+html {
+    overflow-y: scroll;
 }
 

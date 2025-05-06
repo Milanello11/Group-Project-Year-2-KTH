@@ -27,7 +27,7 @@ body {
 }
 
 .feed{
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
     position: relative;
