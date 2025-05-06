@@ -23,8 +23,8 @@ const Profile: React.FC = () => {
         const fetchUserFestivals = async () => {
             try {
                 const url = userValue
-                    ? `http://localhost:8080/api/booking/${cookies.userID}/${encodeURIComponent(userValue)}`
-                    : `http://localhost:8080/api/booking/${cookies.userID}`;
+                    ? `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}/${encodeURIComponent(userValue)}`
+                    : `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}`;
 
                 console.log("Fetching from URL:", url);
 

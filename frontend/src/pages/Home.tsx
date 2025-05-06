@@ -29,8 +29,8 @@ const Home = () => {
     const handleSearch = async () => {
         try {
             const url = searchValue
-                ? `http://localhost:8080/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
-                : 'http://localhost:8080/api/festival/findall';
+                ? `${process.env["REACT_APP_API_URL"]}/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
+                : `${process.env["REACT_APP_API_URL"]}/api/festival/findall`;
 
             console.log(url);
             const response = await fetch(url);
@@ -42,7 +42,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/festival/findall')
+        fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/findall`)
             .then((response) => response.json())
             .then((data) => setSearchResults(data))
             .catch((error) => console.error('Error fetching festivals:', error));
