@@ -74,7 +74,7 @@ public class Controller {
     }
 
     @GetMapping("festival/getartists/{festivalId}")
-    public List<String> getArtists(@PathVariable long festivalId) {
+    public List<String> getArtistsByFestivalId(@PathVariable long festivalId) {
         return festivalService.findArtistsByFestivalId(festivalId);
     }
 
