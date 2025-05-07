@@ -70,7 +70,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
-                            <img src={`http://localhost:8080${imageURL}`} alt={festivalName} className={styles.Image}/>
+                            <img src={`${process.env["REACT_APP_API_URL"]}${imageURL}`} alt={festivalName} className={styles.Image}/>
                             <div className={styles.overlayContent}>
                                 <p className={styles.overlayText}>{festivalName}</p>
                                 <p className={styles.overlayTextDate}>
