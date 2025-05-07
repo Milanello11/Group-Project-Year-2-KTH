@@ -8,6 +8,7 @@ type Festival = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    imageUrl: string;
 };
 
 type FeedProps = {
@@ -29,6 +30,7 @@ export default function Feed({ festivals, hideBookingButton }: FeedProps) {
                                 festivalLocation={festival.festivalLocation}
                                 festivalDate={festival.festivalDate}
                                 ticketsLeft={festival.ticketsLeft}
+                                imageUrl={festival.imageUrl}
                                 hideBookingButton={hideBookingButton}
                             />
                         ))}
