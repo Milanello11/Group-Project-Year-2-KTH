@@ -24,7 +24,7 @@ export default function SlidingWindow() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/festival/upcoming')
+        fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/upcoming`)
             .then((response) => response.json())
             .then((data) => setFestivals(data))
             .catch((error) => console.error('Error fetching festivals:', error));

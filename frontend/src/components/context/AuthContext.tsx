@@ -1,5 +1,6 @@
 import React, { createContext, useState, ReactNode, useContext } from "react";
 import { useCookies } from "react-cookie";
+import { toaster } from "../ui/toaster";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,7 +17,6 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(["userID", "username"]);
@@ -26,10 +26,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return userId && username ? { id: parseInt(userId), username } : null;
     });
 
-
     const login = async (username: string, password: string) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/login/${username}/${password}`);
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/user/login/${username}/${password}`);
             const data = await response.json();
             if (data > 0) {
                 setUser({ id: data, username });
@@ -37,15 +36,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setCookie("username", username, { path: "/" });
             } else if (data === 0){
                 navigate("/admin");
+                toaster.create({
+                    description: "Logged in as Admin",
+                    type: "info",
+                    duration: 4000,
+                    isClosable: true
+                });
             } else if (data === -1){
-                alert("Invalid password");
+                toaster.create({
+                    description: "Invalid password",
+                    type: "error",
+                    duration: 4000,
+                    isClosable: true
+                });
             } else if (data === -2){
-                alert(`No user with username: ${username} found`);
+                toaster.create({
+                    description: `No user with username: ${username} found`,
+                    type: "error",
+                    duration: 4000,
+                    isClosable: true
+                });
             } else {
-                alert("Error!");
+                toaster.create({
+                    description: "Error!",
+                    type: "error",
+                    duration: 4000,
+                    isClosable: true
+                });
             }
         } catch (error) {
             console.error("Login error:", error);
+            toaster.create({
+                description: `Login error ${error}`,
+                type: "error",
+                duration: 4000,
+                isClosable: true
+            })
         }
     };
 

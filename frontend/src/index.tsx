@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
+import {Toaster} from "./components/ui/toaster";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <ChakraProvider value={defaultSystem}>
-        <App />
+          <Toaster/>
+            <App />
       </ChakraProvider>
   </React.StrictMode>
 );

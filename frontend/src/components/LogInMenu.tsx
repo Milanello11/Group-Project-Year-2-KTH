@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import {NavLink, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
+import { toaster } from "./ui/toaster"
 
 const LogInMenu = () => {
     const { user, login, logout } = useAuth();
@@ -35,17 +36,27 @@ const LogInMenu = () => {
         e.preventDefault();
 
         if (!username || !password || !email) {
-            alert("Please fill in all fields!");
+            toaster.create({
+                description: "Please fill in all fields!",
+                type: "warning",
+                duration: 4000,
+                isClosable: true
+            });
             return;
         }
 
         if (!isValidEmail(email)) {
-            alert("Please enter a valid email address!");
+            toaster.create({
+                description: "Please enter a valid email adress!",
+                type: "warning",
+                duration: 4000,
+                isClosable: true
+            });
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/user/save", {
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/user/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +69,12 @@ const LogInMenu = () => {
             });
 
             if (response.ok) {
-                alert("Account created successfully! Please log in.");
+                toaster.create({
+                    description: "Account created successfully! Please log in.",
+                    type: "success",
+                    duration: 4000,
+                    isClosable: true
+                });
                 setShowSignUp(false);
                 setUsername("");
                 setPassword("");
@@ -66,11 +82,21 @@ const LogInMenu = () => {
             } else {
                 const errorData = await response.json();
                 console.error("Sign Up failed:", errorData);
-                alert(`Sign Up failed: ${errorData.message}`);
+                toaster.create({
+                    description: `Sign up failed: ${errorData.message}`,
+                    type: "error",
+                    duration: 4000,
+                    isClosable: true
+                });
             }
         } catch (error) {
             console.error("Error signing up:", error);
-            alert("An error occurred while signing up.");
+            toaster.create({
+                description: "An error occurred while signing up.",
+                type: "error",
+                duration: 4000,
+                isClosable: true
+            });
         }
     };
 

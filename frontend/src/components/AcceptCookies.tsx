@@ -19,14 +19,13 @@ const AcceptCookies = () => {
         if (cookies.cookiesAccepted) {
             const maxAge = 3600*1000;
             const timer = setTimeout(() => {
-
                 removeCookie("cookiesAccepted", { path: "/" });
                 logout();
             }, maxAge);
 
             return () => clearTimeout(timer);
         }
-    }, [cookies, removeCookie]);
+    }, [cookies, removeCookie, logout]);
 
     if (!isVisible) {
         return null;
