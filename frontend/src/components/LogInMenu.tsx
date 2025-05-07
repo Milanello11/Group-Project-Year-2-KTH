@@ -40,7 +40,6 @@ const LogInMenu = () => {
                 description: "Please fill in all fields!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -50,7 +49,6 @@ const LogInMenu = () => {
                 description: "Please enter a valid email adress!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -73,7 +71,6 @@ const LogInMenu = () => {
                     description: "Account created successfully! Please log in.",
                     type: "success",
                     duration: 4000,
-                    isClosable: true
                 });
                 setShowSignUp(false);
                 setUsername("");
@@ -86,7 +83,6 @@ const LogInMenu = () => {
                     description: `Sign up failed: ${errorData.message}`,
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             }
         } catch (error) {
@@ -95,7 +91,6 @@ const LogInMenu = () => {
                 description: "An error occurred while signing up.",
                 type: "error",
                 duration: 4000,
-                isClosable: true
             });
         }
     };

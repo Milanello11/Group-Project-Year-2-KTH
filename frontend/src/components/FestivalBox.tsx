@@ -29,7 +29,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                description: "Please log in to book a ticket.",
                type: "error",
                duration: 4000,
-               isClosable: true,
            });
            return;
         }
@@ -46,7 +45,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     description: "Your ticket has been booked!",
                     type: "success",
                     duration: 4000,
-                    isClosable: true,
                 });
             } else {
                 toaster.create({
@@ -54,7 +52,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                     description: "Something went wrong",
                     type: "error",
                     duration: 4000,
-                    isClosable: true,
                 });
             }
         } catch (err) {
@@ -64,7 +61,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 description: "Could not connect to the server.",
                 type: "error",
                 duration: 4000,
-                isClosable: true,
             });
         }
     };

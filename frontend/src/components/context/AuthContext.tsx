@@ -40,28 +40,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                     description: "Logged in as Admin",
                     type: "info",
                     duration: 4000,
-                    isClosable: true
                 });
             } else if (data === -1){
                 toaster.create({
                     description: "Invalid password",
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             } else if (data === -2){
                 toaster.create({
                     description: `No user with username: ${username} found`,
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             } else {
                 toaster.create({
                     description: "Error!",
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             }
         } catch (error) {
@@ -70,7 +66,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 description: `Login error ${error}`,
                 type: "error",
                 duration: 4000,
-                isClosable: true
             })
         }
     };
