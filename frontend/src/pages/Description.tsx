@@ -78,7 +78,7 @@ export default function Description(){
         <div>
             <div
                 className={styles.backgroundPicture}
-                style={{ backgroundImage: `url(http://localhost:8080${imageURL})` }}
+                style={{ backgroundImage: `url(${process.env["REACT_APP_API_URL"]}${imageURL})` }}
             >
                 <p className={styles.festivalName}>{festivalName}</p>
             </div>
