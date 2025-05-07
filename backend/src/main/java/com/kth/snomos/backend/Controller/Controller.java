@@ -68,6 +68,11 @@ public class Controller {
         festivalService.updateFestivalDescription(festivalId, description);
     }
 
+    @PutMapping("/festival/updateUrl/{festivalId}")
+    public void updateFestivalUrl(@PathVariable long festivalId, @RequestBody String url) {
+        festivalService.updateFestivalURL(festivalId, url);
+    }
+
     @GetMapping("/festival/findbyname/{name}")
     public List<Festival> findFestivalByName(@PathVariable String name) {
         return festivalService.findFestivalByName(name);

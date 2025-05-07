@@ -85,6 +85,11 @@ public class FestivalService {
         festivalRepo.updateFestivalDescription(festivalId, description);
     }
 
+    @Transactional
+    public void updateFestivalURL(Long festivalId, String url) {
+        festivalRepo.updateFestivalURL(festivalId, url);
+    }
+
     public String saveBooking (Booking booking) {
         if (booking.getFestival().getTicketsLeft() <= 0) {
             return "No tickets left";

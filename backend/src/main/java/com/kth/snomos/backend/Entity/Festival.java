@@ -31,6 +31,8 @@ public class Festival {
 
     private String festivalDescription;
 
+    private String imageURL;
+
     private int ticketsLeft;
 
     @OneToMany(mappedBy = "festival", cascade = CascadeType.ALL, orphanRemoval = true)
