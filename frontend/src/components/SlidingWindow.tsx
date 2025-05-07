@@ -9,7 +9,7 @@ type Festival = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
-    imageUrl: string;
+    imageURL: string;
 };
 
 export default function SlidingWindow() {
@@ -49,7 +49,7 @@ export default function SlidingWindow() {
                                 festivalLocation={festival.festivalLocation}
                                 festivalDate={festival.festivalDate}
                                 ticketsLeft={festival.ticketsLeft}
-                                imageUrl={festival.imageUrl}
+                                imageURL={festival.imageURL}
                             />
                         </div>
                     ))}

@@ -11,13 +11,13 @@ type FestivalProps = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
-    imageUrl: string;
+    imageURL: string;
     hideBookingButton?: boolean;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft,imageUrl,hideBookingButton}: FestivalProps){
+                                    festivalDate,ticketsLeft,imageURL,hideBookingButton}: FestivalProps){
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
@@ -74,7 +74,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
-                            <img src={`http://localhost:8080${imageUrl}`} alt={festivalName} className={styles.Image}/>
+                            <img src={`http://localhost:8080${imageURL}`} alt={festivalName} className={styles.Image}/>
                             <div className={styles.overlayContent}>
                                 <p className={styles.overlayText}>{festivalName}</p>
                                 <p className={styles.overlayTextDate}>
