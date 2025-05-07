@@ -10,6 +10,7 @@ type Festival = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    imageURL: string;
 };
 
 type DomainSelectProps = {

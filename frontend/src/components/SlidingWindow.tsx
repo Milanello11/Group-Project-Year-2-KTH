@@ -9,10 +9,13 @@ type Festival = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    imageURL: string;
 };
 
 export default function SlidingWindow() {
     const [festivals, setFestivals] = useState<Festival[]>([]);
+
+    console.log(festivals)
 
     const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -46,6 +49,7 @@ export default function SlidingWindow() {
                                 festivalLocation={festival.festivalLocation}
                                 festivalDate={festival.festivalDate}
                                 ticketsLeft={festival.ticketsLeft}
+                                imageURL={festival.imageURL}
                             />
                         </div>
                     ))}
