@@ -11,6 +11,7 @@ type Festival = {
     festivalDate: string;
     ticketsLeft: number;
     imageURL: string;
+    festivalDescription: string;
 };
 
 type DomainSelectProps = {

@@ -12,6 +12,7 @@ type Festival = {
     festivalDate: string;
     ticketsLeft: number;
     imageURL: string;
+    festivalDescription: string;
 };
 
 const Profile: React.FC = () => {

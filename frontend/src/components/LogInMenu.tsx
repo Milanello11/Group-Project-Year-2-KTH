@@ -5,6 +5,8 @@ import { useAuth } from "./context/AuthContext";
 import {NavLink, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
+import {Spinner} from "@chakra-ui/react";
+
 
 const LogInMenu = () => {
     const { user, login, logout } = useAuth();
@@ -13,10 +15,17 @@ const LogInMenu = () => {
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        await login(username, password);
+        setLoading(true);
+        try {
+            await login(username, password);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleLogout = () => {
@@ -148,8 +157,8 @@ const LogInMenu = () => {
                                         />
                                     </Box>
                                 )}
-                                <Button type="submit" colorScheme="orange" className={styles.submitButton}>
-                                    {showSignUp ? "Sign Up" : "Log In"}
+                                <Button type="submit" colorScheme="orange" className={styles.submitButton} disabled={loading}>
+                                    {loading ? <Spinner size="sm" /> : (showSignUp ? "Sign Up" : "Log In")}
                                 </Button>
                                 <Button
                                     type="button" colorScheme="blue" className={styles.submitButton}
