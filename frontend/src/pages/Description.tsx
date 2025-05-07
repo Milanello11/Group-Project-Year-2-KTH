@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Description.module.css"
-import backgroundImage from '../assets/backgroundimage.png';
 import { CalendarDays, MapPin} from 'lucide-react';
 import {useLocation} from "react-router-dom";
 import { useCookies } from "react-cookie";
