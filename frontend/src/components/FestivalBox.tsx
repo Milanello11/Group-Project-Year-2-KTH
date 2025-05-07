@@ -1,6 +1,5 @@
 import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
-import bkImage from '../assets/coachellaImg.png';
 import { useCookies } from "react-cookie";
 import { ChevronUp} from "lucide-react";
 import { useState } from "react";
@@ -12,12 +11,13 @@ type FestivalProps = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    imageURL: string;
     hideBookingButton?: boolean;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft, hideBookingButton}: FestivalProps){
+                                    festivalDate,ticketsLeft,imageURL,hideBookingButton}: FestivalProps){
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
@@ -74,7 +74,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
-                            <img src={bkImage} alt={festivalName} className={styles.Image}/>
+                            <img src={`http://localhost:8080${imageURL}`} alt={festivalName} className={styles.Image}/>
                             <div className={styles.overlayContent}>
                                 <p className={styles.overlayText}>{festivalName}</p>
                                 <p className={styles.overlayTextDate}>
