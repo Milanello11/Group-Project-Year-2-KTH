@@ -1,3 +1,31 @@
 .adminContainer{
-    padding-top: 100px;
+    padding-top: 7rem;
+    padding-left: 3rem;
 }
+
+.singleButton{
+    background-color: #e65c00;
+}
+
+.enterButton{
+    height: 2rem;
+    width: 5rem;
+    background-color: #e65c00;
+}
+
+.fieldSetStyle{
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+.inputStyle{
+    background-color: #ffffff;
+    width: 20rem;
+}
+/*vill ha input som större input field*/
+.descriptionStyle{
+    background-color: #ffffff;
+    width: 20rem;
+    height: 10rem;
+}
+
