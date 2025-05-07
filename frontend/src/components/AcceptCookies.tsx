@@ -3,6 +3,8 @@ import { useCookies } from "react-cookie";
 import { Box, Button, Text } from "@chakra-ui/react";
 import styles from "./AcceptCookies.module.css";
 import { useAuth } from "./context/AuthContext";
+import {toaster } from "./ui/toaster";
+
 
 
 const AcceptCookies = () => {
@@ -19,14 +21,20 @@ const AcceptCookies = () => {
         if (cookies.cookiesAccepted) {
             const maxAge = 3600*1000;
             const timer = setTimeout(() => {
-
+                toaster.create({
+                    title: "Session Expired",
+                    description: "Your session has expired. Please log in again.",
+                    status: "warning",
+                    duration: 4000,
+                    isClosable: true,
+                });
                 removeCookie("cookiesAccepted", { path: "/" });
                 logout();
             }, maxAge);
 
             return () => clearTimeout(timer);
         }
-    }, [cookies, removeCookie]);
+    }, [cookies, removeCookie, logout]);
 
     if (!isVisible) {
         return null;

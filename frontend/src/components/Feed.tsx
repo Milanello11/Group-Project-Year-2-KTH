@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import FestivalBox from "../components/FestivalBox";
 import styles from "./Feed.module.css";
 
