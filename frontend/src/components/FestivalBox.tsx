@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { ChevronUp} from "lucide-react";
 import { useState } from "react";
 import { toaster } from "./ui/toaster"
+import {useNavigate} from "react-router-dom";
 
 type FestivalProps = {
     festivalId: number;
@@ -13,15 +14,32 @@ type FestivalProps = {
     ticketsLeft: number;
     imageURL: string;
     hideBookingButton?: boolean;
+    festivalDescription?: string;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft,imageURL,hideBookingButton}: FestivalProps){
+                                    festivalDate,ticketsLeft,imageURL,hideBookingButton, festivalDescription}: FestivalProps){
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
     const [cookies] = useCookies(["userID"]);
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/description/${festivalId}`, {
+            state: {
+                festivalId,
+                festivalName,
+                festivalLocation,
+                festivalDate,
+                ticketsLeft,
+                imageURL,
+                festivalDescription,
+            }
+        });
+    };
+
     const handleBooking = async () => {
         if (cookies.userID === null || cookies.userID === 0 || cookies.userID === undefined) {
            toaster.create({
@@ -72,7 +90,7 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
     return (
         <Flex direction="row"  gap={10}>
                 <Collapsible.Root key={festivalId} >
-                    <Box position="relative">
+                    <Box onClick={handleClick} position="relative" className={styles.clickableBox}>
                         <Box position="relative">
                             <img src={`http://localhost:8080${imageURL}`} alt={festivalName} className={styles.Image}/>
                             <div className={styles.overlayContent}>
