@@ -9,6 +9,7 @@ type Festival = {
     festivalDate: string;
     ticketsLeft: number;
     imageURL: string;
+    festivalDescription: string;
 };
 
 type FeedProps = {
@@ -16,7 +17,7 @@ type FeedProps = {
     hideBookingButton?: boolean;
 };
 
-export default function Feed({ festivals, hideBookingButton }: FeedProps) {
+export default function Feed({ festivals, hideBookingButton}: FeedProps) {
     return (
         <div>
             <div className={styles.background}>
@@ -32,6 +33,7 @@ export default function Feed({ festivals, hideBookingButton }: FeedProps) {
                                 ticketsLeft={festival.ticketsLeft}
                                 imageURL={festival.imageURL}
                                 hideBookingButton={hideBookingButton}
+                                festivalDescription={festival.festivalDescription}
                             />
                         ))}
                     </div>

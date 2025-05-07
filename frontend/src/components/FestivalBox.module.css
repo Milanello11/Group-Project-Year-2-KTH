@@ -75,4 +75,12 @@
     transform: rotate(180deg);
 }
 
+.clickableBox {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
 
+.clickableBox:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
