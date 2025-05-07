@@ -24,7 +24,7 @@ public class FestivalService {
     private ArtistRepo artistRepo;
 
     public List<Festival> findAllFestivals() {
-        return festivalRepo.findAll();
+        return festivalRepo.getAllUpcomingFestivals();
     }
 
     public List<Festival> findFestivalByName(String name) {
