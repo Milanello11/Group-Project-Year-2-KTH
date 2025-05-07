@@ -3,8 +3,8 @@ import styles from './FestivalBox.module.css';
 import { useCookies } from "react-cookie";
 import { ChevronUp} from "lucide-react";
 import { useState } from "react";
-import { toaster } from "./ui/toaster"
 import {useNavigate} from "react-router-dom";
+import {handleBooking} from "./handleBooking";
 
 type FestivalProps = {
     festivalId: number;
@@ -40,49 +40,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
         });
     };
 
-    const handleBooking = async () => {
-        if (cookies.userID === null || cookies.userID === 0 || cookies.userID === undefined) {
-           toaster.create({
-               title: "You must be logged in as a user.",
-               description: "Please log in to book a ticket.",
-               type: "error",
-               duration: 4000,
-           });
-           return;
-        }
-
-
-        try {
-            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/booking/${festivalId}/${cookies.userID}`, {
-                method: "POST",
-            });
-
-            if (response.ok) {
-                toaster.create({
-                    title: "Booking successful",
-                    description: "Your ticket has been booked!",
-                    type: "success",
-                    duration: 4000,
-                });
-            } else {
-                toaster.create({
-                    title: "Booking failed",
-                    description: "Something went wrong",
-                    type: "error",
-                    duration: 4000,
-                });
-            }
-        } catch (err) {
-            console.error("Booking error: ", err);
-            toaster.create({
-                title: "Network error",
-                description: "Could not connect to the server.",
-                type: "error",
-                duration: 4000,
-            });
-        }
-    };
-
     return (
         <Flex direction="row"  gap={10}>
                 <Collapsible.Root key={festivalId} >
@@ -104,7 +61,8 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                 </Box>
                                 {!hideBookingButton && (
                                     <Box>
-                                        <button className={styles.overlayButton} onClick={handleBooking}>
+                                        <button className={styles.overlayButton} onClick=
+                                            {() => handleBooking(festivalId, cookies.userID)}>
                                             Buy ticket
                                         </button>
                                     </Box>
