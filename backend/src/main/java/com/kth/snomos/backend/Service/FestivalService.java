@@ -55,6 +55,10 @@ public class FestivalService {
         return festivalRepo.findFestivalByDateAndName(date, name);
     }
 
+    public List<String> getArtistsFromFestival(Long festivalId) {
+        return artistRepo.getAllArtistsFromFestival(festivalId);
+    }
+
     public void saveFestival(Festival festival) {
         festivalRepo.save(festival);
     }
