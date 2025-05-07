@@ -1,6 +1,10 @@
-import { Flex, Box, Button, Collapsible} from "@chakra-ui/react";
+import {Flex, Box, Collapsible} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
 import bkImage from '../assets/coachellaImg.png';
+import { useCookies } from "react-cookie";
+import { ChevronUp} from "lucide-react";
+import { useState } from "react";
+import { toaster } from "./ui/toaster"
 
 type FestivalProps = {
     festivalId: number;
@@ -8,32 +12,85 @@ type FestivalProps = {
     festivalLocation: string;
     festivalDate: string;
     ticketsLeft: number;
+    hideBookingButton?: boolean;
 };
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft }: FestivalProps){
+                                    festivalDate,ticketsLeft, hideBookingButton}: FestivalProps){
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
+
+    const [cookies] = useCookies(["userID"]);
+    const handleBooking = async () => {
+        if (cookies.userID === null || cookies.userID === 0 || cookies.userID === undefined) {
+           toaster.create({
+               title: "You must be logged in as a user.",
+               description: "Please log in to book a ticket.",
+               type: "error",
+               duration: 4000,
+           });
+           return;
+        }
+
+
+        try {
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/booking/${festivalId}/${cookies.userID}`, {
+                method: "POST",
+            });
+
+            if (response.ok) {
+                toaster.create({
+                    title: "Booking successful",
+                    description: "Your ticket has been booked!",
+                    type: "success",
+                    duration: 4000,
+                });
+            } else {
+                toaster.create({
+                    title: "Booking failed",
+                    description: "Something went wrong",
+                    type: "error",
+                    duration: 4000,
+                });
+            }
+        } catch (err) {
+            console.error("Booking error: ", err);
+            toaster.create({
+                title: "Network error",
+                description: "Could not connect to the server.",
+                type: "error",
+                duration: 4000,
+            });
+        }
+    };
+
     return (
         <Flex direction="row"  gap={10}>
                 <Collapsible.Root key={festivalId} >
                     <Box position="relative">
                         <Box position="relative">
                             <img src={bkImage} alt={festivalName} className={styles.Image}/>
-
                             <div className={styles.overlayContent}>
                                 <p className={styles.overlayText}>{festivalName}</p>
                                 <p className={styles.overlayTextDate}>
                                     {festivalDate}, {festivalLocation}
                                 </p>
                                 <Box className={styles.Info}>
-                                    <Collapsible.Trigger>
-                                            v
+                                    <Collapsible.Trigger onClick={toggle}>
+                                        <ChevronUp
+                                            className={`${styles.icon} ${isOpen ? styles.rotate : ""}`}
+                                            size={24}
+                                        />
                                     </Collapsible.Trigger>
                                 </Box>
-
-                                <Box>
-                                    <button className={styles.overlayButton}>Buy ticket</button>
-                                </Box>
+                                {!hideBookingButton && (
+                                    <Box>
+                                        <button className={styles.overlayButton} onClick={handleBooking}>
+                                            Buy ticket
+                                        </button>
+                                    </Box>
+                                )}
                             </div>
                         </Box>
                         <Collapsible.Content>
@@ -49,7 +106,6 @@ export default function FestivalBox({festivalId, festivalName, festivalLocation,
                         </Collapsible.Content>
                     </Box>
                 </Collapsible.Root>
-
         </Flex>
     );
 }

@@ -1,49 +1,68 @@
-.scrollContainerWrapper {
-    display: flex;
-    align-items: center;
+.wrapper {
     position: relative;
-    justify-content: center;
-    gap: 16px;
+    width: 70%;
+    margin: 0 auto;
 }
 
-.scrollContainer {
-    display: flex;
+.container {
+    position: relative;
     overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    display: flex;
     scroll-behavior: smooth;
-    gap: 16px;
-    width: 900px;
-    padding: 16px 0;
+    padding-bottom: 3rem;
+    scrollbar-width: none;
 }
 
-.scrollContainer::-webkit-scrollbar {
+.container::-webkit-scrollbar {
     display: none;
 }
 
-.flexBoxItem {
-    flex: 0 0 280px;
-    max-width: 280px;
+.festivalBoxItem {
+    flex: 0 0 calc(100% / 3.5);
+    scroll-snap-align: center;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
-.scrollButton {
+.arrowButton {
     position: absolute;
-    top: 60px;
+    top: 38%;
     transform: translateY(-50%);
-    background-color: transparent;
-    color: #BF360C;
-    border: none;
-    width: auto;
-    height: auto;
-    font-size: 80px;
+    z-index: 10;
     cursor: pointer;
-    z-index: 1;
 }
 
-.scrollButton.left {
-    padding-left: 210px;
-    left: -20px;
+.left {
+    left: -2.5rem;
 }
 
-.scrollButton.right {
-    padding-right: 210px;
-    right: -20px;
+.right {
+    right: -2.5rem;
+}
+
+.chevron{
+    font-size: 96px;
+    color: #BF360C;
+}
+
+.spacer {
+    flex: 0 0 calc((100% / 3) / 2);
+    pointer-events: none;
+}
+
+.body {
+    padding-top: 1rem;
+    background-color: #FAA437;
+    background-color: rgba(250,180,55,0.35);
+    margin-bottom: 4rem;
+}
+
+.header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #BF360C;
 }

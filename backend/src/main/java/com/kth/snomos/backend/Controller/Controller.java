@@ -1,9 +1,6 @@
 package com.kth.snomos.backend.Controller;
 
-import com.kth.snomos.backend.Entity.Artist;
-import com.kth.snomos.backend.Entity.Booking;
-import com.kth.snomos.backend.Entity.Festival;
-import com.kth.snomos.backend.Entity.User;
+import com.kth.snomos.backend.Entity.*;
 import com.kth.snomos.backend.Service.FestivalService;
 import com.kth.snomos.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +23,15 @@ public class Controller {
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
         if(isValidEmail(user.getEmail())) {
-            userService.save(user);
-            return "Saved";
+            return userService.saveUser(user);
         }
-        return "Error";
+        return "Error-Email";
     }
 
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
         if(isValidEmail(email)) {
-            userService.changeEmail(email, userid);
+            userService.changeUserEmail(email, userid);
             return "Updated";
         }
         return "Error";
@@ -43,17 +39,17 @@ public class Controller {
 
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return userService.findAllUsers();
     }
 
-    @GetMapping("/user/find/{username}/{password}")
+    @GetMapping("/user/login/{username}/{password}")
     public long findByName(@PathVariable String username, @PathVariable String password) {
         return userService.userExists(username, password);
     }
 
     @GetMapping("/user/getEmail/{userId}")
     public String getEmail(@PathVariable int userId) {
-        return userService.getEmail(userId);
+        return userService.getUserEmail(userId);
     }
 
     @DeleteMapping("/user/delete/{userid}")
@@ -114,20 +110,11 @@ public class Controller {
     }
 
     ////////////////////////////////////Booking///////////////
-    @PostMapping("/booking") //TODO: flytta logik till service klassen
-    public String postBooking(@RequestParam LocalDate date, @RequestParam String festivalName, @RequestParam long userID) {
-        User user = userService.findById(userID);
-        Festival festival = festivalService.findFestivalByDateAndName(date, festivalName);
-        if (festival.getTicketsLeft() <= 0) {
-            return "No tickets left";
-        }
-        festival.setTicketsLeft(festival.getTicketsLeft() - 1);
-        festivalService.saveFestival(festival);
-        Booking booking = new Booking();
-        booking.setUser(user);
-        booking.setFestival(festival);
-        festivalService.saveBooking(booking);
-        return "Booking saved";
+    @PostMapping("/booking/{festivalID}/{userID}")
+    public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
+        User user = userService.findUserById(userID);
+        Festival festival = festivalService.findFestivalById(festivalID);
+        return festivalService.saveBooking(new Booking(user, festival));
     }
 
     @GetMapping("/booking/{userId}")
@@ -151,8 +138,28 @@ public class Controller {
         festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
     }
 
+    /// //////////////////////Admin/////////////////
+    @PostMapping("/admin/save")
+    public String addAdmin(@RequestBody Admin admin) {
+        if(isValidEmail(admin.getEmail())) {
+            userService.saveAdmin(admin);
+            return "Good";
+        }
+        return "Bad";
+    }
+
+    @DeleteMapping("/admin/delete/{adminId}")
+    public void deleteAdmin(@PathVariable long adminId) {
+        userService.deleteAdmin(adminId);
+    }
+
+    @GetMapping("/admin/findByID/{adminID}")
+    public Admin findAdminById(@PathVariable long adminID) {
+        return userService.findAdminById(adminID);
+    }
+
     /// //////////////////////private/////////////////
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
         return email.matches(pattern);
     }

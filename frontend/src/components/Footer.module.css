@@ -6,10 +6,11 @@
 }
 
 .logo {
-    display: block;
     margin: 0 auto;
     height: 40px;
     width: auto;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .footerDivider {
@@ -37,8 +38,14 @@
     gap: 5px;
 }
 
-.socialIcons img {
-    width: 20px;
-    height: 20px;
+.socialIconsImg {
+    width: 25px;
+    height: 25px;
     cursor: pointer;
+    color: #BF360C;
+    transition: color 0.3s ease;
+}
+
+.socialIconsImg:hover{
+    color: #f39c12;
 }

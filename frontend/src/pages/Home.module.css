@@ -22,12 +22,12 @@ body {
     font-weight: bold;
     margin-bottom: 16px;
     text-align: left;
+    padding-left: 40px;
     color: #BF360C;
 }
 
 .feed{
-    padding-top: 100px;
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
     position: relative;

@@ -85,7 +85,13 @@ public class FestivalService {
         festivalRepo.updateFestivalDescription(festivalId, description);
     }
 
-    public void saveBooking (Booking booking) {
+    public String saveBooking (Booking booking) {
+        if (booking.getFestival().getTicketsLeft() <= 0) {
+            return "No tickets left";
+        }
+        booking.getFestival().setTicketsLeft(booking.getFestival().getTicketsLeft() - 1);
+        saveFestival(booking.getFestival());
         bookingRepo.save(booking);
+        return "Booking saved";
     }
 }
