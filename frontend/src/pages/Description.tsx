@@ -3,7 +3,7 @@ import styles from "./Description.module.css"
 import { CalendarDays, MapPin} from 'lucide-react';
 import {useLocation} from "react-router-dom";
 import { useCookies } from "react-cookie";
-import {handleBooking} from "../components/handleBooking";
+import {handleBooking} from "../handleBooking";
 
 export default function Description(){
 

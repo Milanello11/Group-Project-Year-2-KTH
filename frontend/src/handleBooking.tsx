@@ -1,4 +1,4 @@
-import { toaster } from "./ui/toaster";
+import { toaster } from "./components/ui/toaster";
 
 export async function handleBooking(festivalId: number, userId: number) {
     if (!userId || userId === 0) {
