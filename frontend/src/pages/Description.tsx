@@ -1,22 +1,26 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Description.module.css"
 import { CalendarDays, MapPin} from 'lucide-react';
 import {useLocation} from "react-router-dom";
 import { useCookies } from "react-cookie";
 import {handleBooking} from "../handleBooking";
 
+type Artist = {
+    artist_name: string;
+    age: number;
+}
+
 export default function Description(){
 
     const { state } = useLocation();
     const [cookies] = useCookies(["userID"]);
+    const [artists, setArtists] = useState<Artist[]>([]);
+    const [loading, setLoading] = useState(true); // Lägg till loading state
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-
-    if (!state) {
-        return <p>Error: No festival data available.</p>;
-    }
 
     const {
         festivalId,
@@ -27,6 +31,31 @@ export default function Description(){
         imageURL,
         festivalDescription
     } = state;
+
+    useEffect(() => {
+        if (!state) return;
+        const fetchArtists = async () => {
+            try {
+                const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/getartists/${festivalId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setArtists(data);
+                } else {
+                    console.error("Failed to fetch artists");
+                }
+            } catch (err) {
+                console.error("Error fetching artists:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchArtists();
+    }, [festivalId, state]);
+
+    if (!state) {
+        return <p>Error: No festival data available.</p>;
+    }
 
     return (
         <div>
@@ -49,7 +78,17 @@ export default function Description(){
                 </div>
 
                 <h3 className={styles.subTitle}>Lineup:</h3>
-                <p className={styles.lineup}>lineup</p>
+                <div className={styles.lineup}>
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : artists.length === 0 ? (
+                        <p>No artists added yet</p>
+                    ) : (
+                        artists.map((artist, index) => (
+                            <p key={index}>{artist.artist_name}</p>
+                        ))
+                    )}
+                </div>
 
                 <h3 className={styles.subTitle}>Description:</h3>
                 <p className={styles.description}>{festivalDescription}</p>

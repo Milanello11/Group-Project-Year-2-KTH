@@ -5,13 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import java.util.List;
-   
+
 public interface ArtistRepo extends JpaRepository<Artist, String> {
-    @Query(value = "SELECT * FROM artist a JOIN artist_festival af ON a.artist_name = af.artist_name " +
-            "WHERE af.festival_id = :festivalId", nativeQuery = true)
-    List<Artist> getAllArtistsFromFestival(@Param("festivalId")long festivalId);
-  
     @Query(value = "SELECT * FROM artist WHERE artist_name ILIKE :val%",nativeQuery = true)
     Artist findArtistByName(@Param("val") String val);
 
