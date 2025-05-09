@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./Description.module.css"
 import { CalendarDays, MapPin} from 'lucide-react';
 import {useLocation} from "react-router-dom";
@@ -10,6 +10,9 @@ export default function Description(){
     const { state } = useLocation();
     const [cookies] = useCookies(["userID"]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     if (!state) {
         return <p>Error: No festival data available.</p>;
