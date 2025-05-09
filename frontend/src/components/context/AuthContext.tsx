@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 type User = {
     id: number;
     username: string;
+    role: "user" | "admin";
 };
 
 type AuthContextType = {
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(() => {
         const userId = cookies.userID;
         const username = cookies.username;
-        return userId && username ? { id: parseInt(userId), username } : null;
+        return userId && username ? { id: parseInt(userId), username, role: "user" } : null;
     });
 
     const login = async (username: string, password: string) => {
@@ -31,14 +32,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/user/login/${username}/${password}`);
             const data = await response.json();
             if (data > 0) {
-                setUser({ id: data, username });
+                setUser({ id: data, username, role: "user" });
                 setCookie("userID", data.toString(), { path: "/" });
                 setCookie("username", username, { path: "/" });
             } else if (data === 0){
                 navigate("/admin");
+                setUser({ id: data, username, role: "admin" });
+                setCookie("userID", data.toString(), { path: "/admin" });
+                setCookie("username", username, { path: "/admin" });
                 toaster.create({
                     description: "Logged in as Admin",
-                    type: "info",
+                    type: "success",
                     duration: 4000,
                 });
             } else if (data === -1){
