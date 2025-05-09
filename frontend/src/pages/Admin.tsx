@@ -1,9 +1,13 @@
 import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const showAdminView = (fieldSet : string) => {
         setAdminView(fieldSet);

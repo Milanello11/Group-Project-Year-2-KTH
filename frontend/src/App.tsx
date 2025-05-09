@@ -11,7 +11,6 @@ import AcceptCookies from "./components/AcceptCookies";
 import { AuthProvider } from "./components/context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import styles from './App.module.css';
-import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
     <CookiesProvider>
       <Router>
         <AuthProvider>
-          <ScrollToTop />
           <div className={styles.pageWrapper}>
             <NavBar />
               <main className={styles.content}>

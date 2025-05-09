@@ -24,6 +24,10 @@ const Home = () => {
     const [searchType, setSearchType] = useState('artist');
     const [searchResults, setSearchResults] = useState<Festival[]>([]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
