@@ -153,6 +153,11 @@ public class Controller {
         return festivalService.findArtistByName(name);
     }
 
+    @GetMapping("/artist/exist/{name}")
+    public boolean existArtist(@PathVariable String name) {
+        return festivalService.artistExists(name);
+    }
+
     @PutMapping("/artist/updateage/")
     public void updateArtistAge(@RequestBody Artist artist) {
         festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());

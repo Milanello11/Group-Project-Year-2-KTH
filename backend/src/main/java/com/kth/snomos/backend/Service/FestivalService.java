@@ -61,12 +61,16 @@ public class FestivalService {
 
 
     public Artist findArtistByName(String name) {
-        return artistRepo.existsByName(name) ? artistRepo.findArtistByName(name) : null;
+        return artistRepo.existsByNameLike(name) ? artistRepo.findArtistByName(name) : null;
     }
   
     public List<Artist> findArtistsByFestivalId(Long festivalId) {
         return artistRepo.getAllArtistsFromFestival(festivalId);
 
+    }
+
+    public boolean artistExists(String name) {
+        return artistRepo.existsByName(name);
     }
 
     public void saveFestival(Festival festival) {
@@ -77,6 +81,7 @@ public class FestivalService {
         artistRepo.save(artist);
     }
 
+    @Transactional
     public void deleteFestival(long festivalId) {
         festivalRepo.deleteById(festivalId);
     }

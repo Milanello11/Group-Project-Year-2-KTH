@@ -1,16 +1,21 @@
 import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
+import {json} from "node:stream/consumers";
 
 type Artist = {
     artist_name: string;
     age : number
 }
+
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
     const [artistSearchResult, setArtistSearchResult] = useState<Artist|null>(null);
     const [searchValue , setSearchValue] = useState('');
     const [inputValue , setInputValue] = useState('');
+    const [saveArtistName , setSaveArtistName] = useState('');
+    const [saveArtistAge , setSaveArtistAge] = useState('');
+    const [artistExists , setArtistExists] = useState<boolean|null>(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -73,8 +78,32 @@ const Admin = () => {
         } catch (e){
             console.log(e);
         }
+    }
 
+    const handleSaveArtist = async() => {
+        try{
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${saveArtistName}`);
+            const artistExists = await response.json();
+            if(!artistExists){
+                await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/save`, {
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body : JSON.stringify({
+                        artist_name: saveArtistName,
+                        age: saveArtistAge
+                    })
+                });
+                setArtistExists(false);
+            } else {
+                setArtistExists(true);
+            }
 
+        } catch (e){
+            console.log(e);
+        }
+        console.log("Name: " + saveArtistName + " Age: " + saveArtistAge);
     }
 
     return (
@@ -95,16 +124,39 @@ const Admin = () => {
                         <Fieldset.Legend>Add artist</Fieldset.Legend>
                     </Stack>
                     <Fieldset.Content>
-                        <Field.Root>
-                            <Field.Label>Name</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                        <Field.Root required>
+                            <Field.Label>
+                                Name
+                                <Field.RequiredIndicator/>
+                            </Field.Label>
+                            <Input  className={styles.inputStyle}
+                                    value={saveArtistName}
+                                    onChange={(e)=>setSaveArtistName(e.target.value)}
+                            />
                         </Field.Root>
-                        <Field.Root>
-                            <Field.Label>Age</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                        <Field.Root required>
+                            <Field.Label>
+                                Age
+                                <Field.RequiredIndicator/>
+                            </Field.Label>
+                            <Input  className={styles.inputStyle}
+                                    value={saveArtistAge}
+                                    onChange={(e)=>setSaveArtistAge(e.target.value)}
+                            />
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Enter</Button>
+                    <Button className={styles.enterButton}
+                            onClick={handleSaveArtist}
+                    >Enter</Button>
+                    <Field.Root>
+                        {artistExists === true &&(
+                            <Field.Label>Artist already exist</Field.Label> 
+                        )}
+                        {artistExists === false &&(
+                            <Field.Label>Added</Field.Label>
+                        )}
+
+                    </Field.Root>
                 </Fieldset.Root>
             )}
 
