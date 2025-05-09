@@ -16,6 +16,9 @@ public interface ArtistRepo extends JpaRepository<Artist, String> {
     Artist findArtistByName(@Param("val") String val);
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM artist WHERE CHAR_LENGTH(:val) >= 5 AND artist_name ILIKE :val%)",nativeQuery = true)
+    boolean existsByNameLike(@Param("val") String val);
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM artist WHERE artist_name LIKE :val)",nativeQuery = true)
     boolean existsByName(@Param("val") String val);
 
     @Modifying
