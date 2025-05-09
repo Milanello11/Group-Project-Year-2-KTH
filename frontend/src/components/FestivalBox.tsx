@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { ChevronUp} from "lucide-react";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
-import {handleBooking} from "./handleBooking";
+import {handleBooking} from "../handleBooking";
 
 type FestivalProps = {
     festivalId: number;
