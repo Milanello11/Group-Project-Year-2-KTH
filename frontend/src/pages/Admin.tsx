@@ -1,13 +1,35 @@
 import styles from "./Admin.module.css"
-import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
+import {Box, Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
+    const [artists, setArtists] = useState<string[]>([]);
+    const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const response = await fetch("/api/artists");
+                const data = await response.json();
+                setArtists(data);
+            } catch (error) {
+                console.error("Error fetching artists:", error);
+            }
+        };
+
+        fetchArtists();
+    }, []);
+
+    const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+        setSelectedArtists(selectedValues);
+        console.log("Selected Artists:", selectedValues);  // Log selected artists to console
+    };
 
     const showAdminView = (fieldSet : string) => {
         setAdminView(fieldSet);
@@ -112,7 +134,18 @@ const Admin = () => {
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Artist</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Box>
+                                <select multiple onChange={handleSelectionChange} style={{ height: "100px" }}>
+                                    {artists.map((artist, index) => (
+                                        <option key={index} value={artist}>
+                                            {artist}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                            <div>
+                                <p>Selected Artists: {selectedArtists.join(", ")}</p>
+                            </div>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Description</Field.Label>
