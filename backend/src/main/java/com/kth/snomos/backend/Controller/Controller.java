@@ -133,9 +133,24 @@ public class Controller {
         festivalService.saveArtist(artist);
     }
 
+    @GetMapping("/artist/findall")
+    public List<Artist> findAllArtists() {
+        return festivalService.findAllArtists();
+    }
+
     @DeleteMapping("/artist/delete/{artistName}")
     public void deleteArtist(@PathVariable String artistName) {
         festivalService.deleteArtist(artistName);
+    }
+
+    @GetMapping("/artist/getbyname/{name}")
+    public Artist getArtistByName(@PathVariable String name) {
+        return festivalService.findArtistByName(name);
+    }
+
+    @PutMapping("/artist/updateage/")
+    public void updateArtistAge(@RequestBody Artist artist) {
+        festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());
     }
 
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")

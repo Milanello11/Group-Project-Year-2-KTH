@@ -2,11 +2,75 @@ import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
 import {useState} from "react";
 
+type Artist = {
+    artist_name: string;
+    age : number
+}
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
+    const [artistSearchResult, setArtistSearchResult] = useState<Artist|null>(null);
+    const [searchValue , setSearchValue] = useState('');
+    const [inputValue , setInputValue] = useState('');
 
     const showAdminView = (fieldSet : string) => {
+        setSearchValue('');
+        setArtistSearchResult(null);
         setAdminView(fieldSet);
+    }
+
+    const handleArtistSearch = async () => {
+        try {
+            if(searchValue !== ""){
+                const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/getbyname/${searchValue}`);
+                if (response.ok){
+                    const text = await response.text();
+                    const data = text ? JSON.parse(text) : null;
+                    if (data === null) {
+                        setArtistSearchResult(null);
+                    } else{
+                        setArtistSearchResult(data);
+                    }
+                } else {
+                    setArtistSearchResult(null);
+                }
+
+            } else {
+                setArtistSearchResult(null);
+            }
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    const handleUpdateArtist = async () => {
+        if(inputValue !== ""){
+            await fetch(
+                `${process.env["REACT_APP_API_URL"]}/api/artist/updateage/`,{
+                    method:"PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body : JSON.stringify({
+                        artist_name: artistSearchResult?.artist_name,
+                        age: inputValue
+                    })
+                }
+            );
+        }
+    }
+
+    const handleDeleteArtist = async() => {
+        try {
+            if(artistSearchResult?.artist_name !== ''){
+                await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/delete/${artistSearchResult?.artist_name}`,{
+                    method: "DELETE"
+                });
+            }
+        } catch (e){
+            console.log(e);
+        }
+
+
     }
 
     return (
@@ -48,22 +112,33 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input  className={styles.inputStyle}
+                                    value={searchValue}
+                                    onChange={(e)=>setSearchValue(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton}>Enter</Button>
+                        <Button className={styles.enterButton}
+                                onClick={handleArtistSearch}
+                        >Enter</Button>
                         <Field.Root>
-                            <Field.Label>No artist found</Field.Label>
-                        </Field.Root>
-                        <Field.Root>
-                            <Field.Label>New name</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            {artistSearchResult == null && (
+                                <Field.Label>No artist found (Try adding new)</Field.Label>
+                                )
+                            }
+                            {artistSearchResult !== null && (
+                                <Field.Label>Artist: {artistSearchResult?.artist_name} Age: {artistSearchResult?.age}</Field.Label>
+                                )
+                            }
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>New age</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input  className={styles.inputStyle}
+                                    value={inputValue}
+                                    onChange={(e)=> setInputValue(e.target.value)}/>
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Enter</Button>
+                    <Button className={styles.enterButton}
+                            onClick={handleUpdateArtist}
+                    >Enter</Button>
                 </Fieldset.Root>
                 )
             }
@@ -76,14 +151,29 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle}
+                                   value={searchValue}
+                                   onChange={(e)=> setSearchValue(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton}>Enter</Button>
+                        <Button className={styles.enterButton}
+                                onClick={handleArtistSearch}
+                        >Enter</Button>
                         <Field.Root>
-                            <Field.Label>No artist found</Field.Label>
+                            <Field.Label>
+                                {artistSearchResult == null && (
+                                    <Field.Label>No artist found (Try adding new)</Field.Label>
+                                )
+                                }
+                                {artistSearchResult !== null && (
+                                    <Field.Label>Artist: {artistSearchResult?.artist_name} Age: {artistSearchResult?.age}</Field.Label>
+                                )
+                                }
+                            </Field.Label>
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Delete</Button>
+                    <Button className={styles.enterButton}
+                            onClick={handleDeleteArtist}
+                    >Delete</Button>
                 </Fieldset.Root>
                 )
             }
@@ -132,22 +222,10 @@ const Admin = () => {
                         </Field.Root>
                         <Button className={styles.enterButton}>Enter</Button>
                         <Field.Root>
-                            <Field.Label>No festival found</Field.Label>
+                            <Field.Label>No festival found (Try adding new)</Field.Label>
                         </Field.Root>
                         <Field.Root>
-                            <Field.Label>New name</Field.Label>
-                            <Input className={styles.inputStyle}/>
-                        </Field.Root>
-                        <Field.Root>
-                            <Field.Label>New location</Field.Label>
-                            <Input className={styles.inputStyle}/>
-                        </Field.Root>
-                        <Field.Root>
-                            <Field.Label>New date</Field.Label>
-                            <Input className={styles.inputStyle}/>
-                        </Field.Root>
-                        <Field.Root>
-                            <Field.Label>New artist</Field.Label>
+                            <Field.Label>Artist list</Field.Label>
                             <Input className={styles.inputStyle}/>
                         </Field.Root>
                         <Field.Root>
