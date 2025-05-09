@@ -6,10 +6,12 @@ import Admin from "./pages/Admin";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
+import Description from "./pages/Description";
 import AcceptCookies from "./components/AcceptCookies";
 import { AuthProvider } from "./components/context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import styles from './App.module.css';
+
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/description/:id" element={<Description />} />
                 </Routes>
               </main>
             <Footer />

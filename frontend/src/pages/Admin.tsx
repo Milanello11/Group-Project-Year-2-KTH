@@ -1,6 +1,6 @@
 import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type Artist = {
     artist_name: string;
@@ -11,6 +11,10 @@ const Admin = () => {
     const [artistSearchResult, setArtistSearchResult] = useState<Artist|null>(null);
     const [searchValue , setSearchValue] = useState('');
     const [inputValue , setInputValue] = useState('');
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const showAdminView = (fieldSet : string) => {
         setSearchValue('');

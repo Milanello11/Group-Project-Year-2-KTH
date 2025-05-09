@@ -10,6 +10,7 @@ type Festival = {
     festivalDate: string;
     ticketsLeft: number;
     imageURL: string;
+    festivalDescription: string;
 };
 
 export default function SlidingWindow() {
@@ -47,6 +48,7 @@ export default function SlidingWindow() {
                                 festivalDate={festival.festivalDate}
                                 ticketsLeft={festival.ticketsLeft}
                                 imageURL={festival.imageURL}
+                                festivalDescription={festival.festivalDescription}
                             />
                         </div>
                     ))}

@@ -5,8 +5,6 @@ import styles from "./AcceptCookies.module.css";
 import { useAuth } from "./context/AuthContext";
 import {toaster } from "./ui/toaster";
 
-
-
 const AcceptCookies = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["cookiesAccepted"]);
     const [isVisible, setIsVisible] = useState(!cookies.cookiesAccepted);

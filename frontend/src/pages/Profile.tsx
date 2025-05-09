@@ -12,6 +12,7 @@ type Festival = {
     festivalDate: string;
     ticketsLeft: number;
     imageURL: string;
+    festivalDescription: string;
 };
 
 const Profile: React.FC = () => {
@@ -19,6 +20,10 @@ const Profile: React.FC = () => {
 
     const [userFestivals, setUserFestivals] = useState<Festival[]>([]);
     const [userValue] = useState("");
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const fetchUserFestivals = async () => {

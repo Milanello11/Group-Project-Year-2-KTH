@@ -13,7 +13,7 @@
 
 .gridWrapper {
     min-width: 100%;
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
     overflow-y: scroll;
     max-height: 60vh;
@@ -21,7 +21,7 @@
 
 .grid {
     display: grid;
-    padding-bottom: 3rem;
+    padding: 1rem 0 3rem 1rem;
     grid-template-columns: repeat(3,1fr);
     gap: 2rem;
     min-width: 65rem;

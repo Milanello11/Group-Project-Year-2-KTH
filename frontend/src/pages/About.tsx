@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./About.module.css"
 import AboutImage from "../assets/about/aboutImg.png"
 import MilanIcon from "../assets/about/milanIcon.png"
@@ -16,6 +16,10 @@ const contacts = [
 ];
 
 const About: React.FC = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className={styles.pageWrapper}>
             <div className={styles.aboutContainer}>

@@ -1,4 +1,4 @@
-import {Box, Input, Stack, Button, Collapsible, Flex} from "@chakra-ui/react";
+import {Box, Input, Stack, Button, Collapsible, Flex, Spinner} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
@@ -13,10 +13,17 @@ const LogInMenu = () => {
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        await login(username, password);
+        setLoading(true);
+        try {
+            await login(username, password);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleLogout = () => {
@@ -40,7 +47,6 @@ const LogInMenu = () => {
                 description: "Please fill in all fields!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -50,7 +56,6 @@ const LogInMenu = () => {
                 description: "Please enter a valid email adress!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -73,7 +78,6 @@ const LogInMenu = () => {
                     description: "Account created successfully! Please log in.",
                     type: "success",
                     duration: 4000,
-                    isClosable: true
                 });
                 setShowSignUp(false);
                 setUsername("");
@@ -86,7 +90,6 @@ const LogInMenu = () => {
                     description: `Sign up failed: ${errorData.message}`,
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             }
         } catch (error) {
@@ -95,7 +98,6 @@ const LogInMenu = () => {
                 description: "An error occurred while signing up.",
                 type: "error",
                 duration: 4000,
-                isClosable: true
             });
         }
     };
@@ -153,8 +155,8 @@ const LogInMenu = () => {
                                         />
                                     </Box>
                                 )}
-                                <Button type="submit" colorScheme="orange" className={styles.submitButton}>
-                                    {showSignUp ? "Sign Up" : "Log In"}
+                                <Button type="submit" colorScheme="orange" className={styles.submitButton} disabled={loading}>
+                                    {loading ? <Spinner size="sm" /> : (showSignUp ? "Sign Up" : "Log In")}
                                 </Button>
                                 <Button
                                     type="button" colorScheme="blue" className={styles.submitButton}
