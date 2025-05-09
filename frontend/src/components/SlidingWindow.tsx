@@ -15,9 +15,6 @@ type Festival = {
 
 export default function SlidingWindow() {
     const [festivals, setFestivals] = useState<Festival[]>([]);
-
-    console.log(festivals)
-
     const scrollRef = useRef<HTMLDivElement | null>(null);
 
     const scroll = (direction: number) => {
