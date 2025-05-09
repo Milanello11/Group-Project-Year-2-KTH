@@ -55,7 +55,7 @@ public class FestivalService {
         return festivalRepo.findFestivalByDateAndName(date, name);
     }
 
-    public List<String> findArtistsByFestivalId(Long festivalId) {
+    public List<Artist> findArtistsByFestivalId(Long festivalId) {
         return artistRepo.getAllArtistsFromFestival(festivalId);
     }
 
