@@ -130,16 +130,19 @@ const LogInMenu = () => {
                         <form onSubmit={showSignUp ? handleSignUp : handleLogin}>
                             <Stack gap="4">
                                 <Box>
-                                    <label className={styles.label}>Username</label>
+                                    <label htmlFor="username" className={styles.label}>Username</label>
                                     <Input
+                                        id="username"
                                         placeholder="Enter your username"
                                         value={username}
+                                        autoComplete="username"
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </Box>
                                 <Box>
-                                    <label className={styles.label}>Password</label>
+                                    <label htmlFor="password" className={styles.label}>Password</label>
                                     <Input
+                                        id="password"
                                         placeholder="Enter your password"
                                         type="password"
                                         value={password}
