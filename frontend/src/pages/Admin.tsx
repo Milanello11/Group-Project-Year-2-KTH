@@ -34,8 +34,10 @@ const Admin = () => {
         ticketsLeft: 0,
         artists: []
     });
-    const [saveArtistName , setSaveArtistName] = useState('');
-    const [saveArtistAge , setSaveArtistAge] = useState('');
+    const [artist, setArtist] = useState<Artist>({
+       artist_name: '',
+        age: 0
+    });
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
 
     useEffect(() => {
@@ -52,7 +54,6 @@ const Admin = () => {
                 console.error("Error fetching artists:", error);
             }
         };
-
         fetchArtists();
     }, []);
 
@@ -141,9 +142,9 @@ const Admin = () => {
         }
     }
 
-    const handleSaveArtist = async() => {
+    const handleAddArtist = async() => {
         try{
-            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${saveArtistName}`);
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${artist.artist_name}`);
             const artistExists = await response.json();
             if(!artistExists){
                 await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/save`, {
@@ -152,19 +153,17 @@ const Admin = () => {
                         "Content-Type": "application/json"
                     },
                     body : JSON.stringify({
-                        artist_name: saveArtistName,
-                        age: saveArtistAge
+                        artist_name: artist.artist_name,
+                        age: artist.age
                     })
                 });
                 setArtistExists(false);
             } else {
                 setArtistExists(true);
             }
-
         } catch (e){
             console.log(e);
         }
-        console.log("Name: " + saveArtistName + " Age: " + saveArtistAge);
     }
 
     return (
@@ -191,9 +190,10 @@ const Admin = () => {
                                 <Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
-                                    value={saveArtistName}
-                                    onChange={(e)=>setSaveArtistName(e.target.value)}
-                            />
+                                    value={artist.artist_name}
+                                    onChange={(e)=>
+                                        setArtist(prev => ({...prev, artist_name: e.target.value}))
+                            }/>
                         </Field.Root>
                         <Field.Root required>
                             <Field.Label>
@@ -201,13 +201,13 @@ const Admin = () => {
                                 <Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
-                                    value={saveArtistAge}
-                                    onChange={(e)=>setSaveArtistAge(e.target.value)}
-                            />
+                                    onChange={(e)=>
+                                        setArtist(prev =>({...prev, age: Number(e.target.value)}))
+                            }/>
                         </Field.Root>
                     </Fieldset.Content>
                     <Button className={styles.enterButton}
-                            onClick={handleSaveArtist}
+                            onClick={handleAddArtist}
                     >Enter</Button>
                     <Field.Root>
                         {artistExists === true &&(
@@ -303,7 +303,7 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Name</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e) =>
+                            <Input className={styles.inputStyle} onChange={(e)=>
                                 setFestivalInput(prev => ({ ...prev, festivalName: e.target.value }))
                             }/>
                         </Field.Root>
