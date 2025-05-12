@@ -115,7 +115,6 @@ const Admin = () => {
         const body: Festival = {
             ...festivalInput,
             imageURL: "/images/catRave.png",
-            ticketsLeft: 10000,
             artists: selectedArtists,
         };
 
@@ -333,6 +332,13 @@ const Admin = () => {
                             <div>
                                 <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
                             </div>
+                        </Field.Root>
+                        <Field.Root>
+                            <Field.Label>Number of tickets</Field.Label>
+                            <Input className={styles.inputStyle}
+                                   onChange={(e)=>
+                                       setFestivalInput(prev => ({...prev, ticketsLeft: Number(e.target.value)}))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Description</Field.Label>
