@@ -116,11 +116,13 @@ const LogInMenu = () => {
                             <Flex className={styles.userSection}>
                                 <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
                                 <Box>
-                                    <p>{user.username}</p>
+                                    <p>{user.role === "admin" ? "Admin" : user.username}</p>
                                 </Box>
                             </Flex>
                             <Flex className={styles.navSection}>
-                                <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                {user.role !== "admin" && (
+                                    <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                )}
                                 <p onClick={handleLogout} className={styles.logoutLink}>Log out</p>
                             </Flex>
                         </Flex>
