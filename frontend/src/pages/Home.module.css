@@ -26,9 +26,29 @@ body {
     color: #BF360C;
 }
 
-.feed{
-    display: grid;
+.feed {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    box-sizing: border-box;
+}
+
+.searchBarWrapper {
+    width: 100%;
+    max-width: 1050px;
+}
+
+@media (max-width: 768px) {
+    .backgroundPicture {
+        height: 70vh;
+    }
+
+    .feed {
+        padding: 1rem;
+    }
+
+    .searchBarWrapper {
+        padding: 0 0.5rem;
+        max-width: 100%;
+    }
 }

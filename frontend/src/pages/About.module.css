@@ -13,7 +13,8 @@
 }
 
 .aboutImage {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     height: auto;
     border-radius: 10px;
 }
@@ -39,9 +40,10 @@
 
 .contactList {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
     text-align: center;
+    column-gap: 11rem;
 }
 
 .contactCard {
@@ -55,4 +57,42 @@
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .aboutContainer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .aboutText {
+        padding: 0 20px;
+    }
+
+    .aboutImage {
+        max-width: 300px;
+    }
+
+    .contactTitle {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .contactList {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pageWrapper {
+        padding: 20px;
+    }
+
+    .aboutText h2 {
+        font-size: 24px;
+    }
+
+    .contactTitle {
+        font-size: 20px;
+    }
 }
