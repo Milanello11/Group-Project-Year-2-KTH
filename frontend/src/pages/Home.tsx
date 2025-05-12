@@ -38,7 +38,6 @@ const Home = () => {
                 ? `${process.env["REACT_APP_API_URL"]}/api/festival/findby${searchType.toLowerCase()}/${encodeURIComponent(searchValue)}`
                 : `${process.env["REACT_APP_API_URL"]}/api/festival/findall`;
 
-            console.log(url);
             const response = await fetch(url);
             const data = await response.json();
             setSearchResults(data);

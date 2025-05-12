@@ -32,8 +32,6 @@ const Profile: React.FC = () => {
                     ? `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}/${encodeURIComponent(userValue)}`
                     : `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}`;
 
-                console.log("Fetching from URL:", url);
-
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error("Failed to fetch festivals");

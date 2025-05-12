@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             } else if (data === 0){
                 navigate("/admin");
                 setUser({ id: data, username, role: "admin" });
-                setCookie("userID", data.toString(), { path: "/admin" });
-                setCookie("username", username, { path: "/admin" });
+                setCookie("userID", data.toString(), { path: "/" });
+                setCookie("username", username, { path: "/" });
                 toaster.create({
                     description: "Logged in as Admin",
                     type: "success",

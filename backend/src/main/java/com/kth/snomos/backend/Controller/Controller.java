@@ -22,6 +22,9 @@ public class Controller {
     ////////////////////////////////////User//////////////////
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
+        if(userService.userExists(user.getUsername())) {
+            return "Username-Taken";
+        }
         if(isValidEmail(user.getEmail())) {
             return userService.saveUser(user);
         }
@@ -37,6 +40,11 @@ public class Controller {
         return "Error";
     }
 
+    @GetMapping("/user/check/{username}")
+    public boolean userExists(@PathVariable String username) {
+        return userService.userExists(username);
+    }
+
     @GetMapping("/user/findall")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
@@ -44,7 +52,7 @@ public class Controller {
 
     @GetMapping("/user/login/{username}/{password}")
     public long findByName(@PathVariable String username, @PathVariable String password) {
-        return userService.userExists(username, password);
+        return userService.login(username, password);
     }
 
     @GetMapping("/user/getEmail/{userId}")
@@ -124,6 +132,11 @@ public class Controller {
     public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
         User user = userService.findUserById(userID);
         Festival festival = festivalService.findFestivalById(festivalID);
+        if (user == null) {
+            return "Null-User";
+        } else if (festival == null) {
+            return "Null-Festival";
+        }
         return festivalService.saveBooking(new Booking(user, festival));
     }
 
@@ -134,8 +147,12 @@ public class Controller {
 
     ////////////////////////////////////Artist////////////////
     @PostMapping("/artist/save")
-    public void postArtist(@RequestBody Artist artist) {
+    public String postArtist(@RequestBody Artist artist) {
+        if (festivalService.artistExists(artist.getArtist_name())) {
+            return "Artist-Exists";
+        }
         festivalService.saveArtist(artist);
+        return "Artist-Saved";
     }
 
     @GetMapping("/artist/findall")
@@ -164,8 +181,12 @@ public class Controller {
     }
 
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")
-    public void addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
+    public String addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
+        if (!festivalService.artistExists(artistName)) {
+            return "Artist-Not-Found";
+        }
         festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
+        return "Success";
     }
 
     /// //////////////////////Admin/////////////////

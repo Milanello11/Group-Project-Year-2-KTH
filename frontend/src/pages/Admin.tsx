@@ -1,6 +1,7 @@
 import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
+import {useAuth} from "../components/context/AuthContext";
 
 type Artist = {
     artist_name: string;
@@ -15,6 +16,8 @@ const Admin = () => {
     const [saveArtistName , setSaveArtistName] = useState('');
     const [saveArtistAge , setSaveArtistAge] = useState('');
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
+
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -102,7 +105,6 @@ const Admin = () => {
         } catch (e){
             console.log(e);
         }
-        console.log("Name: " + saveArtistName + " Age: " + saveArtistAge);
     }
 
     return (
