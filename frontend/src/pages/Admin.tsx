@@ -32,6 +32,7 @@ const Admin = () => {
     const [festivals, setFestivals] = useState<Festival[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string|null>(null);
+    const [idToDelete, setIdToDelete] = useState<number|null>(null);
 
     const [festivalInput, setFestivalInput] = useState<NewFestival>({
         festivalName: '',
@@ -195,7 +196,11 @@ const Admin = () => {
     };
 
     const handleDeleteFestival = async () => {
-
+        if(idToDelete !== null){
+            await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/delete/${idToDelete}`,{
+                method: "DELETE"
+            });
+        }
     };
 
     return (
@@ -445,7 +450,7 @@ const Admin = () => {
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Festival Id to remove</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) => setIdToDelete(Number(e.target.value))}/>
                         </Field.Root>
                     </Fieldset.Content>
                     <Button className={styles.enterButton} onClick={handleDeleteFestival}>Delete</Button>
