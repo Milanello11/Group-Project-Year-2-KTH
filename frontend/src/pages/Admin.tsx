@@ -143,7 +143,6 @@ const Admin = () => {
     }
 
     const handleAddArtist = async() => {
-        console.log(artist);
         try{
             const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${artist.artist_name}`);
             const artistExists = await response.json();
