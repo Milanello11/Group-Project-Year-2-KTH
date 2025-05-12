@@ -55,7 +55,6 @@ public class FestivalService {
         return festivalRepo.findById(id).orElseThrow();
     }
 
-
     public Artist findArtistByName(String name) {
         return artistRepo.existsByNameLike(name) ? artistRepo.findArtistByName(name) : null;
     }
