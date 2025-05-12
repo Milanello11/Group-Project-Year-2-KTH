@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
                 <div className={stylesFeed.profileFeedBox}>
-                    <Feed festivals={displayedUpcoming} hideBookingButton={true} />
+                    <Feed festivals={displayedUpcoming} />
                 </div>
             </div>
 
@@ -95,7 +95,7 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
                 <div className={stylesFeed.profileFeedBox}>
-                    <Feed festivals={displayedPast} hideBookingButton={true} />
+                    <Feed festivals={displayedPast}/>
                 </div>
                 </div>
         </div>

@@ -5,18 +5,12 @@
     display: flex;
     justify-content: space-between;
     padding-right: 40px;
-    margin-bottom: 5px; /* Reduce the margin to bring the header closer to the feed */
-}
-
-.upcomingEventsHeader {
-    font-size: 1.8em;
-    font-weight: bold;
-    margin: 0;
+    margin-bottom: 5px;
 }
 
 .iconWrapper {
     position: relative;
-    width: 24px; /* same as icon size */
+    width: 24px;
     height: 24px;
 }
 
