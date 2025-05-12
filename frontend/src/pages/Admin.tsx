@@ -1,5 +1,5 @@
 import styles from "./Admin.module.css"
-import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
+import {Button, Field, Fieldset, HStack, Input, Stack, Box} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {json} from "node:stream/consumers";
 
@@ -8,11 +8,33 @@ type Artist = {
     age : number
 }
 
+type Festival = {
+    festivalDate: string;
+    festivalLocation: string;
+    festivalName: string;
+    ticketsLeft: number;
+    festivalDescription: string;
+    imageURL: string;
+    artists: Artist[];
+}
+
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
     const [artistSearchResult, setArtistSearchResult] = useState<Artist|null>(null);
     const [searchValue , setSearchValue] = useState('');
     const [inputValue , setInputValue] = useState('');
+    const [artists, setArtists] = useState<Artist[]>([]);
+    const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
+
+    const [festivalInput, setFestivalInput] = useState<Festival>({
+        festivalName: '',
+        festivalLocation: '',
+        festivalDate: '',
+        festivalDescription: '',
+        imageURL: '',
+        ticketsLeft: 0,
+        artists: []
+    });
     const [saveArtistName , setSaveArtistName] = useState('');
     const [saveArtistAge , setSaveArtistAge] = useState('');
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
@@ -20,6 +42,27 @@ const Admin = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/findall`);
+                const data = await response.json();
+                setArtists(data);
+            } catch (error) {
+                console.error("Error fetching artists:", error);
+            }
+        };
+
+        fetchArtists();
+    }, []);
+
+    const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedNames = Array.from(e.target.selectedOptions, option => option.value);
+        const selectedArtists = artists.filter(artist => selectedNames.includes(artist.artist_name));
+        setSelectedArtists(selectedArtists);
+        console.log("Selected Artists:", selectedArtists);
+    };
 
     const showAdminView = (fieldSet : string) => {
         setSearchValue('');
@@ -67,6 +110,25 @@ const Admin = () => {
             );
         }
     }
+
+    const handleAddFestival = async () => {
+        const body: Festival = {
+            ...festivalInput,
+            imageURL: "/images/catRave.png",
+            ticketsLeft: 10000,
+            artists: selectedArtists,
+        };
+
+        await fetch(
+            `${process.env["REACT_APP_API_URL"]}/api/festival/save`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+    };
 
     const handleDeleteArtist = async() => {
         try {
@@ -242,26 +304,45 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Name</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setFestivalInput(prev => ({ ...prev, festivalName: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Location</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setFestivalInput(prev => ({ ...prev, festivalLocation: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Date</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setFestivalInput(prev => ({ ...prev, festivalDate: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Artist</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Box>
+                                <select multiple onChange={handleSelectionChange} style={{ height: "100px" }}>
+                                    {artists.map((artist, index) => (
+                                        <option key={index} value={artist.artist_name}>
+                                            {artist.artist_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                            <div>
+                                <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
+                            </div>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Description</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle}
+                                   onChange={(e)=>
+                                       festivalInput.festivalDescription=e.target.value}/>
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Enter</Button>
+                    <Button className={styles.enterButton} onClick={handleAddFestival}>Enter</Button>
                 </Fieldset.Root>
                 )
             }
