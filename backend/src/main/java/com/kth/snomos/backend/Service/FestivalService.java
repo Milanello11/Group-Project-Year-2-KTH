@@ -55,10 +55,6 @@ public class FestivalService {
         return festivalRepo.findById(id).orElseThrow();
     }
 
-    public Festival findFestivalByDateAndName(LocalDate date, String name) {
-        return festivalRepo.findFestivalByDateAndName(date, name);
-    }
-
     public Artist findArtistByName(String name) {
         return artistRepo.existsByNameLike(name) ? artistRepo.findArtistByName(name) : null;
     }
@@ -75,6 +71,16 @@ public class FestivalService {
         artistRepo.save(artist);
     }
 
+    public void addArtistsToFestival(long festivalId, List<Artist> artistList) {
+        Festival festival = festivalRepo.findById(festivalId).orElseThrow();
+        for (Artist specificArtist : artistList) {
+            Artist currentArtist = artistRepo.findById(specificArtist.getArtist_name()).orElseThrow();
+            festival.getArtists().add(currentArtist);
+            currentArtist.getFestivals().add(festival);
+            festivalRepo.save(festival);
+        }
+    }
+
     @Transactional
     public void deleteFestival(long festivalId) {
         festivalRepo.deleteById(festivalId);
@@ -83,15 +89,6 @@ public class FestivalService {
     @Transactional
     public void deleteArtist(String artistName) {
         artistRepo.deleteArtistByName(artistName);
-    }
-
-    public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
-        Festival festival = festivalRepo.findFestivalByDateAndName(festivalDate, festivalName);
-        Artist artist = artistRepo.findById(artistName).orElseThrow();
-
-        festival.getArtists().add(artist);
-        artist.getFestivals().add(festival);
-        festivalRepo.save(festival);
     }
 
     @Transactional
