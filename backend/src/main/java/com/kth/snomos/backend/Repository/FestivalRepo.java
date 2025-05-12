@@ -13,6 +13,9 @@ public interface FestivalRepo extends JpaRepository<Festival, Long> {
     @Query(value = "SELECT * FROM festival WHERE festival_date >= CURRENT_DATE ORDER BY festival_date LIMIT 9", nativeQuery = true)
     List<Festival> getUpComingFestivals();
 
+    @Query(value = "SELECT * FROM festival WHERE festival_date >= CURRENT_DATE ORDER BY festival_date", nativeQuery = true)
+    List<Festival> getAllUpcomingFestivals();
+
     @Query(value = "SELECT * FROM festival where festival_date = :date AND festival_name = :name", nativeQuery = true)
     Festival findFestivalByDateAndName(@Param("date") LocalDate date,@Param("name") String name );
 

@@ -24,7 +24,7 @@ public class FestivalService {
     private ArtistRepo artistRepo;
 
     public List<Festival> findAllFestivals() {
-        return festivalRepo.findAll();
+        return festivalRepo.getAllUpcomingFestivals();
     }
 
     public List<Festival> findFestivalByName(String name) {
@@ -47,6 +47,10 @@ public class FestivalService {
         return festivalRepo.getUpComingFestivals();
     }
 
+    public List<Artist> findAllArtists(){
+        return artistRepo.findAll();
+    }
+
     public Festival findFestivalById(Long id) {
         return festivalRepo.findById(id).orElseThrow();
     }
@@ -55,8 +59,12 @@ public class FestivalService {
         return festivalRepo.findFestivalByDateAndName(date, name);
     }
 
-    public List<Artist> findArtistsByFestivalId(Long festivalId) {
-        return artistRepo.getAllArtistsFromFestival(festivalId);
+    public Artist findArtistByName(String name) {
+        return artistRepo.existsByNameLike(name) ? artistRepo.findArtistByName(name) : null;
+    }
+
+    public boolean artistExists(String name) {
+        return artistRepo.existsByName(name);
     }
 
     public void saveFestival(Festival festival) {
@@ -67,12 +75,14 @@ public class FestivalService {
         artistRepo.save(artist);
     }
 
+    @Transactional
     public void deleteFestival(long festivalId) {
         festivalRepo.deleteById(festivalId);
     }
 
+    @Transactional
     public void deleteArtist(String artistName) {
-        artistRepo.deleteById(artistName);
+        artistRepo.deleteArtistByName(artistName);
     }
 
     public void addArtistToFestival(String artistName, String festivalName, LocalDate festivalDate) {
@@ -92,6 +102,11 @@ public class FestivalService {
     @Transactional
     public void updateFestivalURL(Long festivalId, String url) {
         festivalRepo.updateFestivalURL(festivalId, url);
+    }
+
+    @Transactional
+    public void updateArtistAge(String ArtistName, int age){
+        artistRepo.updateArtistAge(ArtistName, age);
     }
 
     public String saveBooking (Booking booking) {

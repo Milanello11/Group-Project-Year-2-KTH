@@ -22,6 +22,10 @@ const Profile: React.FC = () => {
     const [userValue] = useState("");
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const fetchUserFestivals = async () => {
             try {
                 const url = userValue

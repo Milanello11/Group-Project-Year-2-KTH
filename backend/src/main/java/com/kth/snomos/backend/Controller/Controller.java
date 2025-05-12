@@ -73,9 +73,9 @@ public class Controller {
         festivalService.updateFestivalURL(festivalId, url);
     }
 
-    @GetMapping("festival/getartists/{festivalId}")
+    @GetMapping("/festival/getartists/{festivalId}")
     public List<Artist> getArtistsByFestivalId(@PathVariable long festivalId) {
-        return festivalService.findArtistsByFestivalId(festivalId);
+        return festivalService.findFestivalById(festivalId).getArtists();
     }
 
     @GetMapping("/festival/findbyname/{name}")
@@ -138,9 +138,29 @@ public class Controller {
         festivalService.saveArtist(artist);
     }
 
+    @GetMapping("/artist/findall")
+    public List<Artist> findAllArtists() {
+        return festivalService.findAllArtists();
+    }
+
     @DeleteMapping("/artist/delete/{artistName}")
     public void deleteArtist(@PathVariable String artistName) {
         festivalService.deleteArtist(artistName);
+    }
+
+    @GetMapping("/artist/getbyname/{name}")
+    public Artist getArtistByName(@PathVariable String name) {
+        return festivalService.findArtistByName(name);
+    }
+
+    @GetMapping("/artist/exist/{name}")
+    public boolean existArtist(@PathVariable String name) {
+        return festivalService.artistExists(name);
+    }
+
+    @PutMapping("/artist/updateage/")
+    public void updateArtistAge(@RequestBody Artist artist) {
+        festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());
     }
 
     @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")

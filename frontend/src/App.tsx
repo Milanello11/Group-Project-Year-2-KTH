@@ -12,6 +12,7 @@ import { AuthProvider } from "./components/context/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import styles from './App.module.css';
 
+
 function App() {
   return (
     <CookiesProvider>

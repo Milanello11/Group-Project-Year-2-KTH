@@ -21,8 +21,12 @@ type DomainSelectProps = {
 
 const Home = () => {
     const [searchValue, setSearchValue] = useState('');
-    const [searchType, setSearchType] = useState('artist');
+    const [searchType, setSearchType] = useState('Name');
     const [searchResults, setSearchResults] = useState<Festival[]>([]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -82,13 +86,10 @@ export default Home;
 
 const DomainSelect = ({ searchType, setSearchType }: DomainSelectProps) => (
     <NativeSelect.Root size="xs" variant="plain" width="auto" me="-1">
-        <NativeSelect.Field
-            value={searchType}
-            onChange={(e) => setSearchType(e.target.value)}
-            fontSize="sm"
-        >
-            <option value="Artist">Search by Artist</option>
+        <NativeSelect.Field value={searchType} onChange={(e) =>
+            setSearchType(e.target.value)} fontSize="sm">
             <option value="Name">Search by Festival Name</option>
+            <option value="Artist">Search by Artist</option>
             <option value="Date">Search by Date</option>
         </NativeSelect.Field>
         <NativeSelect.Indicator />

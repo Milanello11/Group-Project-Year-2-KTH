@@ -1,12 +1,10 @@
-import {Box, Input, Stack, Button, Collapsible, Flex} from "@chakra-ui/react";
+import {Box, Input, Stack, Button, Collapsible, Flex, Spinner} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import {NavLink, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
-import {Spinner} from "@chakra-ui/react";
-
 
 const LogInMenu = () => {
     const { user, login, logout } = useAuth();
@@ -49,7 +47,6 @@ const LogInMenu = () => {
                 description: "Please fill in all fields!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -59,7 +56,6 @@ const LogInMenu = () => {
                 description: "Please enter a valid email adress!",
                 type: "warning",
                 duration: 4000,
-                isClosable: true
             });
             return;
         }
@@ -82,7 +78,6 @@ const LogInMenu = () => {
                     description: "Account created successfully! Please log in.",
                     type: "success",
                     duration: 4000,
-                    isClosable: true
                 });
                 setShowSignUp(false);
                 setUsername("");
@@ -95,7 +90,6 @@ const LogInMenu = () => {
                     description: `Sign up failed: ${errorData.message}`,
                     type: "error",
                     duration: 4000,
-                    isClosable: true
                 });
             }
         } catch (error) {
@@ -104,7 +98,6 @@ const LogInMenu = () => {
                 description: "An error occurred while signing up.",
                 type: "error",
                 duration: 4000,
-                isClosable: true
             });
         }
     };
@@ -123,11 +116,13 @@ const LogInMenu = () => {
                             <Flex className={styles.userSection}>
                                 <img src={require("../assets/avatar-icon.png")} alt="avatar-icon" className={styles.avatarIcon} />
                                 <Box>
-                                    <p>{user.username}</p>
+                                    <p>{user.role === "admin" ? "Admin" : user.username}</p>
                                 </Box>
                             </Flex>
                             <Flex className={styles.navSection}>
-                                <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                {user.role !== "admin" && (
+                                    <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                )}
                                 <p onClick={handleLogout} className={styles.logoutLink}>Log out</p>
                             </Flex>
                         </Flex>
