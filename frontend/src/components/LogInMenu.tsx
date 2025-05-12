@@ -51,14 +51,14 @@ const LogInMenu = () => {
             return;
         }
 
-        if (!isValidEmail(email)) {
+        /*if (!isValidEmail(email)) {
             toaster.create({
                 description: "Please enter a valid email adress!",
                 type: "warning",
                 duration: 4000,
             });
             return;
-        }
+        }*/
 
         try {
             const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/user/save`, {
@@ -71,9 +71,9 @@ const LogInMenu = () => {
                     username,
                     email,
                 }),
-            });
+            }).then((res) => res.json());
 
-            if (response.ok) {
+            if (response.json.Stringify === "Success") {
                 toaster.create({
                     description: "Account created successfully! Please log in.",
                     type: "success",
@@ -154,7 +154,6 @@ const LogInMenu = () => {
                                         <label className={styles.label}>Email</label>
                                         <Input
                                             placeholder="Enter your email"
-                                            type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />

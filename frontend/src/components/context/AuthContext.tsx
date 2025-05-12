@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 });
             } else {
                 toaster.create({
-                    description: "Error!",
+                    description: `Error!, ${response}`,
                     type: "error",
                     duration: 4000,
                 });
