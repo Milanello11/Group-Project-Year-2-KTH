@@ -36,7 +36,7 @@ const Admin = () => {
     });
     const [artist, setArtist] = useState<Artist>({
        artist_name: '',
-       age: 0
+        age: 0
     });
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
 
@@ -143,6 +143,7 @@ const Admin = () => {
     }
 
     const handleAddArtist = async() => {
+        console.log(artist);
         try{
             const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${artist.artist_name}`);
             const artistExists = await response.json();
@@ -201,9 +202,8 @@ const Admin = () => {
                                 <Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
-                                    value={artist.age}
                                     onChange={(e)=>
-                                        setArtist(prev =>({...prev, age: e.target.valueAsNumber }))
+                                        setArtist(prev =>({...prev, age: Number(e.target.value)}))
                             }/>
                         </Field.Root>
                     </Fieldset.Content>
