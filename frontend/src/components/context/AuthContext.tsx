@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(["userID", "username"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["userID", "username", "role"]);
     const [user, setUser] = useState<User | null>(() => {
         const userId = cookies.userID;
         const username = cookies.username;
@@ -35,11 +35,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setUser({ id: data, username, role: "user" });
                 setCookie("userID", data.toString(), { path: "/" });
                 setCookie("username", username, { path: "/" });
+                setCookie("role", "user", { path: "/" });
             } else if (data === 0){
                 navigate("/admin");
                 setUser({ id: data, username, role: "admin" });
                 setCookie("userID", data.toString(), { path: "/" });
                 setCookie("username", username, { path: "/" });
+                setCookie("role", "admin", { path: "/" });
                 toaster.create({
                     description: "Logged in as Admin",
                     type: "success",
@@ -78,6 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         removeCookie("userID", { path: "/" });
         removeCookie("username", { path: "/" });
+        removeCookie("role", { path: "/" });
     };
 
     return (

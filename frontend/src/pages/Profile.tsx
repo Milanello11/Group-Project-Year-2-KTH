@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Home.module.css";
 import stylesFeed from "./Profile.module.css";
 import {Expand, Minimize} from "lucide-react";
 import Feed from "../components/Feed";
-import { useCookies } from "react-cookie";
+import {useCookies} from "react-cookie";
 
 type Festival = {
     festivalId: number;
@@ -17,7 +17,6 @@ type Festival = {
 
 const Profile: React.FC = () => {
     const [cookies] = useCookies(["userID"]);
-
     const [userFestivals, setUserFestivals] = useState<Festival[]>([]);
     const [userValue] = useState("");
 
@@ -78,7 +77,7 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
                 <div className={stylesFeed.profileFeedBox}>
-                    <Feed festivals={displayedUpcoming} hideBookingButton={true} />
+                    <Feed festivals={displayedUpcoming} hideBookingButton={true}/>
                 </div>
             </div>
 
@@ -97,9 +96,9 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
                 <div className={stylesFeed.profileFeedBox}>
-                    <Feed festivals={displayedPast} hideBookingButton={true} />
+                    <Feed festivals={displayedPast} hideBookingButton={true}/>
                 </div>
-                </div>
+            </div>
         </div>
     );
 };

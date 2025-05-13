@@ -1,7 +1,9 @@
 import styles from "./Admin.module.css"
 import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
-import {useAuth} from "../components/context/AuthContext";
+import { useCookies } from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {toaster} from "../components/ui/toaster";
 
 type Artist = {
     artist_name: string;
@@ -16,12 +18,20 @@ const Admin = () => {
     const [saveArtistName , setSaveArtistName] = useState('');
     const [saveArtistAge , setSaveArtistAge] = useState('');
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
-
-
+    const [cookies] = useCookies(["role"]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+        if (cookies.role !== "admin") {
+            toaster.create({
+                description: "Unauthorized access!",
+                type: "warning",
+                duration: 4000,
+            });
+            navigate("/")
+        }
+    }, [navigate, cookies.role]);
 
     const showAdminView = (fieldSet : string) => {
         setSearchValue('');
@@ -151,7 +161,7 @@ const Admin = () => {
                     >Enter</Button>
                     <Field.Root>
                         {artistExists === true &&(
-                            <Field.Label>Artist already exist</Field.Label> 
+                            <Field.Label>Artist already exist</Field.Label>
                         )}
                         {artistExists === false &&(
                             <Field.Label>Added</Field.Label>
@@ -319,7 +329,6 @@ const Admin = () => {
 
                 )
             }
-
         </div>
     )
 }
