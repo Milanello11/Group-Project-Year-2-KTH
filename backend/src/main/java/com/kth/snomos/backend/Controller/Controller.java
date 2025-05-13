@@ -25,19 +25,22 @@ public class Controller {
         if(userService.userExists(user.getUsername())) {
             return "Username-Taken";
         }
-        if(isValidEmail(user.getEmail())) {
+        try {
             return userService.saveUser(user);
+        } catch (IllegalArgumentException e) {
+            return "Error-Email";
         }
-        return "Error-Email";
     }
 
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
-        if(isValidEmail(email)) {
-            userService.changeUserEmail(email, userid);
+        try {
+            Email emailObj = new Email(email);
+            userService.changeUserEmail(emailObj.getEmail(), userid);
             return "Updated";
+        } catch (IllegalArgumentException e) {
+            return "Error";
         }
-        return "Error";
     }
 
     @GetMapping("/user/check/{username}")
@@ -192,11 +195,12 @@ public class Controller {
     /// //////////////////////Admin/////////////////
     @PostMapping("/admin/save")
     public String addAdmin(@RequestBody Admin admin) {
-        if(isValidEmail(admin.getEmail())) {
+        try {
             userService.saveAdmin(admin);
             return "Good";
+        } catch (IllegalArgumentException e) {
+            return "Error-Email";
         }
-        return "Bad";
     }
 
     @DeleteMapping("/admin/delete/{adminId}")
@@ -207,11 +211,5 @@ public class Controller {
     @GetMapping("/admin/findByID/{adminID}")
     public Admin findAdminById(@PathVariable long adminID) {
         return userService.findAdminById(adminID);
-    }
-
-    /// //////////////////////private/////////////////
-    public boolean isValidEmail(String email) {
-        String pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-        return email.matches(pattern);
     }
 }
