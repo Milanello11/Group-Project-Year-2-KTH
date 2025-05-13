@@ -29,3 +29,29 @@
     height: 10rem;
 }
 
+.festivalSearchResult {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.festivalName {
+    font-weight: bold;
+}
+
+.festivalId {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+ul {
+    width: 350px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+

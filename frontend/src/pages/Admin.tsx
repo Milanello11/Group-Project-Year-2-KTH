@@ -1,5 +1,5 @@
 import styles from "./Admin.module.css"
-import {Button, Field, Fieldset, HStack, Input, Stack} from "@chakra-ui/react";
+import {Button, Field, Fieldset, HStack, Input, Stack, Box, Spacer} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import { useCookies } from "react-cookie";
 import {useNavigate} from "react-router-dom";
@@ -10,13 +10,46 @@ type Artist = {
     age : number
 }
 
+type Festival = {
+    festivalId: number;
+    festivalDate: string;
+    festivalLocation: string;
+    festivalName: string;
+    ticketsLeft: number;
+    festivalDescription: string;
+    imageURL: string;
+    artists: Artist[];
+}
+
+type NewFestival = Omit<Festival, "festivalId">;
+
 const Admin = () => {
     const [adminView , setAdminView] = useState<string|null>(null);
     const [artistSearchResult, setArtistSearchResult] = useState<Artist|null>(null);
     const [searchValue , setSearchValue] = useState('');
     const [inputValue , setInputValue] = useState('');
-    const [saveArtistName , setSaveArtistName] = useState('');
-    const [saveArtistAge , setSaveArtistAge] = useState('');
+    const [artists, setArtists] = useState<Artist[]>([]);
+    const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [festivals, setFestivals] = useState<Festival[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string|null>(null);
+    const [idToDelete, setIdToDelete] = useState<number|null>(null);
+
+    const [festivalInput, setFestivalInput] = useState<NewFestival>({
+        festivalName: '',
+        festivalLocation: '',
+        festivalDate: '',
+        festivalDescription: '',
+        imageURL: '',
+        ticketsLeft: 0,
+        artists: []
+    });
+    const [artist, setArtist] = useState<Artist>({
+       artist_name: '',
+        age: 0
+    });
     const [artistExists , setArtistExists] = useState<boolean|null>(null);
     const [cookies] = useCookies(["role"]);
     const navigate = useNavigate();
@@ -32,6 +65,26 @@ const Admin = () => {
             navigate("/")
         }
     }, [navigate, cookies.role]);
+
+    useEffect(() => {
+        const fetchArtists = async () => {
+            try {
+                const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/findall`);
+                const data = await response.json();
+                setArtists(data);
+            } catch (error) {
+                console.error("Error fetching artists:", error);
+            }
+        };
+        fetchArtists();
+    }, []);
+
+    const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedNames = Array.from(e.target.selectedOptions, option => option.value);
+        const selectedArtists = artists.filter(artist => selectedNames.includes(artist.artist_name));
+        setSelectedArtists(selectedArtists);
+        console.log("Selected Artists:", selectedArtists);
+    };
 
     const showAdminView = (fieldSet : string) => {
         setSearchValue('');
@@ -80,6 +133,24 @@ const Admin = () => {
         }
     }
 
+    const handleAddFestival = async () => {
+        const body: NewFestival = {
+            ...festivalInput,
+            imageURL: "/images/catRave.png",
+            artists: selectedArtists,
+        };
+
+        await fetch(
+            `${process.env["REACT_APP_API_URL"]}/api/festival/save`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+    };
+
     const handleDeleteArtist = async() => {
         try {
             if(artistSearchResult?.artist_name !== ''){
@@ -92,9 +163,9 @@ const Admin = () => {
         }
     }
 
-    const handleSaveArtist = async() => {
+    const handleAddArtist = async() => {
         try{
-            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${saveArtistName}`);
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/exist/${artist.artist_name}`);
             const artistExists = await response.json();
             if(!artistExists){
                 await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/save`, {
@@ -103,19 +174,47 @@ const Admin = () => {
                         "Content-Type": "application/json"
                     },
                     body : JSON.stringify({
-                        artist_name: saveArtistName,
-                        age: saveArtistAge
+                        artist_name: artist.artist_name,
+                        age: artist.age
                     })
                 });
                 setArtistExists(false);
             } else {
                 setArtistExists(true);
             }
-
         } catch (e){
             console.log(e);
         }
     }
+
+    const handleSearchFestival = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const data = await fetchFestivalsByName(searchQuery);
+            setFestivals(data);
+        } catch (err) {
+            setError('Failed to fetch festivals');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchFestivalsByName = async (query: string): Promise<Festival[]> => {
+        const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/findbyname/${query}`);
+        if (!response.ok) throw new Error('Failed to fetch');
+        const data = await response.json();
+        return data;
+    };
+
+    const handleDeleteFestival = async () => {
+        if(idToDelete !== null){
+            await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/delete/${idToDelete}`,{
+                method: "DELETE"
+            });
+        }
+    };
 
     return (
         <div className={styles.adminContainer}>
@@ -141,9 +240,10 @@ const Admin = () => {
                                 <Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
-                                    value={saveArtistName}
-                                    onChange={(e)=>setSaveArtistName(e.target.value)}
-                            />
+                                    value={artist.artist_name}
+                                    onChange={(e)=>
+                                        setArtist(prev => ({...prev, artist_name: e.target.value}))
+                            }/>
                         </Field.Root>
                         <Field.Root required>
                             <Field.Label>
@@ -151,13 +251,13 @@ const Admin = () => {
                                 <Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
-                                    value={saveArtistAge}
-                                    onChange={(e)=>setSaveArtistAge(e.target.value)}
-                            />
+                                    onChange={(e)=>
+                                        setArtist(prev =>({...prev, age: Number(e.target.value)}))
+                            }/>
                         </Field.Root>
                     </Fieldset.Content>
                     <Button className={styles.enterButton}
-                            onClick={handleSaveArtist}
+                            onClick={handleAddArtist}
                     >Enter</Button>
                     <Field.Root>
                         {artistExists === true &&(
@@ -253,26 +353,52 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Name</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>
+                                setFestivalInput(prev => ({ ...prev, festivalName: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Location</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setFestivalInput(prev => ({ ...prev, festivalLocation: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Date</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setFestivalInput(prev => ({ ...prev, festivalDate: e.target.value }))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Artist</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Box>
+                                <select multiple onChange={handleSelectionChange} style={{ height: "100px" }}>
+                                    {artists.map((artist, index) => (
+                                        <option key={index} value={artist.artist_name}>
+                                            {artist.artist_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                            <div>
+                                <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
+                            </div>
+                        </Field.Root>
+                        <Field.Root>
+                            <Field.Label>Number of tickets</Field.Label>
+                            <Input className={styles.inputStyle}
+                                   onChange={(e)=>
+                                       setFestivalInput(prev => ({...prev, ticketsLeft: Number(e.target.value)}))
+                            }/>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Description</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle}
+                                   onChange={(e)=>
+                                       festivalInput.festivalDescription=e.target.value}/>
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Enter</Button>
+                    <Button className={styles.enterButton} onClick={handleAddFestival}>Enter</Button>
                 </Fieldset.Root>
                 )
             }
@@ -313,18 +439,34 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search (Festival name)</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>setSearchQuery(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton}>Enter</Button>
+                        <Button className={styles.enterButton} onClick={handleSearchFestival}>Enter</Button>
                         <Field.Root>
-                            <Field.Label>No festival found</Field.Label>
+                            {loading && <p>Loading...</p>}
+                            {error && <p>{error}</p>}
+
+                            {festivals.length === 0 && !loading ? (
+                                <Field.Label>No festival found</Field.Label>
+                            ) : (
+                                <ul>
+                                    {festivals.map((festival) => (
+                                        <li key={festival.festivalId}>
+                                            <div className={styles.festivalSearchResult}>
+                                                <span className={styles.festivalName}>{festival.festivalName}</span>
+                                                <span className={styles.festivalId}>Id number: {festival.festivalId}</span>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Festival Id to remove</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e) => setIdToDelete(Number(e.target.value))}/>
                         </Field.Root>
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Delete</Button>
+                    <Button className={styles.enterButton} onClick={handleDeleteFestival}>Delete</Button>
                 </Fieldset.Root>
 
                 )

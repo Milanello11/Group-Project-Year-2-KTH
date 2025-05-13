@@ -1,38 +1,59 @@
 .background {
     background-color: rgba(219, 154, 57, 0.2);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    padding-bottom: 1rem;
+    padding: 2rem 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     box-sizing: border-box;
 }
 
 .gridWrapper {
-    min-width: 100%;
-    max-width: 1250px;
-    margin: 0 auto;
-    overflow-y: scroll;
-    max-height: 60vh;
+    max-height: calc(3 * 360px + 3 * 40px);
+    width: 100%;
+    max-width: 1500px;
+    padding: 2rem 2rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .grid {
     display: grid;
-    padding: 1rem 0 3rem 1rem;
-    grid-template-columns: repeat(3,1fr);
-    gap: 2rem;
-    min-width: 65rem;
-    row-gap: 60px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-items: center;
 }
 
-.header {
-    color: #BF360C;
+.gridWrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.gridWrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+}
+.gridWrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
 
-html {
-    overflow-y: scroll;
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-height: 800px) {
+    .gridWrapper {
+        max-height: calc(2 * 360px + 2 * 40px);
+    }
+}
+
+@media (max-height: 600px) {
+    .gridWrapper {
+        max-height: calc(1 * 360px + 1 * 40px);
+    }
+}

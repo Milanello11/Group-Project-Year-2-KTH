@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from './Home.module.css';
-import Feed from "../components/Feed"
+import Feed from "../components/Feed";
 import SlidingWindow from "../components/SlidingWindow";
-import {Input, InputGroup, NativeSelect} from "@chakra-ui/react";
+import { Input, InputGroup, NativeSelect } from "@chakra-ui/react";
 
 type Festival = {
     festivalId: number;
@@ -56,28 +56,27 @@ const Home = () => {
     return (
         <div>
             <div className={styles.backgroundPicture}></div>
-            <div>
-                <SlidingWindow/>
-            </div>
+            <SlidingWindow />
             <div className={styles.feed}>
-                <InputGroup endElement={
-                    <DomainSelect
-                        searchType={searchType}
-                        setSearchType={setSearchType}/>}>
-                    <Input ps="4.75em"
-                           id="homeSearch"
-                           pe="0"
-                           placeholder="Search"
-                           borderColor="black"
-                           onChange={handleChange}
-                           value={searchValue}
-                           onKeyDown={(e) => {
-                               if (e.key === 'Enter') {
-                                   handleSearch();
-                               }
-                           }}
-                    />
-                </InputGroup>
+                <h2 className={styles.upcomingEventsHeader}>All Events</h2>
+                <div className={styles.searchBarWrapper}>
+                    <InputGroup
+                        endElement={<DomainSelect searchType={searchType} setSearchType={setSearchType} />}
+                    >
+                        <Input
+                            ps="4.75em"
+                            id="homeSearch"
+                            pe="0"
+                            placeholder="Search"
+                            borderColor="black"
+                            onChange={handleChange}
+                            value={searchValue}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleSearch();
+                            }}
+                        />
+                    </InputGroup>
+                </div>
                 <Feed festivals={searchResults} />
             </div>
         </div>
@@ -86,7 +85,7 @@ const Home = () => {
 
 export default Home;
 
-const DomainSelect = ({searchType, setSearchType}: DomainSelectProps) => (
+const DomainSelect = ({ searchType, setSearchType }: DomainSelectProps) => (
     <NativeSelect.Root size="xs" variant="plain" width="auto" me="-1">
         <NativeSelect.Field value={searchType} onChange={(e) =>
             setSearchType(e.target.value)} fontSize="sm">
@@ -96,4 +95,4 @@ const DomainSelect = ({searchType, setSearchType}: DomainSelectProps) => (
         </NativeSelect.Field>
         <NativeSelect.Indicator />
     </NativeSelect.Root>
-)
+);

@@ -1,11 +1,9 @@
 package com.kth.snomos.backend.Controller;
 
 import com.kth.snomos.backend.Entity.*;
-import com.kth.snomos.backend.Service.FestivalService;
-import com.kth.snomos.backend.Service.UserService;
+import com.kth.snomos.backend.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -74,6 +72,12 @@ public class Controller {
         festivalService.saveFestival(festival);
     }
 
+    @PostMapping("/festival/update/{festivalId}")
+    public void addArtistsToFestival(@PathVariable long festivalId, @RequestBody Festival festival) {
+        festivalService.addArtistsToFestival(festivalId, festival.getArtists());
+        festivalService.updateFestivalDescription(festivalId, festival.getFestivalDescription());
+    }
+
     @PutMapping("/festival/update/description/{festivalId}")
     public void updateFestivalDescription(@PathVariable long festivalId, @RequestBody String description) {
         festivalService.updateFestivalDescription(festivalId, description);
@@ -107,12 +111,6 @@ public class Controller {
     @GetMapping("/festival/findbyartist/{artist}")
     public List<Festival> findFestivalByArtist(@PathVariable String artist) {
         return festivalService.findFestivalByArtist(artist);
-    }
-
-    //Ska tas bort!!
-    @GetMapping("/festival/dateandname/{name}/{date}")
-    public Festival findFestivalByDateAndName(@PathVariable LocalDate date, @PathVariable String name) {
-        return festivalService.findFestivalByDateAndName(date, name);
     }
 
     @GetMapping("/festival/findall")
@@ -178,18 +176,9 @@ public class Controller {
         return festivalService.artistExists(name);
     }
 
-    @PutMapping("/artist/updateage/")
+    @PutMapping("/artist/updateage")
     public void updateArtistAge(@RequestBody Artist artist) {
         festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());
-    }
-
-    @PostMapping("/addartist/festival/{festivalName}/{festivalDate}/{artistName}")
-    public String addArtistToFestival(@PathVariable String artistName, @PathVariable String festivalName, @PathVariable LocalDate festivalDate) {
-        if (!festivalService.artistExists(artistName)) {
-            return "Artist-Not-Found";
-        }
-        festivalService.addArtistToFestival(artistName, festivalName, festivalDate);
-        return "Success";
     }
 
     /// //////////////////////Admin/////////////////
