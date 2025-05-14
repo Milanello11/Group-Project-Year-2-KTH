@@ -1,8 +1,8 @@
 import {Box, Input, Stack, Button, Collapsible, Flex, Spinner} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useAuth } from "./context/AuthContext";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
 
@@ -12,8 +12,33 @@ const LogInMenu = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                isOpen &&
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
 
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -103,7 +128,8 @@ const LogInMenu = () => {
     };
 
     return (
-        <Collapsible.Root>
+        <div ref={menuRef}>
+        <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
             <Collapsible.Trigger asChild>
                 <Button variant="ghost" p={0} bg="transparent" className={styles.avatarButton}>
                     <CircleUserRound className={styles.avatarIcon}/>
@@ -172,6 +198,7 @@ const LogInMenu = () => {
                 </Box>
             </Collapsible.Content>
         </Collapsible.Root>
+        </div>
     );
 };
 
