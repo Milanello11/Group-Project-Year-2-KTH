@@ -7,6 +7,16 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * REST Controller that handles endpoints for User, Festival, Booking, Artist and Admin operations.
+ * Provides APIs to create, retrieve, update and delete related entities in the system.
+ * @author Max Masuch
+ * @author Ismail Mohammed
+ * @author Johan Karlsson
+ * @author Elias Almlöf
+ * @author Milan Hatami
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -17,6 +27,10 @@ public class Controller {
     @Autowired
     private FestivalService festivalService;
 
+    /**
+     * Part of the REST controller that handles endpoints for User.
+     * Provides APIs to create, retrieve, update and delete user entities in the system.
+     */
     ////////////////////////////////////User//////////////////
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
@@ -66,6 +80,11 @@ public class Controller {
         userService.deleteUser(userid);
     }
 
+
+    /**
+     * Part of the controller that handles endpoints for Festival.
+     * Provides APIs to create, retrieve, update and delete festival entities in the system.
+     */
     ////////////////////////////////////Festival//////////////
     @PostMapping("/festival/save")
     public void postFestival(@RequestBody Festival festival) {
@@ -133,6 +152,10 @@ public class Controller {
         festivalService.deleteFestival(festivalId);
     }
 
+    /**
+     * Part of the REST controller that handles endpoints for Booking.
+     * Provides APIs to create and retrieve booking entities in the system.
+     */
     ////////////////////////////////////Booking///////////////
     @PostMapping("/booking/{festivalID}/{userID}")
     public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
@@ -151,6 +174,10 @@ public class Controller {
         return userService.getBookingsByUser(userId);
     }
 
+    /**
+     * Part of the REST controller that handles endpoints for Artist.
+     * Provides APIs to create, retrieve, update and delete artist entities in the system.
+     */
     ////////////////////////////////////Artist////////////////
     @PostMapping("/artist/save")
     public String postArtist(@RequestBody Artist artist) {
@@ -161,14 +188,14 @@ public class Controller {
         return "Artist-Saved";
     }
 
+    @PutMapping("/artist/updateage")
+    public void updateArtistAge(@RequestBody Artist artist) {
+        festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());
+    }
+
     @GetMapping("/artist/findall")
     public List<Artist> findAllArtists() {
         return festivalService.findAllArtists();
-    }
-
-    @DeleteMapping("/artist/delete/{artistName}")
-    public void deleteArtist(@PathVariable String artistName) {
-        festivalService.deleteArtist(artistName);
     }
 
     @GetMapping("/artist/getbyname/{name}")
@@ -181,11 +208,15 @@ public class Controller {
         return festivalService.artistExists(name);
     }
 
-    @PutMapping("/artist/updateage")
-    public void updateArtistAge(@RequestBody Artist artist) {
-        festivalService.updateArtistAge(artist.getArtist_name(),artist.getAge());
+    @DeleteMapping("/artist/delete/{artistName}")
+    public void deleteArtist(@PathVariable String artistName) {
+        festivalService.deleteArtist(artistName);
     }
 
+    /**
+     * Part of the REST controller that handles endpoints for Admin.
+     * Provides APIs to create, retrieve and delete admin entities in the system.
+     */
     /// //////////////////////Admin/////////////////
     @PostMapping("/admin/save")
     public String addAdmin(@RequestBody Admin admin) {
@@ -197,13 +228,13 @@ public class Controller {
         }
     }
 
-    @DeleteMapping("/admin/delete/{adminId}")
-    public void deleteAdmin(@PathVariable long adminId) {
-        userService.deleteAdmin(adminId);
-    }
-
     @GetMapping("/admin/findByID/{adminID}")
     public Admin findAdminById(@PathVariable long adminID) {
         return userService.findAdminById(adminID);
+    }
+
+    @DeleteMapping("/admin/delete/{adminId}")
+    public void deleteAdmin(@PathVariable long adminId) {
+        userService.deleteAdmin(adminId);
     }
 }

@@ -9,7 +9,6 @@ type Artist = {
     artist_name: string;
     age : number
 }
-
 type Festival = {
     festivalId: number;
     festivalDate: string;
@@ -20,7 +19,6 @@ type Festival = {
     imageURL: string;
     artists: Artist[];
 }
-
 type NewFestival = Omit<Festival, "festivalId">;
 
 const Admin = () => {
@@ -33,7 +31,6 @@ const Admin = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [festivals, setFestivals] = useState<Festival[]>([]);
     const [idChosen, setIdChosen] = useState<number|null>(null);
-
     const [festivalInput, setFestivalInput] = useState<NewFestival>({
         festivalName: '',
         festivalLocation: '',
@@ -80,7 +77,6 @@ const Admin = () => {
         const selectedNames = Array.from(e.target.selectedOptions, option => option.value);
         const selectedArtists = artists.filter(artist => selectedNames.includes(artist.artist_name));
         setSelectedArtists(selectedArtists);
-        console.log("Selected Artists:", selectedArtists);
     };
 
     const showAdminView = (fieldSet : string) => {
@@ -104,7 +100,6 @@ const Admin = () => {
                 } else {
                     setArtistSearchResult(null);
                 }
-
             } else {
                 setArtistSearchResult(null);
             }
@@ -235,7 +230,6 @@ const Admin = () => {
                 <Button className={styles.singleButton} onClick={()=> showAdminView("addFestival")}>Add festival </Button>
                 <Button className={styles.singleButton} onClick={()=> showAdminView("updateFestival")}>Update festival </Button>
                 <Button className={styles.singleButton} onClick={()=> showAdminView("deleteFestival")}>Delete festival </Button>
-
             </HStack>
 
             {adminView === 'addArtist' && (
@@ -245,9 +239,7 @@ const Admin = () => {
                     </Stack>
                     <Fieldset.Content>
                         <Field.Root required>
-                            <Field.Label>
-                                Name
-                                <Field.RequiredIndicator/>
+                            <Field.Label>Name<Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
                                     value={artist.artist_name}
@@ -256,9 +248,7 @@ const Admin = () => {
                             }/>
                         </Field.Root>
                         <Field.Root required>
-                            <Field.Label>
-                                Age
-                                <Field.RequiredIndicator/>
+                            <Field.Label>Age<Field.RequiredIndicator/>
                             </Field.Label>
                             <Input  className={styles.inputStyle}
                                     onChange={(e)=>
@@ -276,7 +266,6 @@ const Admin = () => {
                         {artistExists === false &&(
                             <Field.Label>Added</Field.Label>
                         )}
-
                     </Field.Root>
                 </Fieldset.Root>
             )}
@@ -291,7 +280,8 @@ const Admin = () => {
                             <Field.Label>Search</Field.Label>
                             <Input  className={styles.inputStyle}
                                     value={searchValue}
-                                    onChange={(e)=>setSearchValue(e.target.value)}/>
+                                    onChange={(e)=>
+                                        setSearchValue(e.target.value)}/>
                         </Field.Root>
                         <Button className={styles.enterButton}
                                 onClick={handleArtistSearch}
@@ -299,12 +289,10 @@ const Admin = () => {
                         <Field.Root>
                             {artistSearchResult == null && (
                                 <Field.Label>No artist found (Try adding new)</Field.Label>
-                                )
-                            }
+                            )}
                             {artistSearchResult !== null && (
                                 <Field.Label>Artist: {artistSearchResult?.artist_name} Age: {artistSearchResult?.age}</Field.Label>
-                                )
-                            }
+                            )}
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>New age</Field.Label>
@@ -317,8 +305,7 @@ const Admin = () => {
                             onClick={handleUpdateArtist}
                     >Enter</Button>
                 </Fieldset.Root>
-                )
-            }
+            )}
 
             {adminView === 'deleteArtist' && (
                 <Fieldset.Root className={styles.fieldSetStyle}>
@@ -330,21 +317,19 @@ const Admin = () => {
                             <Field.Label>Search</Field.Label>
                             <Input className={styles.inputStyle}
                                    value={searchValue}
-                                   onChange={(e)=> setSearchValue(e.target.value)}/>
+                                   onChange={(e)=>
+                                       setSearchValue(e.target.value)}/>
                         </Field.Root>
                         <Button className={styles.enterButton}
                                 onClick={handleArtistSearch}
                         >Enter</Button>
                         <Field.Root>
                             <Field.Label>
-                                {artistSearchResult == null && (
-                                    <Field.Label>No artist found (Try adding new)</Field.Label>
-                                )
-                                }
-                                {artistSearchResult !== null && (
+                                {artistSearchResult ?  (
                                     <Field.Label>Artist: {artistSearchResult?.artist_name} Age: {artistSearchResult?.age}</Field.Label>
-                                )
-                                }
+                                ) : (
+                                    <Field.Label>No artist found (Try adding new)</Field.Label>
+                                )}
                             </Field.Label>
                         </Field.Root>
                     </Fieldset.Content>
@@ -352,8 +337,7 @@ const Admin = () => {
                             onClick={handleDeleteArtist}
                     >Delete</Button>
                 </Fieldset.Root>
-                )
-            }
+            )}
 
             {adminView === 'addFestival' && (
                 <Fieldset.Root className={styles.fieldSetStyle}>
@@ -390,15 +374,14 @@ const Admin = () => {
                                     ))}
                                 </select>
                             </Box>
-                            <div>
-                                <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
-                            </div>
+                            <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Number of tickets</Field.Label>
                             <Input className={styles.inputStyle}
                                    onChange={(e)=>
-                                       setFestivalInput(prev => ({...prev, ticketsLeft: Number(e.target.value)}))
+                                       setFestivalInput(prev =>
+                                           ({...prev, ticketsLeft: Number(e.target.value)}))
                             }/>
                         </Field.Root>
                         <Field.Root>
@@ -410,8 +393,7 @@ const Admin = () => {
                     </Fieldset.Content>
                     <Button className={styles.enterButton} onClick={handleAddFestival}>Enter</Button>
                 </Fieldset.Root>
-                )
-            }
+            )}
 
             {adminView === 'updateFestival' && (
                 <Fieldset.Root className={styles.fieldSetStyle}>
@@ -421,9 +403,11 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search (Festival name)</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e)=>setSearchQuery(e.target.value)}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>
+                                setSearchQuery(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(searchQuery)}}>Enter</Button>
+                        <Button className={styles.enterButton} onClick={() =>
+                        {fetchFestivals(searchQuery)}}>Enter</Button>
                         <Field.Root>
                             {festivals.length === 0 ? (
                                 <Field.Label>No festival found</Field.Label>
@@ -442,10 +426,12 @@ const Admin = () => {
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Choose festival id</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e)=>setIdChosen(Number(e.target.value))}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>
+                                setIdChosen(Number(e.target.value))}/>
                         </Field.Root>
-                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(idChosen)}}>Enter</Button>
-                        {festivalInput !== null && (
+                        <Button className={styles.enterButton} onClick={() =>
+                        {fetchFestivals(idChosen)}}>Enter</Button>
+                        {festivalInput ? (
                         <Field.Root>
                             <Field.Label> Selected Festival: {festivalInput.festivalName}</Field.Label>
                             <Field.Label>New description</Field.Label>
@@ -461,8 +447,8 @@ const Admin = () => {
                                 </select>
                             </Box>
                             <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
-                        </Field.Root>)}
-                        {festivalInput === null && (
+                        </Field.Root>
+                        ) : (
                             <Field.Root>
                                 <Field.Label>No Festival with id {idChosen}</Field.Label>
                             </Field.Root>
@@ -470,8 +456,7 @@ const Admin = () => {
                     </Fieldset.Content>
                     <Button className={styles.enterButton} onClick={handleUpdateFestival}>Enter</Button>
                 </Fieldset.Root>
-                )
-            }
+            )}
 
             {adminView === 'deleteFestival' && (
                 <Fieldset.Root className={styles.fieldSetStyle}>
@@ -481,9 +466,11 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search (Festival name)</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e)=>setSearchQuery(e.target.value)}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>
+                                setSearchQuery(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(searchQuery)}}>Enter</Button>
+                        <Button className={styles.enterButton} onClick={() =>
+                            {fetchFestivals(searchQuery)}}>Enter</Button>
                         <Field.Root>
                             {festivals.length === 0 ? (
                                 <Field.Label>No festival found</Field.Label>
@@ -502,15 +489,13 @@ const Admin = () => {
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Festival Id to remove</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e) => setIdChosen(Number(e.target.value))}/>
+                            <Input className={styles.inputStyle} onChange={(e) =>
+                                setIdChosen(Number(e.target.value))}/>
                         </Field.Root>
                     </Fieldset.Content>
                     <Button className={styles.enterButton} onClick={handleDeleteFestival}>Delete</Button>
                 </Fieldset.Root>
-
-                )
-            }
-
+            )}
         </div>
     )
 }
