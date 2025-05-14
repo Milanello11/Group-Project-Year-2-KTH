@@ -20,19 +20,30 @@ public class Controller {
     ////////////////////////////////////User//////////////////
     @PostMapping("/user/save")
     public String postUser(@RequestBody User user) {
-        if(isValidEmail(user.getEmail())) {
-            return userService.saveUser(user);
+        if(userService.userExists(user.getUsername())) {
+            return "Username-Taken";
         }
-        return "Error-Email";
+        try {
+            return userService.saveUser(user);
+        } catch (IllegalArgumentException e) {
+            return "Error-Email";
+        }
     }
 
     @PutMapping("/user/changeEmail/{userid}/{email}")
     public String changeEmail(@PathVariable("userid") int userid, @PathVariable("email") String email) {
-        if(isValidEmail(email)) {
-            userService.changeUserEmail(email, userid);
+        try {
+            Email emailObj = new Email(email);
+            userService.changeUserEmail(emailObj.getEmail(), userid);
             return "Updated";
+        } catch (IllegalArgumentException e) {
+            return "Error";
         }
-        return "Error";
+    }
+
+    @GetMapping("/user/check/{username}")
+    public boolean userExists(@PathVariable String username) {
+        return userService.userExists(username);
     }
 
     @GetMapping("/user/findall")
@@ -42,7 +53,7 @@ public class Controller {
 
     @GetMapping("/user/login/{username}/{password}")
     public long findByName(@PathVariable String username, @PathVariable String password) {
-        return userService.userExists(username, password);
+        return userService.login(username, password);
     }
 
     @GetMapping("/user/getEmail/{userId}")
@@ -122,6 +133,11 @@ public class Controller {
     public String postBooking(@PathVariable long festivalID, @PathVariable long userID) {
         User user = userService.findUserById(userID);
         Festival festival = festivalService.findFestivalById(festivalID);
+        if (user == null) {
+            return "Null-User";
+        } else if (festival == null) {
+            return "Null-Festival";
+        }
         return festivalService.saveBooking(new Booking(user, festival));
     }
 
@@ -132,8 +148,12 @@ public class Controller {
 
     ////////////////////////////////////Artist////////////////
     @PostMapping("/artist/save")
-    public void postArtist(@RequestBody Artist artist) {
+    public String postArtist(@RequestBody Artist artist) {
+        if (festivalService.artistExists(artist.getArtist_name())) {
+            return "Artist-Exists";
+        }
         festivalService.saveArtist(artist);
+        return "Artist-Saved";
     }
 
     @GetMapping("/artist/findall")
@@ -164,11 +184,12 @@ public class Controller {
     /// //////////////////////Admin/////////////////
     @PostMapping("/admin/save")
     public String addAdmin(@RequestBody Admin admin) {
-        if(isValidEmail(admin.getEmail())) {
+        try {
             userService.saveAdmin(admin);
             return "Good";
+        } catch (IllegalArgumentException e) {
+            return "Error-Email";
         }
-        return "Bad";
     }
 
     @DeleteMapping("/admin/delete/{adminId}")
@@ -179,11 +200,5 @@ public class Controller {
     @GetMapping("/admin/findByID/{adminID}")
     public Admin findAdminById(@PathVariable long adminID) {
         return userService.findAdminById(adminID);
-    }
-
-    /// //////////////////////private/////////////////
-    public boolean isValidEmail(String email) {
-        String pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-        return email.matches(pattern);
     }
 }

@@ -21,9 +21,6 @@ public class UserService {
     private AdminRepo adminRepo;
 
     public String saveUser(User user) {
-        if(userRepo.userExists(user.getUsername())) {
-            return "Error-Username";
-        }
         userRepo.save(user);
         return "Success";
     }
@@ -54,13 +51,17 @@ public class UserService {
         return adminRepo.findById(id).orElseThrow();
     }
 
-    public long userExists(String name, String password) {
+    public long login(String name, String password) {
         if(userRepo.userExists(name)){
             User user = userRepo.rightPassword(name,password);
             return user == null ? -1 : user.getUserId();
         }
         Admin admin = adminRepo.findAdminByUsernameAndPassword(name,password);
         return admin == null ? -2 : 0;
+    }
+
+    public boolean userExists(String username) {
+        return userRepo.userExists(username);
     }
 
     public String getUserEmail(int userId){

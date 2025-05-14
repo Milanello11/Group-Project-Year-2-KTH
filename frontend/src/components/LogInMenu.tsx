@@ -74,20 +74,30 @@ const LogInMenu = () => {
             });
 
             if (response.ok) {
-                toaster.create({
-                    description: "Account created successfully! Please log in.",
-                    type: "success",
-                    duration: 4000,
-                });
-                setShowSignUp(false);
-                setUsername("");
-                setPassword("");
-                setEmail("");
+                const text = await response.text();
+                if (text === "Success") {
+                    toaster.create({
+                        description: "Account created successfully! Please log in.",
+                        type: "success",
+                        duration: 4000,
+                    });
+                    setShowSignUp(false);
+                    setUsername("");
+                    setPassword("");
+                    setEmail("");
+                }
+                else if (text === "Username-Taken") {
+                    toaster.create({
+                        description: "User already exists!",
+                        type: "error",
+                        duration: 4000,
+                    });
+                }
             } else {
                 const errorData = await response.json();
                 console.error("Sign Up failed:", errorData);
                 toaster.create({
-                    description: `Sign up failed: ${errorData.message}`,
+                    description: `Sign up failed: ${errorData}`,
                     type: "error",
                     duration: 4000,
                 });
@@ -120,8 +130,10 @@ const LogInMenu = () => {
                                 </Box>
                             </Flex>
                             <Flex className={styles.navSection}>
-                                {user.role !== "admin" && (
-                                    <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                {user.role === "admin" ? (
+                                    <NavLink to="/Admin">Admin Page</NavLink>
+                                ) : (
+                                    <NavLink to="/Profile">Profile</NavLink>
                                 )}
                                 <p onClick={handleLogout} className={styles.logoutLink}>Log out</p>
                             </Flex>
@@ -130,16 +142,19 @@ const LogInMenu = () => {
                         <form onSubmit={showSignUp ? handleSignUp : handleLogin}>
                             <Stack gap="4">
                                 <Box>
-                                    <label className={styles.label}>Username</label>
+                                    <label htmlFor="username" className={styles.label}>Username</label>
                                     <Input
+                                        id="username"
                                         placeholder="Enter your username"
                                         value={username}
+                                        autoComplete="username"
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </Box>
                                 <Box>
-                                    <label className={styles.label}>Password</label>
+                                    <label htmlFor="password" className={styles.label}>Password</label>
                                     <Input
+                                        id="password"
                                         placeholder="Enter your password"
                                         type="password"
                                         value={password}
@@ -151,7 +166,6 @@ const LogInMenu = () => {
                                         <label className={styles.label}>Email</label>
                                         <Input
                                             placeholder="Enter your email"
-                                            type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
