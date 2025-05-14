@@ -2,6 +2,25 @@ import React from "react";
 import FestivalBox from "../components/FestivalBox";
 import styles from "./Feed.module.css";
 
+/**
+ * `Feed` is a React component that displays a grid of `FestivalBoxes´.
+ *
+ * It receives a list of upcoming festivals as a prop and renders a `FestivalBox` for each.
+ * This component is used to show a scrollable feed of festival events. It is used in both home to
+ * display all festivals and in profile to display upcoming and past bookings.
+ *
+ * @param {Festival} props - The `FestivalBox´ information props.
+ * @param {FeedProps[]} props.festivals - An array of festival props.
+ * @returns {JSX.Element} A grid layout of clickable festival boxes.
+ *
+ * @author Max Masuch
+ * @author Ismail Mohammed
+ * @author Johan Karlsson
+ * @author Elias Almlöf
+ * @author Milan Hatami
+ */
+
+
 type Festival = {
     festivalId: number;
     festivalName: string;

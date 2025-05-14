@@ -38,8 +38,10 @@ public class UserService {
      *
      * @param admin The admin object to be saved.
      */
-    public void saveAdmin(Admin admin) {
+    public String saveAdmin(Admin admin) {
+
         adminRepo.save(admin);
+        return "Success";
     }
 
     /**

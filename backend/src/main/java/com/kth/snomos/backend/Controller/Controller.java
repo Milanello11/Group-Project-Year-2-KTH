@@ -221,8 +221,7 @@ public class Controller {
     @PostMapping("/admin/save")
     public String addAdmin(@RequestBody Admin admin) {
         try {
-            userService.saveAdmin(admin);
-            return "Good";
+            return userService.saveAdmin(admin);
         } catch (IllegalArgumentException e) {
             return "Error-Email";
         }
