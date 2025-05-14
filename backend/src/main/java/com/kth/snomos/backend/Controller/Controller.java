@@ -77,6 +77,11 @@ public class Controller {
         festivalService.updateFestivalURL(festivalId, url);
     }
 
+    @GetMapping("/festival/findbyid/{festivalId}")
+    public Festival getFestivalById(@PathVariable long festivalId) {
+        return festivalService.findFestivalById(festivalId);
+    }
+
     @GetMapping("/festival/getartists/{festivalId}")
     public List<Artist> getArtistsByFestivalId(@PathVariable long festivalId) {
         return festivalService.findFestivalById(festivalId).getArtists();
