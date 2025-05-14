@@ -23,6 +23,4 @@ public interface ArtistRepo extends JpaRepository<Artist, String> {
     @Modifying
     @Query(value = "DELETE FROM artist WHERE artist_name = :artistName",nativeQuery = true)
     void deleteArtistByName(@Param("artistName") String artistName);
-
-
 }
