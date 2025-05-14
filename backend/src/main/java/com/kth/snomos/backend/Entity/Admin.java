@@ -18,7 +18,8 @@ public class Admin {
 
     private String username;
 
-    private String email;
+    @Embedded
+    private Email email;
 
     private String password;
 }

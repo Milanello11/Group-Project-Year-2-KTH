@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Home.module.css";
 import stylesFeed from "./Profile.module.css";
 import {Expand, Minimize} from "lucide-react";
 import Feed from "../components/Feed";
-import { useCookies } from "react-cookie";
+import {useCookies} from "react-cookie";
 
 type Festival = {
     festivalId: number;
@@ -17,7 +17,6 @@ type Festival = {
 
 const Profile: React.FC = () => {
     const [cookies] = useCookies(["userID"]);
-
     const [userFestivals, setUserFestivals] = useState<Festival[]>([]);
     const [userValue] = useState("");
 
@@ -31,8 +30,6 @@ const Profile: React.FC = () => {
                 const url = userValue
                     ? `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}/${encodeURIComponent(userValue)}`
                     : `${process.env["REACT_APP_API_URL"]}/api/booking/${cookies.userID}`;
-
-                console.log("Fetching from URL:", url);
 
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -102,7 +99,7 @@ const Profile: React.FC = () => {
                     <Feed festivals={displayedPast}/>
                 </div>
                 </div>
-        </div>
+            </div>
     );
 };
 

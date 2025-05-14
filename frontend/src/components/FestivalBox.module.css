@@ -17,6 +17,13 @@
     z-index: 1;
 }
 
+@media (max-width: 600px) {
+    .Image {
+        min-width: 250px;
+        height: 100px;
+    }
+}
+
 .overlayText {
     margin: 0;
     line-height: 1.2;

@@ -1,8 +1,8 @@
 import {Box, Input, Stack, Button, Collapsible, Flex, Spinner} from "@chakra-ui/react";
 import styles from "./LogInMenu.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useAuth } from "./context/AuthContext";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
 
@@ -12,8 +12,33 @@ const LogInMenu = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [showSignUp, setShowSignUp] = useState(false);
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                isOpen &&
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
 
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -74,20 +99,30 @@ const LogInMenu = () => {
             });
 
             if (response.ok) {
-                toaster.create({
-                    description: "Account created successfully! Please log in.",
-                    type: "success",
-                    duration: 4000,
-                });
-                setShowSignUp(false);
-                setUsername("");
-                setPassword("");
-                setEmail("");
+                const text = await response.text();
+                if (text === "Success") {
+                    toaster.create({
+                        description: "Account created successfully! Please log in.",
+                        type: "success",
+                        duration: 4000,
+                    });
+                    setShowSignUp(false);
+                    setUsername("");
+                    setPassword("");
+                    setEmail("");
+                }
+                else if (text === "Username-Taken") {
+                    toaster.create({
+                        description: "User already exists!",
+                        type: "error",
+                        duration: 4000,
+                    });
+                }
             } else {
                 const errorData = await response.json();
                 console.error("Sign Up failed:", errorData);
                 toaster.create({
-                    description: `Sign up failed: ${errorData.message}`,
+                    description: `Sign up failed: ${errorData}`,
                     type: "error",
                     duration: 4000,
                 });
@@ -103,7 +138,8 @@ const LogInMenu = () => {
     };
 
     return (
-        <Collapsible.Root>
+        <div ref={menuRef}>
+        <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
             <Collapsible.Trigger asChild>
                 <Button variant="ghost" p={0} bg="transparent" className={styles.avatarButton}>
                     <CircleUserRound className={styles.avatarIcon}/>
@@ -120,8 +156,10 @@ const LogInMenu = () => {
                                 </Box>
                             </Flex>
                             <Flex className={styles.navSection}>
-                                {user.role !== "admin" && (
-                                    <NavLink to="/Profile" state={{ userId: user.id }}>Profile</NavLink>
+                                {user.role === "admin" ? (
+                                    <NavLink to="/Admin">Admin Page</NavLink>
+                                ) : (
+                                    <NavLink to="/Profile">Profile</NavLink>
                                 )}
                                 <p onClick={handleLogout} className={styles.logoutLink}>Log out</p>
                             </Flex>
@@ -130,16 +168,19 @@ const LogInMenu = () => {
                         <form onSubmit={showSignUp ? handleSignUp : handleLogin}>
                             <Stack gap="4">
                                 <Box>
-                                    <label className={styles.label}>Username</label>
+                                    <label htmlFor="username" className={styles.label}>Username</label>
                                     <Input
+                                        id="username"
                                         placeholder="Enter your username"
                                         value={username}
+                                        autoComplete="username"
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
                                 </Box>
                                 <Box>
-                                    <label className={styles.label}>Password</label>
+                                    <label htmlFor="password" className={styles.label}>Password</label>
                                     <Input
+                                        id="password"
                                         placeholder="Enter your password"
                                         type="password"
                                         value={password}
@@ -151,7 +192,6 @@ const LogInMenu = () => {
                                         <label className={styles.label}>Email</label>
                                         <Input
                                             placeholder="Enter your email"
-                                            type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
@@ -172,6 +212,7 @@ const LogInMenu = () => {
                 </Box>
             </Collapsible.Content>
         </Collapsible.Root>
+        </div>
     );
 };
 

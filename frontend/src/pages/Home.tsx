@@ -65,6 +65,7 @@ const Home = () => {
                     >
                         <Input
                             ps="4.75em"
+                            id="homeSearch"
                             pe="0"
                             placeholder="Search"
                             borderColor="black"
