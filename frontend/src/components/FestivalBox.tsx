@@ -1,7 +1,5 @@
-import {Flex, Box, Collapsible} from "@chakra-ui/react";
+import {Flex, Box} from "@chakra-ui/react";
 import styles from './FestivalBox.module.css';
-import { useCookies } from "react-cookie";
-import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 
 /**
@@ -31,10 +29,6 @@ type FestivalProps = {
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
                                     festivalDate, ticketsLeft, imageURL, festivalDescription}: FestivalProps){
-    const [isOpen, setIsOpen] = useState(false);
-    const toggle = () => setIsOpen(!isOpen);
-
-    const [cookies] = useCookies(["userID"]);
     const navigate = useNavigate();
 
     const handleClick = () => {

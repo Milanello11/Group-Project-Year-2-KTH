@@ -25,8 +25,9 @@ public class UserService {
         return "Success";
     }
 
-    public void saveAdmin(Admin admin) {
+    public String saveAdmin(Admin admin) {
         adminRepo.save(admin);
+        return "Success";
     }
 
     @Transactional

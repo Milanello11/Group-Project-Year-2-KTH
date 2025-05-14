@@ -1,5 +1,5 @@
 import styles from "./Admin.module.css"
-import {Button, Field, Fieldset, HStack, Input, Stack, Box, Spacer} from "@chakra-ui/react";
+import {Button, Field, Fieldset, HStack, Input, Stack, Box} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import { useCookies } from "react-cookie";
 import {useNavigate} from "react-router-dom";
@@ -30,12 +30,9 @@ const Admin = () => {
     const [inputValue , setInputValue] = useState('');
     const [artists, setArtists] = useState<Artist[]>([]);
     const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
-
     const [searchQuery, setSearchQuery] = useState('');
     const [festivals, setFestivals] = useState<Festival[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string|null>(null);
-    const [idToDelete, setIdToDelete] = useState<number|null>(null);
+    const [idChosen, setIdChosen] = useState<number|null>(null);
 
     const [festivalInput, setFestivalInput] = useState<NewFestival>({
         festivalName: '',
@@ -187,34 +184,47 @@ const Admin = () => {
         }
     }
 
-    const handleSearchFestival = async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const data = await fetchFestivalsByName(searchQuery);
+    const fetchFestivals = async (query: string|number|null) => {
+        if (typeof query === "string"){
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/findbyname/${query}`);
+            if (!response.ok) throw new Error('Failed to fetch');
+            const data = await response.json();
             setFestivals(data);
-        } catch (err) {
-            setError('Failed to fetch festivals');
-        } finally {
-            setLoading(false);
+        }
+
+        if (typeof query === "number"){
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/findbyid/${query}`);
+            if (!response.ok) throw new Error('Failed to fetch');
+            const data = await response.json();
+            setFestivalInput(data);
         }
     };
 
-    const fetchFestivalsByName = async (query: string): Promise<Festival[]> => {
-        const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/findbyname/${query}`);
-        if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
-        return data;
-    };
-
     const handleDeleteFestival = async () => {
-        if(idToDelete !== null){
-            await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/delete/${idToDelete}`,{
+        if(idChosen !== null){
+            await fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/delete/${idChosen}`,{
                 method: "DELETE"
             });
         }
     };
+
+    const handleUpdateFestival = async () => {
+        const body: NewFestival = {
+            ...festivalInput,
+            festivalDescription: inputValue,
+            artists: selectedArtists
+        };
+
+        await fetch(
+            `${process.env["REACT_APP_API_URL"]}/api/festival/update/${idChosen}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+        );
+    }
 
     return (
         <div className={styles.adminContainer}>
@@ -411,22 +421,54 @@ const Admin = () => {
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search (Festival name)</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Input className={styles.inputStyle} onChange={(e)=>setSearchQuery(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton}>Enter</Button>
+                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(searchQuery)}}>Enter</Button>
                         <Field.Root>
-                            <Field.Label>No festival found (Try adding new)</Field.Label>
+                            {festivals.length === 0 ? (
+                                <Field.Label>No festival found</Field.Label>
+                            ) : (
+                                <ul>
+                                    {festivals.map((festival) => (
+                                        <li key={festival.festivalId}>
+                                            <div className={styles.festivalSearchResult}>
+                                                <span className={styles.festivalName}>{festival.festivalName}</span>
+                                                <span className={styles.festivalId}>Id number: {festival.festivalId}</span>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </Field.Root>
                         <Field.Root>
-                            <Field.Label>Artist list</Field.Label>
-                            <Input className={styles.inputStyle}/>
+                            <Field.Label>Choose festival id</Field.Label>
+                            <Input className={styles.inputStyle} onChange={(e)=>setIdChosen(Number(e.target.value))}/>
                         </Field.Root>
+                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(idChosen)}}>Enter</Button>
+                        {festivalInput !== null && (
                         <Field.Root>
+                            <Field.Label> Selected Festival: {festivalInput.festivalName}</Field.Label>
                             <Field.Label>New description</Field.Label>
-                            <Input className={styles.inputStyle}/>
-                        </Field.Root>
+                            <Input className={styles.inputStyle} onChange={(e) => setInputValue(e.target.value)}/>
+                            <Field.Label>New artists</Field.Label>
+                            <Box>
+                                <select multiple onChange={handleSelectionChange} style={{ height: "100px" }}>
+                                    {artists.map((artist, index) => (
+                                        <option key={index} value={artist.artist_name}>
+                                            {artist.artist_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Box>
+                            <p>Selected Artists: {selectedArtists.map(a => a.artist_name).join(", ")}</p>
+                        </Field.Root>)}
+                        {festivalInput === null && (
+                            <Field.Root>
+                                <Field.Label>No Festival with id {idChosen}</Field.Label>
+                            </Field.Root>
+                        )}
                     </Fieldset.Content>
-                    <Button className={styles.enterButton}>Enter</Button>
+                    <Button className={styles.enterButton} onClick={handleUpdateFestival}>Enter</Button>
                 </Fieldset.Root>
                 )
             }
@@ -434,19 +476,16 @@ const Admin = () => {
             {adminView === 'deleteFestival' && (
                 <Fieldset.Root className={styles.fieldSetStyle}>
                     <Stack>
-                        <Fieldset.Legend>Update festival</Fieldset.Legend>
+                        <Fieldset.Legend>Delete festival</Fieldset.Legend>
                     </Stack>
                     <Fieldset.Content>
                         <Field.Root>
                             <Field.Label>Search (Festival name)</Field.Label>
                             <Input className={styles.inputStyle} onChange={(e)=>setSearchQuery(e.target.value)}/>
                         </Field.Root>
-                        <Button className={styles.enterButton} onClick={handleSearchFestival}>Enter</Button>
+                        <Button className={styles.enterButton} onClick={() => {fetchFestivals(searchQuery)}}>Enter</Button>
                         <Field.Root>
-                            {loading && <p>Loading...</p>}
-                            {error && <p>{error}</p>}
-
-                            {festivals.length === 0 && !loading ? (
+                            {festivals.length === 0 ? (
                                 <Field.Label>No festival found</Field.Label>
                             ) : (
                                 <ul>
@@ -463,7 +502,7 @@ const Admin = () => {
                         </Field.Root>
                         <Field.Root>
                             <Field.Label>Festival Id to remove</Field.Label>
-                            <Input className={styles.inputStyle} onChange={(e) => setIdToDelete(Number(e.target.value))}/>
+                            <Input className={styles.inputStyle} onChange={(e) => setIdChosen(Number(e.target.value))}/>
                         </Field.Root>
                     </Fieldset.Content>
                     <Button className={styles.enterButton} onClick={handleDeleteFestival}>Delete</Button>
@@ -471,6 +510,7 @@ const Admin = () => {
 
                 )
             }
+
         </div>
     )
 }
