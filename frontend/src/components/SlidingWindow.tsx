@@ -3,6 +3,21 @@ import styles from "./SlidingWindow.module.css";
 import FestivalBox from "./FestivalBox";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+/**
+ * `SlidingWindow` is a React functional component that displays a horizontally scrollable list of upcoming festivals.
+ * It fetches festival data from a database and allows users to scroll through the list using navigation buttons.
+ *
+ * Features:
+ * - Fetches and displays a list of upcoming festivals.
+ * - Provides smooth horizontal scrolling with left and right navigation buttons.
+ *
+ * @author Max Masuch
+ * @author Ismail Mohammed
+ * @author Johan Karlsson
+ * @author Elias Almlöf
+ * @author Milan Hatami
+ */
+
 type Festival = {
     festivalId: number;
     festivalName: string;
@@ -17,6 +32,11 @@ export default function SlidingWindow() {
     const [festivals, setFestivals] = useState<Festival[]>([]);
     const scrollRef = useRef<HTMLDivElement | null>(null);
 
+    /**
+     * Scrolls the container horizontally by a specified direction.
+     *
+     * @param {number} direction - The direction to scroll (-1 for left, 1 for right).
+     */
     const scroll = (direction: number) => {
         const container = scrollRef.current;
         if (!container) return;
@@ -24,6 +44,9 @@ export default function SlidingWindow() {
         container.scrollBy({left: direction * scrollAmount, behavior: "smooth"});
     }
 
+    /**
+     * Fetches the list of upcoming festivals from the database.
+     */
     useEffect(() => {
         fetch(`${process.env["REACT_APP_API_URL"]}/api/festival/upcoming`)
             .then((response) => response.json())

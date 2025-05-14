@@ -6,6 +6,23 @@ import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {CircleUserRound} from "lucide-react";
 import { toaster } from "./ui/toaster"
 
+/**
+* `LogInMenu` is a React functional component that provides a collapsible login menu.
+* It allows users to log in, sign up, or log out, and displays user-specific navigation options.
+*
+* Features:
+* - Login and logout functionality.
+* - Sign-up form with email validation.
+* - Displays user information and navigation links based on user role.
+* - Collapsible menu that closes when clicking outside or navigating to a new route.
+*
+* @author Max Masuch
+* @author Ismail Mohammed
+* @author Johan Karlsson
+* @author Elias Almlöf
+* @author Milan Hatami
+*/
+
 const LogInMenu = () => {
     const { user, login, logout } = useAuth();
     const [username, setUsername] = useState("");
@@ -19,10 +36,16 @@ const LogInMenu = () => {
 
     const menuRef = useRef<HTMLDivElement>(null);
 
+    /**
+     * Closes the menu when the route changes.
+     */
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
 
+    /**
+     * Closes the menu when clicking outside of it.
+     */
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -59,11 +82,21 @@ const LogInMenu = () => {
         navigate("/");
     };
 
+    /**
+     * Validates the email format.
+     *
+     * @param {string} email - The email to validate.
+     * @returns {boolean} Whether the email is valid.
+     */
     const isValidEmail = (email: string) => {
         const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         return pattern.test(email);
     };
 
+    /**
+     * Handles the sign-up process.
+     * Validates the input fields and sends a POST request to create a new user.
+     */
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
