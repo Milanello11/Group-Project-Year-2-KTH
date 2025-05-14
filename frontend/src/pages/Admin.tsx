@@ -60,18 +60,15 @@ const Admin = () => {
         }
     }, [navigate, cookies.role]);
 
-    useEffect(() => {
-        const fetchArtists = async () => {
-            try {
-                const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/findall`);
-                const data = await response.json();
-                setArtists(data);
-            } catch (error) {
-                console.error("Error fetching artists:", error);
-            }
-        };
-        fetchArtists();
-    }, []);
+    const fetchArtists = async () => {
+        try {
+            const response = await fetch(`${process.env["REACT_APP_API_URL"]}/api/artist/findall`);
+            const data = await response.json();
+            setArtists(data);
+        } catch (error) {
+            console.error("Error fetching artists:", error);
+        }
+    };
 
     const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedNames = Array.from(e.target.selectedOptions, option => option.value);
@@ -83,6 +80,7 @@ const Admin = () => {
         setSearchValue('');
         setArtistSearchResult(null);
         setAdminView(fieldSet);
+        fetchArtists();
     }
 
     const handleArtistSearch = async () => {
