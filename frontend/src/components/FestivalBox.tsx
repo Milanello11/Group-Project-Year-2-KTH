@@ -4,6 +4,20 @@ import { useCookies } from "react-cookie";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 
+/**
+ * `FestivalBox` is a UI component that displays a festival image, name, date, and location.
+ * The box itself acts as a clickable link that routes the user to a detailed description page with booking functionality.
+ *
+ * @param props - The properties used to render the festival information.
+ * @returns A clickable JSX element containing festival details.
+ *
+ * @author Max Masuch
+ * @author Ismail Mohammed
+ * @author Johan Karlsson
+ * @author Elias Almlöf
+ * @author Milan Hatami
+ */
+
 type FestivalProps = {
     festivalId: number;
     festivalName: string;
@@ -16,7 +30,7 @@ type FestivalProps = {
 
 
 export default function FestivalBox({festivalId, festivalName, festivalLocation,
-                                    festivalDate,ticketsLeft,imageURL, festivalDescription}: FestivalProps){
+                                    festivalDate, ticketsLeft, imageURL, festivalDescription}: FestivalProps){
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
