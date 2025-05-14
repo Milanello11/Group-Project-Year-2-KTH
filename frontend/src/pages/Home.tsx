@@ -92,6 +92,7 @@ const DomainSelect = ({ searchType, setSearchType }: DomainSelectProps) => (
             <option value="Name">Search by Festival Name</option>
             <option value="Artist">Search by Artist</option>
             <option value="Date">Search by Date</option>
+            <option value="Location">Search by Location</option>
         </NativeSelect.Field>
         <NativeSelect.Indicator />
     </NativeSelect.Root>
