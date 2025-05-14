@@ -14,14 +14,17 @@ public class Email {
     protected Email() {}
 
     public Email(String email) {
-        if (email == null || !email.matches(pattern)) {
-            throw new IllegalArgumentException("Invalid email" + email);
-        }
+        checkEmail(email);
         this.email = email.toLowerCase();
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        checkEmail(email);
+        this.email = email.toLowerCase();
     }
 
     @Override
@@ -34,5 +37,11 @@ public class Email {
         }
         Email other = (Email) obj;
         return email.equals(other.email);
+    }
+
+    private void checkEmail(String email) {
+        if (email == null || !email.matches(pattern)) {
+            throw new IllegalArgumentException("Invalid email");
+        }
     }
 }
