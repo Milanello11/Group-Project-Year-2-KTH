@@ -1,5 +1,5 @@
 import styles from "./Admin.module.css"
-import {Button, Field, Fieldset, HStack, Input, Stack, Box, Spacer} from "@chakra-ui/react";
+import {Button, Field, Fieldset, HStack, Input, Stack, Box} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import { useCookies } from "react-cookie";
 import {useNavigate} from "react-router-dom";
