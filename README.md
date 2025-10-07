@@ -1,4 +1,4 @@
-# Festival Booking System (Festis)  
+# Festival Booking System   
 **A Web-Based Festival Booking Prototype (KTH Project)**
 
 ---
