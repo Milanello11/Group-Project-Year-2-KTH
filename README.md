@@ -1,75 +1,69 @@
-# Festival Booking System   
-**A Web-Based Festival Booking Prototype (KTH Project)**
+# Festival Booking System (Festis)
+**A Web-Based Festival Booking Prototype – KTH x Umain**
 
 ---
 
 ## Overview
 
-Festis is a web-based festival booking system prototype developed at the **Royal Institute of Technology (KTH)** in collaboration with **Umain** as part of the HI1039 Software Development Project course.
+**Festis** is a web-based festival booking system developed at the **Royal Institute of Technology (KTH)** in collaboration with **Umain** as part of the *HI1039 Software Development Project* course.
 
-Created by a team of five students, the project applied **agile methods** and software engineering practices to design and implement a full-stack application. The system allows users to browse festivals, check ticket availability, book tickets, and manage accounts.
-
-The project combines a **React frontend**, a **Spring Boot REST API backend**, and a **PostgreSQL database** to provide a responsive and interactive user experience.
+Built by a team of five students, the project aimed to apply **agile methodologies** and **modern software engineering practices** to design and implement a scalable full-stack application.  
+Festis enables users to explore festivals, view ticket availability, book tickets, and manage accounts through a responsive and intuitive interface.
 
 ---
 
 ## System Concept
 
-Festis provides a seamless, user-friendly way to explore festivals and handle bookings:
+Festis provides an accessible and engaging platform for festival-goers and administrators alike:
 
-- Users can view festival details, search by artist, name, date, or location, and manage personal bookings.
-- Administrators can add and update festivals and artists.
-- Real-time updates are handled via a RESTful API connected to a PostgreSQL database.
+- **Users:** Browse and search festivals by name, artist, date, or location; manage bookings.  
+- **Administrators:** Add and update festival and artist information.  
+- **Backend:** RESTful API with PostgreSQL database ensures reliable and consistent data handling.
 
 ---
 
 ## Key Features
 
-- **User Features:** Account creation, login, browse/search festivals, book tickets, view past/upcoming bookings  
-- **Admin Features:** Add/update festival and artist information  
-- **Backend Features:** REST API with Spring Boot, MVC architecture, repository pattern for database access  
-- **Testing:** Unit and integration tests with JUnit and MockMvc  
-- **Frontend Features:** React SPA with TypeScript, Chakra UI, and Lucide icons; responsive and component-based  
+- Full-stack architecture: **React (TypeScript)** + **Spring Boot (Java)** + **PostgreSQL**  
+- Secure authentication and user management  
+- Modular, maintainable MVC + Repository pattern  
+- Unit and integration testing with **JUnit** and **MockMvc**  
+- Responsive UI using **Chakra UI** and **Lucide Icons**  
+- Continuous deployment via **Netlify**, **Render**, and **neon.tech**
 
 ---
 
-## System Structure
+## System Architecture
 
-- **Frontend:** React, TypeScript, component-based SPA, communicates with REST API via Fetch  
-- **Backend:** Java 21, Spring Boot, Spring Data JPA, MVC + Repository pattern  
-- **Database:** PostgreSQL, managed via PgAdmin4 or neon.tech  
-- **Deployment:** Frontend on Netlify, Backend on Render, database hosted on neon.tech  
+| Layer | Technology | Description |
+|-------|-------------|-------------|
+| **Frontend** | React + TypeScript | Single Page Application (SPA) |
+| **Backend** | Spring Boot (Java 21) | REST API using MVC architecture |
+| **Database** | PostgreSQL | Managed via PgAdmin4 / neon.tech |
+| **Hosting** | Netlify & Render | Continuous deployment on push |
 
 ---
 
 ## Development Process
 
-- Agile workflow (Scrum) with iterative sprints and user feedback  
-- Version control via GitHub  
-- Continuous deployment on push to `main` branch  
-- Focus on modular design, maintainability, and test-driven development  
+- **Methodology:** Agile (Scrum) with weekly sprints and continuous feedback  
+- **Version Control:** GitHub  
+- **Testing:** Automated unit and integration tests  
+- **Focus Areas:** Maintainability, scalability, and clean code practices  
 
 ---
 
-## Lessons & Future Work
+## Future Improvements
 
-**Lessons learned:**  
-
-- Applying agile practices in a full-stack project  
-- Building a React SPA communicating with a REST API  
-- Integrating PostgreSQL with Java backend  
-- Writing unit and integration tests for robustness  
-
-**Future improvements:**  
-
-- Enhanced search and filtering options  
-- Improved admin dashboard with analytics  
-- Email notifications and payment integration  
+- Advanced search and filtering  
+- Admin analytics dashboard  
+- Email notifications and payment gateway integration  
 
 ---
 
 ## Acknowledgment
 
-Developed by a team of five students at KTH in collaboration with **Umain**.
+Developed by a team of five students at **KTH**, in collaboration with **Umain**.  
+Supervised by the HI1039 course staff, Spring 2025.  
 
-**Keywords:** React · TypeScript · Java · Spring Boot · PostgreSQL · REST API · Full-Stack · KTH
+**Keywords:** React · TypeScript · Java · Spring Boot · PostgreSQL · REST API · Agile · Full-Stack · KTH
